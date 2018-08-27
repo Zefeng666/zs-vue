@@ -12,6 +12,11 @@ import 'amfe-flexible/index.js'
 // import FastClick from 'fastclick'
 
 // FastClick.attach(document.body);
+import axios from 'axios';
+import API from './api/api'
+
+Vue.prototype.axios = axios;
+Vue.prototype.$api = API;
 
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
