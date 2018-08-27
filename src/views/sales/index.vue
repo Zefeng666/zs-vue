@@ -5,7 +5,7 @@
         <span>您当前的积分</span>
         <span class="float-right">等级：CEO</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="10000" :duration="2"></countup>
+      <countup class="countup-box" :start-val="0" :end-val="9999" :duration="2"></countup>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
           <div class="vux-1px-r">
@@ -80,7 +80,7 @@ export default {
 .countup-box {
   display: block;
   color: #f74c31;
-  font-size: 32px;
+  font-size: 36px;
   margin-top: .3rem;
 }
 .card-demo-flex {
