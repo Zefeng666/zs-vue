@@ -13,7 +13,18 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Cell, Group, XInput, XAddress, ChinaAddressV4Data, XTextarea, XSwitch, XButton } from "vux";
+import {
+  ViewBox,
+  XHeader,
+  Cell,
+  Group,
+  XInput,
+  XAddress,
+  ChinaAddressV4Data,
+  XTextarea,
+  XSwitch,
+  XButton
+} from "vux";
 export default {
   name: "editAddress",
   components: {
@@ -29,14 +40,37 @@ export default {
   },
   data() {
     return {
-      username: 'gggg',
-      phone: '1111',
+      username: "gggg",
+      phone: "1111",
       addressData: ChinaAddressV4Data,
-      addressTitle: '所在地区',
-      textareaTitle: '详细地址',
-      textareaPlaceholder: '街道楼牌号等',
-      switchTitle: '设为默认地址'
+      addressTitle: "所在地区",
+      textareaTitle: "详细地址",
+      textareaPlaceholder: "街道楼牌号等",
+      switchTitle: "设为默认地址"
     };
+  },
+  created () {
+    this.insertUserAddress()
+  },
+  methods: {
+    insertUserAddress() {
+      this.$api
+        .insertUserAddress({
+          province: 'xxxxx',
+          city: 'eeeee',
+          area: 'wwww',
+          detail: 'pppp',
+          contact: 'uuuu',
+          mobile: 17888888888
+        })
+        .then(data => {
+          // if (data.returnCode === 1) {
+          //   this.loanPlan = data.loanPlan;
+          // }
+          console.log(data);
+          
+        });
+    }
   }
 };
 </script>
@@ -46,7 +80,7 @@ export default {
 .weui-label {
 }
 .addresstitle {
-  padding-left: .24rem;
+  padding-left: 0.24rem;
 }
 .saveBtn {
   position: fixed;

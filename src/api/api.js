@@ -22,6 +22,13 @@ const API = {
       url: '/financial/getCash',
       params: params
     })
+  },
+  //新增地址
+  insertUserAddress(params) {
+    return request({
+      url: '/insertUserAddress',
+      params: params
+    })
   }
 };
 
