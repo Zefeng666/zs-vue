@@ -5,7 +5,7 @@
         <span>您当前的积分</span>
         <span class="float-right">等级：CEO</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="9999" :duration="2"></countup>
+      <countup class="countup-box" :start-val="0" :end-val="9999" :duration="1.5"></countup>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
           <div class="vux-1px-r">
@@ -35,7 +35,7 @@
     <group>
       <cell class="my-cell" title="我要拿货" value-align="left" link="/myAddress"></cell>
       <cell class="my-cell" title="我的团队" value-align="left" link="/myBankCard"></cell>
-      <cell class="my-cell" title="申请提现" value-align="left" link="/qrcode"></cell>
+      <cell class="my-cell" title="申请提现" value-align="left" link="/applyWithdraw"></cell>
       <cell class="my-cell" title="积分明细" value-align="left" link="/myIdCard"></cell>
     </group>
     <tabbar :activeIndex="0"></tabbar>

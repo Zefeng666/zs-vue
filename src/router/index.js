@@ -5,6 +5,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    // 销售
     {
       path: '/',
       redirect: "/sales"
@@ -14,6 +15,12 @@ export default new Router({
       name: 'sales',
       component: resolve => require(["@/views/sales/index.vue"], resolve)
     },
+    {
+      path: '/applyWithdraw',
+      name: 'applyWithdraw',
+      component: resolve => require(["@/views/sales/applyWithdraw/applyWithdraw.vue"], resolve)
+    },
+    // 我的
     {
       path: '/mine',
       name: 'mine',
