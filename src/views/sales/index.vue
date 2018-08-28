@@ -9,22 +9,22 @@
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
           <div class="vux-1px-r">
-            <span>您的推荐人</span>
+            <span class="card-top-text">您的推荐人</span>
             <br/>
             <span class="card-bottom-text">锤子</span> 
           </div>
           <div class="vux-1px-r">
-            <span>您最近的代理</span>
+            <span class="card-top-text">您最近的代理</span>
             <br/>
             <span class="card-bottom-text">锤子</span> 
           </div>
           <div class="vux-1px-r">
-            <span>您最近的CEO</span>
+            <span class="card-top-text">您最近的CEO</span>
             <br/>
             <span class="card-bottom-text">锤子</span> 
           </div>
           <div>
-            <span>代理地区</span>
+            <span class="card-top-text">代理地区</span>
             <br/>
             <span class="card-bottom-text">杭州</span> 
           </div>
@@ -88,6 +88,9 @@ export default {
 }
 .card-demo-content01 {
   padding: .4rem 0;
+}
+.card-top-text {
+  font-size: 12px;
 }
 .card-bottom-text {
   font-size: 14px;
