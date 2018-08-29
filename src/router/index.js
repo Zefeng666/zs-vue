@@ -25,6 +25,11 @@ export default new Router({
       name: 'getGoods',
       component: resolve => require(["@/views/sales/getGoods/getGoods.vue"], resolve)
     },
+    {
+      path: '/myTeam',
+      name: 'myTeam',
+      component: resolve => require(["@/views/sales/myTeam/myTeam.vue"], resolve)
+    },
     // 我的
     {
       path: '/mine',

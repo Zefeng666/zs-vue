@@ -34,7 +34,7 @@
     </div>
     <group>
       <cell class="my-cell" title="我要拿货" value-align="left" link="/getGoods"></cell>
-      <cell class="my-cell" title="我的团队" value-align="left" link="/myBankCard"></cell>
+      <cell class="my-cell" title="我的团队" value-align="left" link="/myTeam"></cell>
       <cell class="my-cell" title="申请提现" value-align="left" link="/applyWithdraw"></cell>
       <cell class="my-cell" title="积分明细" value-align="left" link="/myIdCard"></cell>
     </group>

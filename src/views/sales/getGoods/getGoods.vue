@@ -18,11 +18,24 @@
         <div class="tab-swiper">
           <div class="order-box vux-1px-b">
             <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
+              <span>申请数量：1888件</span>
+              <span class="text-right">审核中</span>
             </p>
             <p>
-              <span>银行卡号：30000000000099909</span>
+              <span>收货地址：浙江省杭州市xxxxxxxxxx</span>
+            </p>
+            <p>
+              <span>创建时间：2018年8月8日</span>
+              <x-button class="btn-right" mini plain>取消</x-button>
+            </p>
+          </div>
+          <div class="order-box vux-1px-b">
+            <p>
+              <span>申请数量：1888件</span>
+              <span class="text-right">未通过</span>
+            </p>
+            <p>
+              <span>收货地址：浙江省杭州市xxxxxxxxxx</span>
             </p>
             <p>
               <span>创建时间：2018年8月8日</span>
@@ -30,23 +43,11 @@
           </div>
           <div class="order-box vux-1px-b">
             <p>
-              <span>申请积分：1888分</span>
+              <span>申请数量：1888件</span>
               <span class="text-right">通过</span>
             </p>
             <p>
-              <span>银行卡号：30000000000099909</span>
-            </p>
-            <p>
-              <span>创建时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
-            </p>
-            <p>
-              <span>银行卡号：30000000000099909</span>
+              <span>收货地址：浙江省杭州市xxxxxxxxxx</span>
             </p>
             <p>
               <span>创建时间：2018年8月8日</span>
@@ -119,9 +120,13 @@ export default {
 .order-box {
   text-align: left;
   font-size: 14px;
-  padding: .3rem .4rem;
+  padding: .5rem .4rem;
   .text-right {
     float: right;
   }
+}
+.btn-right {
+  float: right;
+  margin-bottom: .2rem;
 }
 </style>
