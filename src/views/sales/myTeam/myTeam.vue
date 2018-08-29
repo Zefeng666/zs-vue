@@ -6,7 +6,7 @@
         <div class="vux-1px-r">
           <span>CEO</span>
           <br/>
-          张三
+          <span>张三</span> 
         </div>
         <div class="vux-1px-r">
           <span>团队成员</span>
@@ -20,11 +20,11 @@
         </div>
       </div>
     </card>
-    <div class="address-list">
+    <!-- <div class="address-list">
         <p class="list-top">月铭泽 &nbsp;&nbsp;&nbsp;&nbsp; 17666666666</p>
         <p class="list-bottom">浙江省杭州市滨江区西兴街道</p>    
-        <img src="../../../assets/icon/edit.png" alt="">       
-    </div>
+        <img src="../../../assets/icon/edit.png">       
+    </div> -->
   </div>
 </template>
 
@@ -47,6 +47,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.card-demo-flex {
+  display: flex;
+}
+.card-demo-content01 {
+  padding: .4rem 0;
+}
+.card-demo-flex > div {
+  flex: 1;
+  text-align: center;
+  font-size: 1px;
+}
 .address-list {
   padding: 0.3rem 0.3rem;
   border-bottom: 1px solid #e6e6e6;

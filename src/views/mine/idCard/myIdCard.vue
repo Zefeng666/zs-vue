@@ -277,7 +277,7 @@ export default {
   background-color: rgb(238, 184, 68);
   width: 50%;
   border-radius: 5px;
-  padding: .2rem 0;
+  padding: .2rem 0.2rem;
 }
 .saveBtn {
   position: fixed;
