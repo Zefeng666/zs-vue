@@ -1,6 +1,6 @@
 <template>
   <div class="myqrcode">
-    <x-header :left-options="{backText: ''}">我的推荐码</x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的推荐码</x-header>
     <div class="mine-msg">
       <img class="avator" src="../../../assets/avator.jpg">
       <p>月铭泽</p>

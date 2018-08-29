@@ -1,6 +1,6 @@
 <template>
   <div class="myIdCard">
-    <x-header :left-options="{backText: ''}">我的身份证</x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的身份证</x-header>
     <divider style="font-size: 16px">身份证正面</divider>
     <div class="card-box">
       <div class="show">

@@ -1,6 +1,6 @@
 <template>
   <div class="myAddress">
-    <x-header :left-options="{backText: ''}">我的地址<router-link to="/editAddress" slot="right">新增地址</router-link></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的地址<router-link to="/editAddress" slot="right">新增地址</router-link></x-header>
     <div class="address-list">
         <p class="list-top">月铭泽 &nbsp;&nbsp;&nbsp;&nbsp; 17666666666</p>
         <p class="list-bottom">浙江省杭州市滨江区西兴街道</p>    

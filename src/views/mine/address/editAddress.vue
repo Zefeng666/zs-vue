@@ -1,6 +1,6 @@
 <template>
   <div class="editAddress">
-    <x-header :left-options="{backText: ''}">编辑地址<a slot="right">删除</a></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">编辑地址<a slot="right">删除</a></x-header>
     <group>
       <x-input title="收货人" name="username" :value="username"></x-input>
       <x-input title="手机号码" name="phone" :value="phone"></x-input>

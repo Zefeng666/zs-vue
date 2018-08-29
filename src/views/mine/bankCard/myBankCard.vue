@@ -1,6 +1,6 @@
 <template>
   <div class="myBankCard">
-    <x-header :left-options="{backText: ''}">我的银行卡<router-link to="/editBankCard" slot="right">添加</router-link></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的银行卡<router-link to="/editBankCard" slot="right">添加</router-link></x-header>
     <div class="card-list">
         <p class="list-top">中国建设银行 ******6666</p>
         <p class="list-bottom">持卡人：张三 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;默认</p>    

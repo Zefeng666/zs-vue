@@ -1,6 +1,6 @@
 <template>
   <div class="applyWithdraw">
-    <x-header :left-options="{backText: ''}">申请提现</x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">申请提现</x-header>
     <tab :line-width=2 active-color='#f74c31' v-model="index">
       <tab-item class="vux-center" selected>申请提现</tab-item>
       <tab-item class="vux-center">提现订单</tab-item>

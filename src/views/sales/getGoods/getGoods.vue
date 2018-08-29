@@ -1,6 +1,6 @@
 <template>
   <div class="getGoods">
-    <x-header :left-options="{backText: ''}">申请拿货</x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">申请拿货</x-header>
     <tab :line-width=2 active-color='#f74c31' v-model="index">
       <tab-item class="vux-center" selected>申请拿货</tab-item>
       <tab-item class="vux-center">历史订单</tab-item>
@@ -8,10 +8,9 @@
     <swiper v-model="index" :show-dots="false" height="10rem">
       <swiper-item class="swiper-box">
         <group label-width="4.5em" label-margin-right="2em" label-align="right">
-          <cell title="我的积分" value-align="left"><span style="color: #f74c31;">999</span></cell>
-          <x-input title="提现积分" type="number" name="username" :value="withDrawObj.quantity" placeholder="请输入"></x-input>
-          <!-- <popup-picker :title="title1" :data="list1" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :placeholder="$t('please select')"></popup-picker> -->
-          <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker>
+          <x-input title="申请数量" type="number" name="username" :value="withDrawObj.quantity" placeholder="请输入"></x-input>
+          <x-address class="addresstitle" :title="addressTitle" value-text-align="left"  :list="addressData"  placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
+          <!-- <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker> -->
         </group>
         <x-button class="submit-btn" type="primary">提交</x-button>
       </swiper-item>
@@ -60,7 +59,8 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Swiper, SwiperItem, Cell, Group, XInput, PopupPicker, XButton, Box } from "vux";
+import { ViewBox, XHeader, Tab, TabItem, Swiper, SwiperItem, Cell, Group, XInput, PopupPicker, XButton, Box, XAddress,
+  ChinaAddressV4Data, } from "vux";
 export default {
   name: "getGoods",
   components: {
@@ -75,7 +75,9 @@ export default {
     XInput,
     PopupPicker,
     XButton,
-    Box
+    Box,
+    XAddress,
+    ChinaAddressV4Data,
   },
   data() {
     return {
@@ -84,6 +86,8 @@ export default {
         quantity: '',
         cardNo: '2222'
       },
+      addressData: ChinaAddressV4Data,
+      addressTitle: "代理地区",
       cardList: [['中国建设银行 ****2222', '中国建设银行 ****2223', '中国建设银行 ****2224']],
       cardValue: ['中国建设银行 ****2222']
     };

@@ -1,6 +1,6 @@
 <template>
   <div class="editBankCard">
-    <x-header :left-options="{backText: ''}">编辑银行卡<a slot="right">删除</a></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">编辑银行卡<a slot="right">删除</a></x-header>
     <group>
       <x-input title="银行" name="username" :value="username"></x-input>
       <x-input title="持卡人" name="phone" :value="phone"></x-input>
