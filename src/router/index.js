@@ -20,6 +20,11 @@ export default new Router({
       name: 'applyWithdraw',
       component: resolve => require(["@/views/sales/applyWithdraw/applyWithdraw.vue"], resolve)
     },
+    {
+      path: '/getGoods',
+      name: 'getGoods',
+      component: resolve => require(["@/views/sales/getGoods/getGoods.vue"], resolve)
+    },
     // 我的
     {
       path: '/mine',

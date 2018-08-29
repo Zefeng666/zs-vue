@@ -1,9 +1,9 @@
 <template>
-  <div class="applyWithdraw">
-    <x-header :left-options="{backText: ''}">申请提现</x-header>
+  <div class="getGoods">
+    <x-header :left-options="{backText: ''}">申请拿货</x-header>
     <tab :line-width=2 active-color='#f74c31' v-model="index">
-      <tab-item class="vux-center" selected>申请提现</tab-item>
-      <tab-item class="vux-center">提现订单</tab-item>
+      <tab-item class="vux-center" selected>申请拿货</tab-item>
+      <tab-item class="vux-center">历史订单</tab-item>
     </tab>
     <swiper v-model="index" :show-dots="false" height="10rem">
       <swiper-item class="swiper-box">
@@ -62,7 +62,7 @@
 <script>
 import { ViewBox, XHeader, Tab, TabItem, Swiper, SwiperItem, Cell, Group, XInput, PopupPicker, XButton, Box } from "vux";
 export default {
-  name: "applyWithdraw",
+  name: "getGoods",
   components: {
     ViewBox,
     XHeader,
