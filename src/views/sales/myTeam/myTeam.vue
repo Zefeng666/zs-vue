@@ -1,22 +1,42 @@
 <template>
   <div class="myAddress">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">我属于的团队</x-header>
-    <card header="我属于的团队">
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的团队</x-header>
+    <card class="card-head" :header="{title: '团队信息'}">
       <div slot="content" class="card-demo-flex card-demo-content01">
         <div class="vux-1px-r">
-          <span>CEO</span>
+          <span class="card-flex-top">CEO</span>
           <br/>
-          <span>张三</span> 
+          <span class="card-flex-bottom">张三</span> 
         </div>
-        <div class="vux-1px-r">
-          <span>团队成员</span>
+        <div>
+          <span class="card-flex-top">团队成员</span>
           <br/>
-          188人
+          <span class="card-flex-bottom">188人</span> 
         </div>
-        <div class="vux-1px-r">
-          <span>本月业绩</span>
-          <br/>
-          9999件
+      </div>
+    </card>
+    <card class="card-head" :header="{title: '本月业绩'}">
+      <div slot="content" class="countup-box">
+        <countup class="countup-number" :start-val="0" :end-val="9999" :duration="1.5"></countup>
+        <span>件</span>
+      </div>
+    </card>
+    <card class="card-head" :header="{title: '团队成员'}">
+      <div slot="content" class="menber-box">
+        <div class="menber-box-item vux-1px-b">
+          <img class="menber-avator" src="../../../assets/avator.jpg" alt="">
+          <p>月铭泽</p>
+          <p>层级：3层子会员</p>
+        </div>
+        <div class="menber-box-item vux-1px-b">
+          <img class="menber-avator" src="../../../assets/avator.jpg" alt="">
+          <p>月铭泽</p>
+          <p>层级：3层子会员</p>
+        </div>
+        <div class="menber-box-item vux-1px-b">
+          <img class="menber-avator" src="../../../assets/avator.jpg" alt="">
+          <p>月铭泽</p>
+          <p>层级：3层子会员</p>
         </div>
       </div>
     </card>
@@ -29,17 +49,18 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Card } from "vux";
+import { ViewBox, XHeader, Card, Countup } from "vux";
 export default {
   name: "myAddress",
   components: {
     ViewBox,
     XHeader,
-    Card
+    Card,
+    Countup
   },
   data() {
     return {
-      
+      cardTitle: '我属于的团队'
     };
   }
 };
@@ -47,6 +68,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.card-head {
+  text-align: left;
+}
 .card-demo-flex {
   display: flex;
 }
@@ -58,27 +82,35 @@ export default {
   text-align: center;
   font-size: 1px;
 }
-.address-list {
-  padding: 0.3rem 0.3rem;
-  border-bottom: 1px solid #e6e6e6;
+.card-flex-top {
+  font-size: 16px;
+}
+.card-flex-bottom {
+  font-size: 14px;
+}
+.countup-box {
+  font-size: 16px;
+  padding: .4rem 0;
+  text-align: center;
+  .countup-number {
+    font-size: 20px;
+  }
+}
+.menber-box {
   position: relative;
-  p {
-    padding: 0;
-    text-align: left;
-  }
-  img {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0.3rem;
-    width: .6rem;
-  }
-  .list-top {
-    font-size: 16px;
-    font-weight: 800;
-  }
-  .list-bottom {
-    font-size: 12px;
+  .menber-box-item {
+    padding: .4rem 0;
+    .menber-avator {
+      position: absolute;
+      width: 1.2rem;
+      left: .5rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    p {
+      font-size: 14px;
+      padding-left: 2.2rem;
+    }
   }
 }
 </style>
