@@ -4,38 +4,38 @@
         <div class="tab-swiper">
           <div class="order-box vux-1px-b">
             <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
+              <span>积分：+1888</span>
+              <span class="text-right">下线推广</span>
             </p>
             <p>
-              <span>银行卡号：30000000000099909</span>
+              <span>描述：下线xxxxx拿货</span>
             </p>
             <p>
-              <span>创建时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
-            </p>
-            <p>
-              <span>银行卡号：30000000000099909</span>
-            </p>
-            <p>
-              <span>创建时间：2018年8月8日</span>
+              <span>时间：2018年8月8日</span>
             </p>
           </div>
           <div class="order-box vux-1px-b">
             <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
+              <span>积分：+1888</span>
+              <span class="text-right">下线推广</span>
             </p>
             <p>
-              <span>银行卡号：30000000000099909</span>
+              <span>描述：下线xxxxx拿货</span>
             </p>
             <p>
-              <span>创建时间：2018年8月8日</span>
+              <span>时间：2018年8月8日</span>
+            </p>
+          </div>
+          <div class="order-box vux-1px-b">
+            <p>
+              <span>积分：+1888</span>
+              <span class="text-right">下线推广</span>
+            </p>
+            <p>
+              <span>描述：下线xxxxx拿货</span>
+            </p>
+            <p>
+              <span>时间：2018年8月8日</span>
             </p>
           </div>
         </div>
