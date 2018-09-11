@@ -29,6 +29,13 @@ const API = {
       url: '/insertUserAddress',
       params: params
     })
+  },
+  //我的地址
+  queryUserAddress(params) {
+    return request({
+      url: '/queryUserAddress',
+      params: params
+    })
   }
 };
 

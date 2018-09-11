@@ -40,8 +40,8 @@ export default {
   },
   data() {
     return {
-      username: "gggg",
-      phone: "1111",
+      username: "",
+      phone: "",
       addressData: ChinaAddressV4Data,
       addressTitle: "所在地区",
       textareaTitle: "详细地址",
@@ -50,7 +50,7 @@ export default {
     };
   },
   created () {
-    this.insertUserAddress()
+    // this.insertUserAddress()
   },
   methods: {
     insertUserAddress() {
