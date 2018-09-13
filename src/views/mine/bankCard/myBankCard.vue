@@ -32,6 +32,7 @@ export default {
   padding: 0.3rem 0.3rem;
   border-bottom: 1px solid #e6e6e6;
   position: relative;
+  background-color: #fff;
   p {
     padding: 0;
     text-align: left;

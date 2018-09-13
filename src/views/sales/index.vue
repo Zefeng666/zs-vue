@@ -2,10 +2,11 @@
   <div class="sales">
     <div class="sale-box">
       <div class="sale-box-header">
-        <span>您当前的积分</span>
+        <span>您的可提金额：</span>
         <span class="float-right">等级：CEO</span>
       </div>
       <countup class="countup-box" :start-val="0" :end-val="9999" :duration="1.5"></countup>
+      <span>元</span>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
           <div class="vux-1px-r">
@@ -65,6 +66,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.sale-box {
+  background-color: #fff;
+}
 .sale-box-header {
   font-size: 16px;
   color: #2c3e50;
@@ -78,7 +82,7 @@ export default {
   }
 }
 .countup-box {
-  display: block;
+  display: inline-block;
   color: #f74c31;
   font-size: 36px;
   margin-top: .3rem;

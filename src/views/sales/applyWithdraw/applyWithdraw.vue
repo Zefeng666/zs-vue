@@ -116,6 +116,7 @@ export default {
   text-align: left;
   font-size: 14px;
   padding: .3rem .4rem;
+  background-color: #fff;
   .text-right {
     float: right;
   }
