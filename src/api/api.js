@@ -30,13 +30,27 @@ const API = {
       params: params
     })
   },
-  //我的地址
+  //查询地址
   queryUserAddress(params) {
     return request({
       url: '/queryUserAddress',
       params: params
     })
-  }
+  },
+  //删除地址
+  deleteUserAddress(params) {
+    return request({
+      url: '/deleteUserAddress',
+      params: params
+    })
+  },
+  //更新地址
+  updateUserAddress(params) {
+    return request({
+      url: '/updateUserAddress',
+      params: params
+    })
+  },
 };
 
 export default API;

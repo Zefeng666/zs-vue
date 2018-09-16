@@ -1,10 +1,10 @@
 <template>
   <div class="myAddress">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的地址<router-link to="/editAddress" slot="right">新增地址</router-link></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的地址<router-link to="/insertAddress" slot="right">新增地址</router-link></x-header>
     <div class="address-list" v-for="(item, index) in addressList" :key="index">
         <p class="list-top">{{item.contact}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.mobile}}</p>
-        <p class="list-bottom">{{item.province}}{{item.city}}{{item.area}}{{item.detail}}</p> 
-        <img src="../../../assets/icon/edit.png" alt="">
+        <p class="list-bottom"><span v-show="item.isDefault === 1" style="color: #f74c31;">[默认]</span>{{item.province}}{{item.city}}{{item.area}}{{item.detail}}</p> 
+        <img @click="toEditAddress(item)" src="../../../assets/icon/edit.png" alt="">
     </div>
   </div>
 </template>
@@ -27,6 +27,12 @@ export default {
     this.queryUserAddress();
   },
   methods: {
+    toEditAddress(addressItem) {
+      this.$router.push({
+        name: 'editAddress',
+        params: { addressInfo: addressItem }
+      })
+    },
     queryUserAddress() {
       this.$api
         .queryUserAddress({})
@@ -45,6 +51,7 @@ export default {
 .address-list {
   padding: 0.3rem 0.3rem;
   border-bottom: 1px solid #e6e6e6;
+  background-color: #fff;
   position: relative;
   p {
     padding: 0;

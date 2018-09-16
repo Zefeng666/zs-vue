@@ -1,14 +1,14 @@
 <template>
   <div class="editAddress">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">编辑地址<a slot="right">删除</a></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">{{isInsert ? '新增' : '编辑'}}地址<a slot="right" v-show="!isInsert">删除</a></x-header>
     <group>
-      <x-input title="收货人" name="username" :value="username"></x-input>
-      <x-input title="手机号码" name="phone" :value="phone"></x-input>
-      <x-address class="addresstitle" :title="addressTitle"  :list="addressData"  placeholder="请选择地址" inline-desc=""></x-address>
-      <x-textarea :title="textareaTitle" :placeholder="textareaPlaceholder" :show-counter="false" :rows="1" autosize></x-textarea>
-      <x-switch :title="switchTitle"></x-switch>
+      <x-input title="收货人" name="contact" v-model="addressInfo.contact"></x-input>
+      <x-input title="手机号码" name="mobile" v-model="addressInfo.mobile" type="number"></x-input>
+      <x-address class="addresstitle" :raw-value="true" :title="addressTitle"  :list="addressData" value-text-align="right"  :placeholder="isInsert?'请选择地址':oldAddress" v-model="AddressArr" inline-desc="" @on-shadow-change="getAddressname" @on-hide="closeList"></x-address>
+      <x-textarea :title="textareaTitle" :placeholder="textareaPlaceholder" :show-counter="false" :rows="1" autosize v-model="addressInfo.detail"></x-textarea>
+      <x-switch :title="switchTitle" v-model="isDefault"></x-switch>
     </group>
-    <x-button class="saveBtn" type="primary" action-type="button">保存</x-button>
+    <x-button class="saveBtn" type="primary" action-type="button" @click.native="insertUserAddress()">保存</x-button>
   </div>
 </template>
 
@@ -40,35 +40,74 @@ export default {
   },
   data() {
     return {
-      username: "",
-      phone: "",
+      addressInfo: {
+        contact: '',
+        mobile: '',
+        province: '',
+        city: '',
+        area: '',
+        detail: '',
+        isDefault: 0
+      },
+      isDefault: false,
       addressData: ChinaAddressV4Data,
       addressTitle: "所在地区",
       textareaTitle: "详细地址",
       textareaPlaceholder: "街道楼牌号等",
-      switchTitle: "设为默认地址"
+      switchTitle: "设为默认地址",
+      isInsert: false,
+      oldAddress: '',
+      AddressArr: []
     };
   },
   created () {
     // this.insertUserAddress()
+    console.log(this.$route);
+    
+    if (this.$route.name === 'insertAddress') {
+      this.isInsert = true
+    } else {
+      this.isInsert = false
+      this.addressInfo = this.$route.params.addressInfo
+      this.oldAddress = this.addressInfo.province + ' ' + this.addressInfo.city + ' ' + this.addressInfo.area
+      this.oldAddressArr[0] = this.addressInfo.province
+      this.oldAddressArr[1] = this.addressInfo.city
+      this.oldAddressArr[2] = this.addressInfo.area
+    }
+    
   },
   methods: {
+    getAddressname(ids, names) {
+      console.log(names);
+      
+      // this.addressInfo.province = names[0]
+      // this.addressInfo.city = names[1]
+      // this.addressInfo.area = names[2]
+    },
+    closeList(flag) {
+      if (!flag) {
+        // this.addressInfo.province = ''
+        // this.addressInfo.city = ''
+        // this.addressInfo.area = ''
+      }
+    },
     insertUserAddress() {
+      return console.log(this.AddressArr);
+      
+      if (this.isDefault) {
+        this.addressInfo.isDefault = 1;
+      } else {
+        this.addressInfo.isDefault = 0;
+      }      
       this.$api
-        .insertUserAddress({
-          province: 'xxxxx',
-          city: 'eeeee',
-          area: 'wwww',
-          detail: 'pppp',
-          contact: 'uuuu',
-          mobile: 17888888888
-        })
+        .insertUserAddress(this.addressInfo)
         .then(data => {
-          // if (data.returnCode === 1) {
-          //   this.loanPlan = data.loanPlan;
-          // }
-          console.log(data);
-          
+          if (data.code === 200) {
+            this.$vux.toast.text('添加成功', 'top')
+            this.$router.go(-1);
+          } else {
+            this.$vux.toast.text(data.message, 'top')
+          }     
         });
     }
   }
@@ -83,9 +122,7 @@ export default {
   padding-left: 0.24rem;
 }
 .saveBtn {
-  position: fixed;
-  left: 5%;
-  bottom: 20px;
+  margin-top: 1rem;
   width: 90%;
 }
 </style>

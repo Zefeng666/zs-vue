@@ -47,6 +47,11 @@ export default new Router({
       component: resolve => require(["@/views/mine/address/myAddress.vue"], resolve)
     },
     {
+      path: '/insertAddress',
+      name: 'insertAddress',
+      component: resolve => require(["@/views/mine/address/editAddress.vue"], resolve)
+    },
+    {
       path: '/editAddress',
       name: 'editAddress',
       component: resolve => require(["@/views/mine/address/editAddress.vue"], resolve)
