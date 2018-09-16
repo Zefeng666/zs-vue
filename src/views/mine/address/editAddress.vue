@@ -1,10 +1,10 @@
 <template>
   <div class="editAddress">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">{{isInsert ? '新增' : '编辑'}}地址<a slot="right" v-show="!isInsert">删除</a></x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">{{isInsert ? '新增' : '编辑'}}地址<a slot="right" v-show="!isInsert" @click="deleteUserAddress()">删除</a></x-header>
     <group>
       <x-input title="收货人" name="contact" v-model="addressInfo.contact"></x-input>
       <x-input title="手机号码" name="mobile" v-model="addressInfo.mobile" type="number"></x-input>
-      <x-address class="addresstitle" :raw-value="true" :title="addressTitle"  :list="addressData" value-text-align="right"  :placeholder="isInsert?'请选择地址':oldAddress" v-model="AddressArr" inline-desc="" @on-shadow-change="getAddressname" @on-hide="closeList"></x-address>
+      <x-address ref="address" class="addresstitle" :raw-value="true" :title="addressTitle"  :list="addressData" value-text-align="right"  placeholder="请选择地址" v-model="addressInfo.AddressArr" inline-desc="" @on-shadow-change="getAddressname" @on-hide="closeList"></x-address>
       <x-textarea :title="textareaTitle" :placeholder="textareaPlaceholder" :show-counter="false" :rows="1" autosize v-model="addressInfo.detail"></x-textarea>
       <x-switch :title="switchTitle" v-model="isDefault"></x-switch>
     </group>
@@ -47,7 +47,8 @@ export default {
         city: '',
         area: '',
         detail: '',
-        isDefault: 0
+        isDefault: 0,
+        AddressArr: []
       },
       isDefault: false,
       addressData: ChinaAddressV4Data,
@@ -56,54 +57,73 @@ export default {
       textareaPlaceholder: "街道楼牌号等",
       switchTitle: "设为默认地址",
       isInsert: false,
-      oldAddress: '',
       AddressArr: []
     };
   },
   created () {
-    // this.insertUserAddress()
-    console.log(this.$route);
-    
     if (this.$route.name === 'insertAddress') {
       this.isInsert = true
     } else {
       this.isInsert = false
       this.addressInfo = this.$route.params.addressInfo
-      this.oldAddress = this.addressInfo.province + ' ' + this.addressInfo.city + ' ' + this.addressInfo.area
-      this.oldAddressArr[0] = this.addressInfo.province
-      this.oldAddressArr[1] = this.addressInfo.city
-      this.oldAddressArr[2] = this.addressInfo.area
+      this.addressInfo.AddressArr = [this.addressInfo.province, this.addressInfo.city, this.addressInfo.area]
     }
     
   },
   methods: {
     getAddressname(ids, names) {
-      console.log(names);
-      
-      // this.addressInfo.province = names[0]
-      // this.addressInfo.city = names[1]
-      // this.addressInfo.area = names[2]
     },
     closeList(flag) {
-      if (!flag) {
-        // this.addressInfo.province = ''
-        // this.addressInfo.city = ''
-        // this.addressInfo.area = ''
-      }
     },
     insertUserAddress() {
-      return console.log(this.AddressArr);
+      if (this.addressInfo.contact == '') return this.$vux.toast.text('请填写收货人')
+      if (this.addressInfo.mobile == '') return this.$vux.toast.text('请填写手机号码')
+      if (this.$refs.address.nameValue == '')  return this.$vux.toast.text('请选择地址')
+      if (this.addressInfo.detail == '') return this.$vux.toast.text('请填写详细地址')      
+      let addressArr = this.$refs.address.nameValue.split(' ')
+      this.addressInfo.province = addressArr[0]
+      this.addressInfo.city = addressArr[1]
+      this.addressInfo.area = addressArr[2]
       
       if (this.isDefault) {
         this.addressInfo.isDefault = 1;
       } else {
         this.addressInfo.isDefault = 0;
-      }      
-      this.$api
+      }
+
+      if (this.isInsert) {
+        this.$api
         .insertUserAddress(this.addressInfo)
         .then(data => {
           if (data.code === 200) {
             this.$vux.toast.text('添加成功', 'top')
+            this.$router.go(-1);
+          } else {
+            this.$vux.toast.text(data.message, 'top')
+          }     
+        });
+      } else {
+        this.$api
+        .updateUserAddress(this.addressInfo)
+        .then(data => {
+          if (data.code === 200) {
+            this.$vux.toast.text('更新成功', 'top')
+            this.$router.go(-1);
+          } else {
+            this.$vux.toast.text(data.message, 'top')
+          }     
+        });
+      }
+      
+    },
+    deleteUserAddress() {
+      this.$api
+        .deleteUserAddress({
+          id: this.addressInfo.id
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.$vux.toast.text('删除成功', 'top')
             this.$router.go(-1);
           } else {
             this.$vux.toast.text(data.message, 'top')
