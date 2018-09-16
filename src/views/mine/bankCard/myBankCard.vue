@@ -10,18 +10,31 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Card } from "vux";
+import { ViewBox, XHeader } from "vux";
 export default {
   name: "myBankCard",
   components: {
     ViewBox,
-    XHeader,
-    Card
+    XHeader
+  },
+  created () {
+    this.queryUserBankCard()
   },
   data() {
     return {
-      
+      bankCardList: []
     };
+  },
+  methods: {
+    queryUserBankCard() {
+      this.$api
+        .queryUserBankCard({})
+        .then(data => {
+          if (data.code === 200) {
+            this.bankCardList = data.data.bankCard
+          }       
+        });
+    }
   }
 };
 </script>

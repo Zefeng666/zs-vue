@@ -2,7 +2,7 @@
   <div class="mine">
     <div class="mine-msg">
       <img class="avator" src="../../assets/avator.jpg" alt="">
-      <p>微信昵称：月铭泽</p>
+      <p>微信昵称：{{userInfo.username}}</p>
       <p>性别： 男</p>
     </div>
     <group>
@@ -27,11 +27,26 @@ export default {
     Group,
     XHeader
   },
+  created () {
+    this.queryUser();
+  },
   data() {
     return {
+      userInfo: {}
     };
   },
   methods: {
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            console.log(data);
+            this.userInfo = data.data.user
+            // this.bankCardList = data.data.bankCard
+          }       
+        });
+    }
   }
 };
 </script>

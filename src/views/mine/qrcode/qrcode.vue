@@ -3,10 +3,10 @@
     <x-header class="vux-1px-b" :left-options="{backText: ''}">我的推荐码</x-header>
     <div class="mine-msg">
       <img class="avator" src="../../../assets/avator.jpg">
-      <p>月铭泽</p>
-      <p>CEO</p>
+      <p>{{userInfo.username}}</p>
+      <p>{{userInfo.vipLevel}}</p>
     </div>
-    <qrcode value="https://vux.li?x-page=demo_qrcode" type="img"></qrcode>
+    <qrcode :value="userInfo.code" type="img"></qrcode>
   </div>
 </template>
 
@@ -19,10 +19,24 @@ export default {
     XHeader,
     Qrcode
   },
+  created () {
+    this.queryUser()
+  },
   data() {
     return {
-      value: ''
+      userInfo: ''
     };
+  },
+  methods: {
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.userInfo = data.data.user;
+          }       
+        });
+    }
   }
 };
 </script>

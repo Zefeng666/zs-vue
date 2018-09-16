@@ -4,7 +4,7 @@
     <group>
       <x-input title="收货人" name="contact" v-model="addressInfo.contact"></x-input>
       <x-input title="手机号码" name="mobile" v-model="addressInfo.mobile" type="number"></x-input>
-      <x-address ref="address" class="addresstitle" :raw-value="true" :title="addressTitle"  :list="addressData" value-text-align="right"  placeholder="请选择地址" v-model="addressInfo.AddressArr" inline-desc="" @on-shadow-change="getAddressname" @on-hide="closeList"></x-address>
+      <x-address ref="address" class="addresstitle" :raw-value="true" :title="addressTitle"  :list="addressData" value-text-align="center"  placeholder="请选择地址" v-model="addressInfo.AddressArr" inline-desc=""></x-address>
       <x-textarea :title="textareaTitle" :placeholder="textareaPlaceholder" :show-counter="false" :rows="1" autosize v-model="addressInfo.detail"></x-textarea>
       <x-switch :title="switchTitle" v-model="isDefault"></x-switch>
     </group>
@@ -67,14 +67,9 @@ export default {
       this.isInsert = false
       this.addressInfo = this.$route.params.addressInfo
       this.addressInfo.AddressArr = [this.addressInfo.province, this.addressInfo.city, this.addressInfo.area]
-    }
-    
+    }   
   },
   methods: {
-    getAddressname(ids, names) {
-    },
-    closeList(flag) {
-    },
     insertUserAddress() {
       if (this.addressInfo.contact == '') return this.$vux.toast.text('请填写收货人')
       if (this.addressInfo.mobile == '') return this.$vux.toast.text('请填写手机号码')
