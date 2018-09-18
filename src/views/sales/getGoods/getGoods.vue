@@ -9,6 +9,7 @@
       <swiper-item class="swiper-box">
         <group label-width="4.5em" label-margin-right="2em" label-align="right">
           <x-input title="申请数量" type="number" name="username" :value="withDrawObj.quantity" placeholder="请输入"></x-input>
+          <cell title="拿货地址" align-items="flex-start" value="浙江省杭州市滨江区床位科技园40111hao" value-align="left" is-link></cell>
           <x-address class="addresstitle" :title="addressTitle" value-text-align="left"  :list="addressData"  placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
           <!-- <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker> -->
         </group>
