@@ -3,7 +3,7 @@
     <div class="mine-msg">
       <img class="avator" src="../../assets/avator.jpg" alt="">
       <p>微信昵称：{{userInfo.username}}</p>
-      <p>性别： 男</p>
+      <p>等级： {{userInfo.vipLevel | formatVipLevel}}</p>
     </div>
     <group>
       <cell class="my-cell" title="我的地址" value-align="left" link="/myAddress"></cell>

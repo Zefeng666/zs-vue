@@ -12,6 +12,9 @@ import 'amfe-flexible/index.js'
 // import FastClick from 'fastclick'
 
 // FastClick.attach(document.body);
+
+import filter from './filter/filter'
+
 import axios from 'axios';
 import API from './api/api'
 

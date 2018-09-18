@@ -4,7 +4,7 @@
     <div class="mine-msg">
       <img class="avator" src="../../../assets/avator.jpg">
       <p>{{userInfo.username}}</p>
-      <p>{{userInfo.vipLevel}}</p>
+      <p>{{userInfo.vipLevel | formatVipLevel}}</p>
     </div>
     <qrcode :value="userInfo.code" type="img"></qrcode>
   </div>

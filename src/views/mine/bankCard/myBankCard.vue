@@ -1,10 +1,10 @@
 <template>
   <div class="myBankCard">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的银行卡<router-link to="/editBankCard" slot="right">添加</router-link></x-header>
-    <div class="card-list">
-        <p class="list-top">中国建设银行 ******6666</p>
-        <p class="list-bottom">持卡人：张三 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;默认</p>    
-        <img src="../../../assets/icon/edit.png" alt="">       
+    <x-header class="vux-1px-b" :left-options="{backText: ''}">我的银行卡<router-link to="/insertBankCard" slot="right">添加</router-link></x-header>
+    <div class="card-list" v-for="(item, idx) in bankCardList" :key="idx">
+        <p class="list-top">{{item.cardKind}} {{item.cardId}}</p>
+        <p class="list-bottom"><span class="card-default" v-show="item.isDefault === 1">[默认]</span> 持卡人：{{item.cardHolder}}</p>    
+        <img src="../../../assets/icon/edit.png" @click="toEditBankCard(item)">       
     </div>
   </div>
 </template>
@@ -31,9 +31,15 @@ export default {
         .queryUserBankCard({})
         .then(data => {
           if (data.code === 200) {
-            this.bankCardList = data.data.bankCard
+            this.bankCardList = data.data.bankCards
           }       
         });
+    },
+    toEditBankCard(item) {
+      this.$router.push({
+        name: 'editBankCard',
+        params: {bankCardInfo: item}
+      })
     }
   }
 };
@@ -63,6 +69,9 @@ export default {
   }
   .list-bottom {
     font-size: 12px;
+  }
+  .card-default {
+    color: red;
   }
 }
 </style>

@@ -47,6 +47,11 @@ export default new Router({
       component: resolve => require(["@/views/mine/address/myAddress.vue"], resolve)
     },
     {
+      path: '/selectAddress',
+      name: 'selectAddress',
+      component: resolve => require(["@/views/mine/address/myAddress.vue"], resolve)
+    },
+    {
       path: '/insertAddress',
       name: 'insertAddress',
       component: resolve => require(["@/views/mine/address/editAddress.vue"], resolve)
@@ -69,6 +74,11 @@ export default new Router({
     {
       path: '/editBankCard',
       name: 'editBankCard',
+      component: resolve => require(["@/views/mine/bankCard/editBankCard.vue"], resolve)
+    },
+    {
+      path: '/insertBankCard',
+      name: 'insertBankCard',
       component: resolve => require(["@/views/mine/bankCard/editBankCard.vue"], resolve)
     },
     {

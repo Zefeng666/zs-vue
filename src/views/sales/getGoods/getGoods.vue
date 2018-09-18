@@ -1,6 +1,6 @@
 <template>
   <div class="getGoods">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">申请拿货</x-header>
+    <x-header class="vux-1px-b" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()">申请拿货</x-header>
     <tab :line-width=2 active-color='#f74c31' v-model="index">
       <tab-item class="vux-center" selected>申请拿货</tab-item>
       <tab-item class="vux-center">历史订单</tab-item>
@@ -8,8 +8,8 @@
     <swiper v-model="index" :show-dots="false" height="10rem">
       <swiper-item class="swiper-box">
         <group label-width="4.5em" label-margin-right="2em" label-align="right">
-          <x-input title="申请数量" type="number" name="username" :value="withDrawObj.quantity" placeholder="请输入"></x-input>
-          <cell title="拿货地址" align-items="flex-start" value="浙江省杭州市滨江区床位科技园40111hao" value-align="left" is-link></cell>
+          <x-input title="申请数量" type="number" name="username" :value="getGoodsObj.quantity" placeholder="请输入"></x-input>
+          <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
           <x-address class="addresstitle" :title="addressTitle" value-text-align="left"  :list="addressData"  placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
           <!-- <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker> -->
         </group>
@@ -81,17 +81,30 @@ export default {
     XAddress,
     ChinaAddressV4Data,
   },
+  created() {
+    console.log(this.$route.params);
+    
+    if (JSON.stringify(this.$route.params) === '{}') {
+      this.queryUserAddress();  
+    } else {
+      this.getGoodsObj.addressId = this.$route.params.addressId;
+      this.getGoodsObj.addressName = this.$route.params.addressName;
+    }
+  },
   data() {
     return {
       index: 0,
-      withDrawObj: {
+      getGoodsObj: {
         quantity: '',
-        cardNo: '2222'
+        addressId: '',
+        proxyCity: '',
+        proxyArea: '',
+        addressName: ''
       },
       addressData: ChinaAddressV4Data,
       addressTitle: "代理地区",
-      cardList: [['中国建设银行 ****2222', '中国建设银行 ****2223', '中国建设银行 ****2224']],
-      cardValue: ['中国建设银行 ****2222']
+      // cardList: [['中国建设银行 ****2222', '中国建设银行 ****2223', '中国建设银行 ****2224']],
+      // cardValue: ['中国建设银行 ****2222']
     };
   },
   methods: {
@@ -106,6 +119,30 @@ export default {
     },
     onShadowChange () {
 
+    },
+    queryUserAddress() {
+      this.$api
+        .queryUserAddress({})
+        .then(data => {
+          if (data.code === 200) {
+            this.getGoodsObj.addressId = data.data.address[0].id;
+            this.getGoodsObj.addressName = data.data.address[0].province + data.data.address[0].city + data.data.address[0].area + data.data.address[0].detail;
+          }       
+        });
+    },
+    toSelectAddress() {
+      this.$router.push({
+        name: 'selectAddress',
+        params: { 
+          addressId: this.getGoodsObj.addressId,
+          addressName: this.getGoodsObj.addressName
+         }
+      })
+    },
+    toSale() {
+      this.$router.push({
+        name: 'sales'
+      })
     }
   }
 };

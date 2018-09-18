@@ -1,10 +1,13 @@
 <template>
   <div class="myAddress">
     <x-header class="vux-1px-b" :left-options="{backText: ''}">我的地址<router-link to="/insertAddress" slot="right">新增地址</router-link></x-header>
-    <div class="address-list" v-for="(item, index) in addressList" :key="index">
-        <p class="list-top">{{item.contact}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.mobile}}</p>
+    <div class="address-list" v-for="(item, index) in addressList" :key="index" @click="toGetGoods(item)">
+        <p class="list-top">
+          {{item.contact}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.mobile}}&nbsp;&nbsp;
+          <img v-show="isSelect && item.id == selectAddressId" class="right-icon" src="../../../assets/icon/right_red.png">
+        </p>
         <p class="list-bottom"><span v-show="item.isDefault === 1" style="color: #f74c31;">[默认]</span>{{item.province}}{{item.city}}{{item.area}}{{item.detail}}</p> 
-        <img @click="toEditAddress(item)" src="../../../assets/icon/edit.png" alt="">
+        <img class="edit-icon" @click="toEditAddress(item)" src="../../../assets/icon/edit.png" v-show="!isSelect">
     </div>
   </div>
 </template>
@@ -20,10 +23,18 @@ export default {
   },
   data() {
     return {
-      addressList: []
+      addressList: [],
+      isSelect: false,
+      selectAddressId: ''
     };
   },
   created () {
+    if (this.$route.name === "selectAddress") {
+      this.isSelect = true;
+      this.selectAddressId = this.$route.params.addressId;
+    } else {
+      this.isSelect = false;
+    }
     this.queryUserAddress();
   },
   methods: {
@@ -41,6 +52,16 @@ export default {
             this.addressList = data.data.address;
           }       
         });
+    },
+    toGetGoods(item) {
+      if(!this.isSelect) return;
+      this.$router.push({
+        name: 'getGoods',
+        params: {
+          addressId: item.id,
+          addressName: item.province + item.city + item.area + item.detail
+        }
+      })
     }
   }
 };
@@ -56,8 +77,12 @@ export default {
   p {
     padding: 0;
     text-align: left;
+    .right-icon {
+      width: .7rem;
+      vertical-align: top;
+    }
   }
-  img {
+  .edit-icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
