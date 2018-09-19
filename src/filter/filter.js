@@ -9,3 +9,12 @@ Vue.filter("formatVipLevel", function (status) {
     return "CEO";
   }
 });
+Vue.filter("orderStatus", function (status) {
+  if (status == 0) {
+    return "审核中";
+  } else if (status == 1) {
+    return "已审核";
+  } else if (status == 2) {
+    return "审核未通过";
+  }
+});

@@ -14,6 +14,33 @@ const API = {
     })
   },
 
+  //销售相关
+
+  //申请拿货
+  insertOrder(params) {
+    return request({
+      url: '/insertOrder',
+      params: params
+    })
+  },
+
+  //取消订单
+  cancelOrder(params) {
+    return request({
+      url: '/cancelOrder',
+      params: params
+    })
+  },
+
+  //查询我的历史订单
+  queryOrder(params) {
+    return request({
+      url: '/queryOrder',
+      params: params
+    })
+  },
+
+
   //我的地址相关
 
   //新增地址
