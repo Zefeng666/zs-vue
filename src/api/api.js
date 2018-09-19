@@ -40,6 +40,14 @@ const API = {
     })
   },
 
+  //积分明细
+  queryIntegrals(params) {
+    return request({
+      url: '/queryIntegrals',
+      params: params
+    })
+  },
+
 
   //我的地址相关
 

@@ -54,30 +54,28 @@ export default {
     XInput,
     XButton,
   },
+  created() {
+    this.queryIntegrals();
+  },
   data() {
     return {
-      index: 0,
-      withDrawObj: {
-        quantity: '',
-        cardNo: '2222'
-      },
-      cardList: [['中国建设银行 ****2222', '中国建设银行 ****2223', '中国建设银行 ****2224']],
-      cardValue: ['中国建设银行 ****2222']
+      IntegralsList: []
     };
   },
   methods: {
-    onShow () {
-      console.log(this.cardValue);     
+    queryIntegrals() {
+      this.$api
+        .queryIntegrals({
+          pageNo: 1,
+          pageSize: 10
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.IntegralsList = data.data;
+          }       
+        });
     },
-    onHide () {
-      console.log(this.cardValue);        
-    },
-    onChange () {
 
-    },
-    onShadowChange () {
-
-    }
   }
 };
 </script>
