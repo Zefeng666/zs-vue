@@ -8,8 +8,8 @@
     <swiper v-model="index" :show-dots="false" height="10rem">
       <swiper-item class="swiper-box">
         <group label-width="4.5em" label-margin-right="2em" label-align="right">
-          <x-input title="申请数量" type="number" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
           <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
+          <x-input title="申请数量" type="number" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
           <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 500" class="addresstitle" :title="addressTitle" value-text-align="left"  :list="addressData"  placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
           <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 500" class="addresstitle" :title="addressTitle" value-text-align="left"  :list="addressData"  placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
           <!-- <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker> -->
@@ -28,7 +28,7 @@
             </p>
             <p>
               <span>创建时间：{{item.order.createTime.substr(0, 10)}}</span>
-              <x-button v-show="item.order.state == 0" class="btn-right" mini plain>取消</x-button>
+              <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.state == 0" class="btn-right" mini plain>取消</x-button>
             </p>
           </div>
         </div>
@@ -128,6 +128,18 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.orderList = data.data.orderInfos;
+          }       
+        });
+    },
+    cancelOrder(id) {
+      this.$api
+        .cancelOrder({
+          id: id
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.$vux.toast.text("取消订单成功", "top");
+            this.queryOrder();
           }       
         });
     },
