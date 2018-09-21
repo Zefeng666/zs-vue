@@ -2,40 +2,16 @@
   <div class="pointDetails">
     <x-header class="vux-1px-b" :left-options="{backText: ''}">积分明细</x-header>
         <div class="tab-swiper">
-          <div class="order-box vux-1px-b">
+          <div class="order-box vux-1px-b" v-for="(item, index) in IntegralsList" :key="index">
             <p>
-              <span>积分：+1888</span>
-              <span class="text-right">下线推广</span>
+              <span>积分：{{item.integralNum}}</span>
+              <span class="text-right">{{item.changeType}}</span>
             </p>
             <p>
-              <span>描述：下线xxxxx拿货</span>
+              <span>描述：{{item.changeDetail}}</span>
             </p>
             <p>
-              <span>时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>积分：+1888</span>
-              <span class="text-right">下线推广</span>
-            </p>
-            <p>
-              <span>描述：下线xxxxx拿货</span>
-            </p>
-            <p>
-              <span>时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>积分：+1888</span>
-              <span class="text-right">下线推广</span>
-            </p>
-            <p>
-              <span>描述：下线xxxxx拿货</span>
-            </p>
-            <p>
-              <span>时间：2018年8月8日</span>
+              <span>时间：{{item.createTime.substr(0, 10)}}</span>
             </p>
           </div>
         </div>
@@ -71,7 +47,7 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-            this.IntegralsList = data.data;
+            this.IntegralsList = data.data.items;
           }       
         });
     },

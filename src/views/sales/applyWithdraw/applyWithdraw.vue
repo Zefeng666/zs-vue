@@ -1,62 +1,58 @@
 <template>
   <div class="applyWithdraw">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">申请提现</x-header>
-    <tab :line-width=2 active-color='#f74c31' v-model="index">
+    <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">申请提现</x-header>
+    <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab vux-1px-t">
       <tab-item class="vux-center" selected>申请提现</tab-item>
       <tab-item class="vux-center">提现订单</tab-item>
     </tab>
-    <swiper v-model="index" :show-dots="false" height="10rem">
+    <!-- <swiper v-model="index" :show-dots="false" height="10rem">
       <swiper-item class="swiper-box">
         <group label-width="4.5em" label-margin-right="2em" label-align="left">
           <cell title="我的积分" value-align="left"><span style="color: #f74c31;">999</span></cell>
           <x-input title="提现积分" type="number" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
           <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
-          <!-- <popup-picker :title="title1" :data="list1" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :placeholder="$t('please select')"></popup-picker> -->
-          <!-- <popup-picker value-text-align="left" title="银行卡：" :data="cardList" v-model="cardValue" @on-show="onShow" @on-hide="onHide" @on-change="onChange" @on-shadow-change="onShadowChange"></popup-picker> -->
         </group>
         <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>
       </swiper-item>
       <swiper-item>
         <div class="tab-swiper">
-          <div class="order-box vux-1px-b">
+          <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
             <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
+              <span>申请积分：{{item.withdraws.quantity}}分</span>
+              <span class="text-right">{{item.withdraws.isAudit}}</span>
             </p>
             <p>
-              <span>银行卡号：30000000000099909</span>
+              <span>银行卡号：{{item.userBankCard}}</span>
             </p>
             <p>
-              <span>创建时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
-            </p>
-            <p>
-              <span>银行卡号：30000000000099909</span>
-            </p>
-            <p>
-              <span>创建时间：2018年8月8日</span>
-            </p>
-          </div>
-          <div class="order-box vux-1px-b">
-            <p>
-              <span>申请积分：1888分</span>
-              <span class="text-right">通过</span>
-            </p>
-            <p>
-              <span>银行卡号：30000000000099909</span>
-            </p>
-            <p>
-              <span>创建时间：2018年8月8日</span>
+              <span>创建时间：{{item.withdraws.createTime}}</span>
             </p>
           </div>
         </div>
       </swiper-item>
-    </swiper>
+    </swiper> -->
+    <div v-show="index === 0" class="swiper-box">
+      <group label-width="4.5em" label-margin-right="2em" label-align="left">
+        <cell title="我的积分" value-align="left"><span style="color: #f74c31;">999</span></cell>
+        <x-input title="提现积分" type="number" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
+        <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
+      </group>
+      <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>
+    </div>
+    <div v-show="index === 1" class="tab-swiper">
+      <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
+        <p>
+          <span>申请积分：{{item.withdraws.quantity}}分</span>
+          <span class="text-right">{{item.withdraws.isAudit}}</span>
+        </p>
+        <p>
+          <span>银行卡号：{{item.userBankCard}}</span>
+        </p>
+        <p>
+          <span>创建时间：{{item.withdraws.createTime}}</span>
+        </p>
+      </div>
+    </div>
     <popup v-model="showCardPopup" position="bottom" max-height="50%">
       <group label-width="7em" label-margin-right="2em" label-align="left">
         <cell v-for="(i, idx) in bankCardList" value-align="left" :key="idx" :title="i.cardKind" is-link @click.native="selectCard(i)">{{i.cardId}}</cell>
@@ -101,7 +97,8 @@ export default {
         cardId: ''
       },
       showCardPopup: false,
-      bankCardList: []
+      bankCardList: [],
+      withdrawList: []
     };
   },
   methods: {
@@ -144,7 +141,7 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-            
+            this.withdrawList = data.data.items;
           }       
         });
     },
@@ -154,6 +151,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.my-header {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+.my-tab {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 44px;
+  z-index: 100;
+}
+.applyWithdraw {
+  padding-top: 88px;
+}
 .submit-btn {
   width: 90%;
   margin-right: 5%;
