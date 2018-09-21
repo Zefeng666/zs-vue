@@ -40,6 +40,22 @@ const API = {
     })
   },
 
+  //申请提现
+  applyWithdraw(params) {
+    return request({
+      url: '/applyWithdraw',
+      params: params
+    })
+  },
+
+  //提现记录
+  queryWithdraw(params) {
+    return request({
+      url: '/queryWithdraw',
+      params: params
+    })
+  },
+
   //积分明细
   queryIntegrals(params) {
     return request({

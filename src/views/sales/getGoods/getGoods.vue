@@ -92,8 +92,6 @@ export default {
       orderList: [],
       addressData: ChinaAddressV4Data,
       addressTitle: "代理地区",
-      // cardList: [['中国建设银行 ****2222', '中国建设银行 ****2223', '中国建设银行 ****2224']],
-      // cardValue: ['中国建设银行 ****2222']
     };
   },
   methods: {
