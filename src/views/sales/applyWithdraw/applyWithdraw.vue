@@ -5,35 +5,9 @@
       <tab-item class="vux-center" selected>申请提现</tab-item>
       <tab-item class="vux-center">提现订单</tab-item>
     </tab>
-    <!-- <swiper v-model="index" :show-dots="false" height="10rem">
-      <swiper-item class="swiper-box">
-        <group label-width="4.5em" label-margin-right="2em" label-align="left">
-          <cell title="我的积分" value-align="left"><span style="color: #f74c31;">999</span></cell>
-          <x-input title="提现积分" type="number" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
-          <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
-        </group>
-        <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>
-      </swiper-item>
-      <swiper-item>
-        <div class="tab-swiper">
-          <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
-            <p>
-              <span>申请积分：{{item.withdraws.quantity}}分</span>
-              <span class="text-right">{{item.withdraws.isAudit}}</span>
-            </p>
-            <p>
-              <span>银行卡号：{{item.userBankCard}}</span>
-            </p>
-            <p>
-              <span>创建时间：{{item.withdraws.createTime}}</span>
-            </p>
-          </div>
-        </div>
-      </swiper-item>
-    </swiper> -->
     <div v-show="index === 0" class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
-        <cell title="我的积分" value-align="left"><span style="color: #f74c31;">999</span></cell>
+        <cell title="我的积分" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
         <x-input title="提现积分" type="number" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
         <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
       </group>
@@ -43,13 +17,13 @@
       <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
         <p>
           <span>申请积分：{{item.withdraws.quantity}}分</span>
-          <span class="text-right">{{item.withdraws.isAudit}}</span>
+          <span class="text-right">{{item.withdraws.isAudit | withdrawStatus}}</span>
         </p>
         <p>
-          <span>银行卡号：{{item.userBankCard}}</span>
+          <span>银行卡号：{{item.userBankCard[0].cardId}}</span>
         </p>
         <p>
-          <span>创建时间：{{item.withdraws.createTime}}</span>
+          <span>创建时间：{{item.withdraws.createTime.substr(0, 10)}}</span>
         </p>
       </div>
     </div>
@@ -81,6 +55,7 @@ export default {
   created() {
     this.queryUserBankCard();
     this.queryWithdraw();
+    this.queryUser();
   },
   computed: {
     handleCardNo: function () {
@@ -98,7 +73,8 @@ export default {
       },
       showCardPopup: false,
       bankCardList: [],
-      withdrawList: []
+      withdrawList: [],
+      myIntegral: ''
     };
   },
   methods: {
@@ -111,7 +87,9 @@ export default {
             this.withDrawObj.cardNo = this.bankCardList[0].cardId;
             this.withDrawObj.cardName = this.bankCardList[0].cardKind;
             this.withDrawObj.cardId = this.bankCardList[0].id;
-          }       
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }         
         });
     },
     selectCard(item) {
@@ -130,6 +108,9 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.$vux.toast.text("申请提现已提交", "top");
+            this.queryUser();
+          } else {
+            this.$vux.toast.text(data.message, "top");
           }       
         });
     },
@@ -142,9 +123,22 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.withdrawList = data.data.items;
-          }       
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }         
         });
     },
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.myIntegral = data.data.user.integral;
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    }
   }
 };
 </script>

@@ -3,31 +3,31 @@
     <div class="sale-box">
       <div class="sale-box-header">
         <span>您的可提金额：</span>
-        <span class="float-right">等级：CEO</span>
+        <span class="float-right">等级：{{userInfo.vipLevel | formatVipLevel}}</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="9999" :duration="1.5"></countup>
+      <countup class="countup-box" :start-val="0" :end-val="userInfo.integral" :duration="1.5"></countup>
       <span>元</span>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
           <div class="vux-1px-r">
             <span class="card-top-text">您的推荐人</span>
             <br/>
-            <span class="card-bottom-text">锤子</span> 
+            <span class="card-bottom-text">{{userInfo.recommendUser}}</span> 
           </div>
           <div class="vux-1px-r">
             <span class="card-top-text">您最近的代理</span>
             <br/>
-            <span class="card-bottom-text">锤子</span> 
+            <span class="card-bottom-text">{{userInfo.recentProxy}}</span> 
           </div>
           <div class="vux-1px-r">
             <span class="card-top-text">您最近的CEO</span>
             <br/>
-            <span class="card-bottom-text">锤子</span> 
+            <span class="card-bottom-text">{{userInfo.recentCEO}}</span> 
           </div>
           <div>
             <span class="card-top-text">代理地区</span>
             <br/>
-            <span class="card-bottom-text">杭州</span> 
+            <span class="card-bottom-text">{{userInfo.proxyArea}}</span> 
           </div>
         </div>
       </card>
@@ -56,10 +56,26 @@ export default {
     Card,
     Countup
   },
+  created() {
+    this.queryUser();
+  },
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      userInfo: ''
     };
+  },
+  methods: {
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.userInfo = data.data.user
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    }
   }
 };
 </script>
