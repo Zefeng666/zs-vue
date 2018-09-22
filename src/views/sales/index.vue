@@ -5,7 +5,7 @@
         <span>您的可提金额：</span>
         <span class="float-right">等级：{{userInfo.vipLevel | formatVipLevel}}</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="userInfo.integral" :duration="1.5"></countup>
+      <countup class="countup-box" :start-val="0" :end-val="userInfo.integral || 0" :duration="1.5"></countup>
       <span>元</span>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
