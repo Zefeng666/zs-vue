@@ -14,6 +14,14 @@ const API = {
     })
   },
 
+  // 临时登录
+  login(params) {
+    return request({
+      url: '/login',
+      params: params
+    })
+  },
+
   //销售相关
 
   //申请拿货

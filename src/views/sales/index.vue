@@ -5,7 +5,7 @@
         <span>您的可提金额：</span>
         <span class="float-right">等级：{{userInfo.vipLevel | formatVipLevel}}</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="userInfo.integral || 0" :duration="1.5"></countup>
+      <countup class="countup-box" :start-val="0" :end-val="userInfo.withdrawAmount || 0" :duration="1"></countup>
       <span>元</span>
       <card>
         <div slot="content" class="card-demo-flex card-demo-content01">
@@ -58,6 +58,7 @@ export default {
   },
   created() {
     this.queryUser();
+    // this.login();
   },
   data() {
     return {
@@ -75,7 +76,21 @@ export default {
             this.$vux.toast.text(data.message, "top");
           }       
         });
-    }
+    },
+    login() {
+      this.$api
+        .login({
+          username: 'oak',
+          password: 123456
+        })
+        .then(data => {
+          if (data.code === 200) {
+            // this.userInfo = data.data.user
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
   }
 };
 </script>
