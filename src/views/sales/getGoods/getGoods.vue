@@ -9,8 +9,8 @@
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
         <x-input title="申请数量" type="number" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
-        <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 500" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
-        <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 500" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
+        <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
+        <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
     </div>
@@ -18,14 +18,14 @@
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
         <p>
           <span>申请数量：{{item.order.quantity}}件</span>
-          <span class="text-right">{{item.order.state | orderStatus}}</span>
+          <span class="text-right">{{item.order.isAudit | orderStatus}}</span>
         </p>
         <p>
           <span>收货地址：{{item.userAddress.province + item.userAddress.city + item.userAddress.area + item.userAddress.detail}}</span>
         </p>
         <p>
           <span>创建时间：{{item.order.createTime.substr(0, 10)}}</span>
-          <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.state == 0" class="btn-right" mini plain>取消</x-button>
+          <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.isAudit == 0" class="btn-right" mini plain>取消</x-button>
         </p>
       </div>
     </div>
@@ -94,7 +94,7 @@ export default {
       getGoodsObj: {
         quantity: "",
         addressId: "",
-        provice: "",
+        proxyProvice: "",
         proxyCity: "",
         proxyArea: "",
         addressName: ""
@@ -152,12 +152,12 @@ export default {
     insertOrder() {
       if (this.getGoodsObj.quantity >= 300 && this.getGoodsObj.quantity < 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        this.getGoodsObj.provice = addressArr[0];
+        this.getGoodsObj.proxyProvice = addressArr[0];
         this.getGoodsObj.proxyCity = addressArr[1];
         this.getGoodsObj.proxyArea = addressArr[2];
       } else if (this.getGoodsObj.quantity >= 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        this.getGoodsObj.provice = addressArr[0];
+        this.getGoodsObj.proxyProvice = addressArr[0];
         this.getGoodsObj.proxyCity = addressArr[1];
       } else {
         this.getGoodsObj.provice = "";
