@@ -4,7 +4,7 @@
     <group>
       <x-input title="银行" name="cardKind" v-model="bankCardInfo.cardKind"></x-input>
       <x-input title="持卡人" name="cardHolder" v-model="bankCardInfo.cardHolder"></x-input>
-      <x-input title="卡号" name="cardId" type="number" v-model="bankCardInfo.cardId"></x-input>
+      <x-input title="卡号" name="cardId" v-model="bankCardInfo.cardId"></x-input>
       <x-switch :title="switchTitle" v-model="isDefault"></x-switch>
     </group>
     <x-button class="saveBtn" type="primary" action-type="button" @click.native="insertUserBankCard()">保存</x-button>

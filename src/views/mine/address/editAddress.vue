@@ -5,7 +5,7 @@
     </x-header>
     <group class="editAddress-group"> 
       <x-input title="收货人" name="contact" v-model="addressInfo.contact"></x-input>
-      <x-input title="手机号码" name="mobile" v-model="addressInfo.mobile" type="number"></x-input>
+      <x-input title="手机号码" name="mobile" v-model="addressInfo.mobile"></x-input>
       <x-address ref="address" class="addresstitle" :raw-value="true" :title="addressTitle" :list="addressData" value-text-align="left" placeholder="请选择地址" v-model="addressInfo.AddressArr" inline-desc=""></x-address>
       <x-textarea :title="textareaTitle" :placeholder="textareaPlaceholder" :show-counter="false" :rows="1" autosize v-model="addressInfo.detail"></x-textarea>
       <x-switch :title="switchTitle" v-model="isDefault"></x-switch>

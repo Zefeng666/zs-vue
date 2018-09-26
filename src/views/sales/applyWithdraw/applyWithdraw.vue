@@ -8,7 +8,7 @@
     <div v-show="index === 0" class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
         <cell title="我的积分" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
-        <x-input title="提现积分" type="number" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
+        <x-input title="提现积分" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
         <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>

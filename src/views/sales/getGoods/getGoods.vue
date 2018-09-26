@@ -8,7 +8,7 @@
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
-        <x-input title="申请数量" type="number" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
+        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
         <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
         <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
