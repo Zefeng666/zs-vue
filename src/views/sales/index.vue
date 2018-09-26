@@ -24,14 +24,17 @@
             <br/>
             <span class="card-bottom-text">{{userInfo.recentCEO}}</span> 
           </div>
-          <div>
+          <!-- <div>
             <span class="card-top-text">代理地区</span>
             <br/>
             <span class="card-bottom-text">{{userInfo.proxyArea}}</span> 
-          </div>
+          </div> -->
         </div>
       </card>
-
+      <div class="proxyArea">
+        <span class="">代理地区:</span>
+        <span class="">{{userInfo.proxyArea || '无'}}</span> 
+      </div>
     </div>
     <group>
       <cell class="my-cell" title="我要拿货" value-align="left" link="/getGoods"></cell>
@@ -140,6 +143,11 @@ export default {
 }
 .card-demo-flex span {
   /* color: #f74c31; */
+}
+.proxyArea {
+  text-align: center;
+  font-size: 14px;
+  padding: .2rem .4rem;
 }
 .my-cell {
   padding-top: .4rem;
