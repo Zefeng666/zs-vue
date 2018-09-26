@@ -160,7 +160,7 @@ export default {
         this.getGoodsObj.proxyProvice = addressArr[0];
         this.getGoodsObj.proxyCity = addressArr[1];
       } else {
-        this.getGoodsObj.provice = "";
+        this.getGoodsObj.proxyProvice = "";
         this.getGoodsObj.proxyCity = "";
         this.getGoodsObj.proxyArea = "";
       }

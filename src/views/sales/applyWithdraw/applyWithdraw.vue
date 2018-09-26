@@ -1,9 +1,9 @@
 <template>
   <div class="applyWithdraw">
     <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">申请提现</x-header>
-    <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab vux-1px-t">
-      <tab-item class="vux-center" selected>申请提现</tab-item>
-      <tab-item class="vux-center">提现记录</tab-item>
+    <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab">
+      <tab-item class="vux-center vux-1px-t" selected>申请提现</tab-item>
+      <tab-item class="vux-center vux-1px-t">提现记录</tab-item>
     </tab>
     <div v-show="index === 0" class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
