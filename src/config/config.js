@@ -4,7 +4,7 @@ let qs = require('qs');
 // import router from '../router/index'
 // import store from '../store/store'
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = "http://106.75.232.104:8080/client"; //10.0.8.177:8080
+axios.defaults.baseURL = "http://54.250.240.119:8080/client"; //10.0.8.177:8080
 // axios.defaults.baseURL = "http://10.0.8.177:8080/client"; //10.0.8.177:8080
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.interceptors.response.use(function (response) {
@@ -30,7 +30,9 @@ const config = {
     }
     opt.method = opt.method.toLowerCase();
     // opt.params['handleUserId'] = 33;
-    opt.params['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzgyMjg5NzksInVzZXJuYW1lIjoib2FrIn0.lx6EcFhF2tTC6oUuGBXKNIIyD8vk1a2cYZdy0-7VBlE';
+    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzgyMjg5NzksInVzZXJuYW1lIjoib2FrIn0.lx6EcFhF2tTC6oUuGBXKNIIyD8vk1a2cYZdy0-7VBlE';
+    // opt.params['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzgyMjg5NzksInVzZXJuYW1lIjoib2FrIn0.lx6EcFhF2tTC6oUuGBXKNIIyD8vk1a2cYZdy0-7VBlE';
     // opt.params['handleUserId'] = 1;
     // opt.params['handleToken'] = '22383E3C779467B39E827E5A5651DCFE';
     // opt.params['handleUserId'] = localStorage.getItem('user_userId');
