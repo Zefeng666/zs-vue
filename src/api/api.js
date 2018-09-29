@@ -142,6 +142,30 @@ const API = {
       params: params
     })
   },
+
+  // 获取上传图片token
+  getQnToken(params) {
+    return request({
+      url: '/getQnToken',
+      params: params
+    })
+  },
+
+  // 上传身份证
+  alterUserIdCard(params) {
+    return request({
+      url: '/alterUserIdCard',
+      params: params
+    })
+  },
+
+  // 查询身份证
+  queryUserIdCard(params) {
+    return request({
+      url: '/queryUserIdCard',
+      params: params
+    })
+  },
 };
 
 export default API;

@@ -21,7 +21,7 @@
         <label for="upload2"></label>
       </div>
     </div>
-    <x-button class="saveBtn" type="primary" action-type="button">保存</x-button>
+    <x-button class="saveBtn" type="primary" action-type="button" @click.native="savePic()">保存</x-button>
   </div>
 </template>
 
@@ -38,26 +38,77 @@ export default {
     Divider,
     XButton
   },
+  mounted () {
+    this.getQnToken();
+    this.queryUserIdCard();
+  },
   data() {
     return {
+      idCardObj: {},
       value: "",
       headerImage: "",
       headerImage2: "",
-      picValue: ""
+      picValue: "",
+      picValue2: "",
+      qnToken: '',
+      imgKey: '',
+      imgKey2: '2'
     };
   },
   methods: {
+    savePic() {
+      this.$api
+        .alterUserIdCard({
+          frontPhoto: this.imgKey,
+          reversePhoto: this.imgKey2
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.$vux.toast.text('上传成功', "top");
+            this.$router.go(-1);
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });     
+    },
+    getQnToken() {
+      this.$api
+        .getQnToken({})
+        .then(data => {
+          if (data.code === 200) {
+            this.qnToken = data.data.token;
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
+    queryUserIdCard() {
+      this.$api
+        .queryUserIdCard({})
+        .then(data => {
+          if (data.code === 200) {
+            this.headerImage = data.data.idCard.frontPhoto;
+            this.headerImage2 = data.data.idCard.reversePhoto;
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
     upload(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
+      console.log(files);
+      
       this.picValue = files[0];
+      this.picSize = files[0].size;
       this.imgPreview(this.picValue, 1);
     },
     upload2(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      this.picValue = files[0];
-      this.imgPreview(this.picValue, 2);
+      this.picValue2 = files[0];
+      this.picSize2 = files[0].size;
+      this.imgPreview(this.picValue2, 2);
     },
     imgPreview(file, index) {
       let self = this;
@@ -86,24 +137,42 @@ export default {
             } else if (index === 2) {
               self.headerImage2 = this.result;
             }
-            self.postImg();
+            self.postImg(this.result, index);
           } else {
             img.onload = function() {
               let data = self.compress(img, Orientation);
+
               if (index === 1) {
                 self.headerImage = data;
               } else if (index === 2) {
                 self.headerImage2 = data;
               }
-              // self.headerImage = data;
-              self.postImg();
+              self.postImg(data, index);
             };
           }
         };
       }
     },
-    postImg() {
-      //这里写接口
+    postImg(data, index) {
+      let self = this;
+      let pic = data.substring(23);     
+      let url = "http://upload.qiniup.com/putb64/-1" //非华东空间需要根据注意事项 1 修改上传域名
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange=function(){
+        if (xhr.readyState==4){
+          if (index === 1) {
+            self.imgKey = JSON.parse(xhr.responseText).key;
+          } else if (index === 2) {
+            self.imgKey2 = JSON.parse(xhr.responseText).key;            
+          }
+          console.log(self.imgKey2);
+          
+        }
+      }
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/octet-stream");
+      xhr.setRequestHeader("Authorization", "UpToken " + this.qnToken);
+      xhr.send(pic);
     },
     rotateImg(img, direction, canvas) {
       //最小与最大旋转方向，图片旋转4次后回到原方向
