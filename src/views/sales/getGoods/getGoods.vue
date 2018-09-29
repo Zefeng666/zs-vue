@@ -8,11 +8,11 @@
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
-        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入">
-          <checker slot="right" class="checker-box" v-model="checker" default-item-class="checker-item" selected-item-class="checker-item-selected">
-          <checker-item value="1">件</checker-item>
-          <checker-item value="2">箱</checker-item>
-        </checker>
+        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
+          <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
+            <checker-item v-if="userInfo.isFirstBuy === 0" value="1">件</checker-item>
+            <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
+          </checker>
         </x-input>
         
         <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
@@ -79,7 +79,6 @@ export default {
     CheckerItem
   },
   created() {
-    console.log(this.$route.params);
     this.queryOrder();
     if (JSON.stringify(this.$route.params) === "{}") {
       this.queryUserAddress();
@@ -87,12 +86,11 @@ export default {
       this.getGoodsObj.addressId = this.$route.params.addressId;
       this.getGoodsObj.addressName = this.$route.params.addressName;
     }
+    this.queryUser();
   },
   computed: {
     isShowProxy: function() {
       if (this.getGoodsObj.quantity >= 300) {
-        console.log(1);
-
         return true;
       }
       return false;
@@ -101,7 +99,8 @@ export default {
   data() {
     return {
       index: 0,
-      checker: 1,
+      checkerWhich: 2,
+      userInfo: {},
       getGoodsObj: {
         quantity: "",
         addressId: "",
@@ -116,14 +115,17 @@ export default {
     };
   },
   methods: {
-    onShow() {
-      console.log(this.cardValue);
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.userInfo = data.data.user
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
     },
-    onHide() {
-      console.log(this.cardValue);
-    },
-    onChange() {},
-    onShadowChange() {},
     queryUserAddress() {
       this.$api.queryUserAddress({}).then(data => {
         if (data.code === 200) {
@@ -161,6 +163,9 @@ export default {
         });
     },
     insertOrder() {
+      if (this.checkerWhich == 2) {
+        this.getGoodsObj.quantity = this.getGoodsObj.quantity * 3;
+      }
       if (this.getGoodsObj.quantity >= 300 && this.getGoodsObj.quantity < 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
         this.getGoodsObj.proxyProvice = addressArr[0];
@@ -199,6 +204,11 @@ export default {
       this.$router.push({
         name: "sales"
       });
+    },
+    selectChecker(val) {
+      console.log(val);
+      
+      // this.checkerWhich = val;
     }
   }
 };
