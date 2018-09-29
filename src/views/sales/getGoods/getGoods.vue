@@ -8,7 +8,13 @@
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
-        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入"></x-input>
+        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入">
+          <checker slot="right" class="checker-box" v-model="checker" default-item-class="checker-item" selected-item-class="checker-item-selected">
+          <checker-item value="1">件</checker-item>
+          <checker-item value="2">箱</checker-item>
+        </checker>
+        </x-input>
+        
         <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
         <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
@@ -48,7 +54,9 @@ import {
   XButton,
   Box,
   XAddress,
-  ChinaAddressV4Data
+  ChinaAddressV4Data,
+  Checker, 
+  CheckerItem
 } from "vux";
 export default {
   name: "getGoods",
@@ -66,7 +74,9 @@ export default {
     XButton,
     Box,
     XAddress,
-    ChinaAddressV4Data
+    ChinaAddressV4Data,
+    Checker, 
+    CheckerItem
   },
   created() {
     console.log(this.$route.params);
@@ -91,6 +101,7 @@ export default {
   data() {
     return {
       index: 0,
+      checker: 1,
       getGoodsObj: {
         quantity: "",
         addressId: "",
@@ -229,5 +240,18 @@ export default {
 .btn-right {
   float: right;
   margin-bottom: 0.2rem;
+}
+.checker-box {
+  // position: absolute;
+  // right: 0.5rem;
+  // top: 1.95rem;
+}
+.checker-item {
+  border: 1px solid #ececec;
+  padding: 2px 8px;
+}
+.checker-item-selected {
+  border: 1px solid #f74c31;
+  color: #f74c31;
 }
 </style>

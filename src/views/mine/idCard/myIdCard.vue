@@ -97,17 +97,13 @@ export default {
     upload(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      console.log(files);
-      
       this.picValue = files[0];
-      this.picSize = files[0].size;
       this.imgPreview(this.picValue, 1);
     },
     upload2(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       this.picValue2 = files[0];
-      this.picSize2 = files[0].size;
       this.imgPreview(this.picValue2, 2);
     },
     imgPreview(file, index) {
