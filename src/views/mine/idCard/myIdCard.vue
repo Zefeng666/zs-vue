@@ -52,7 +52,7 @@ export default {
       picValue2: "",
       qnToken: '',
       imgKey: '',
-      imgKey2: '2'
+      imgKey2: ''
     };
   },
   methods: {
