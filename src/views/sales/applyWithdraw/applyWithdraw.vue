@@ -109,6 +109,7 @@ export default {
           if (data.code === 200) {
             this.$vux.toast.text("申请提现已提交", "top");
             this.queryUser();
+            this.index = 1;
           } else {
             this.$vux.toast.text(data.message, "top");
           }       

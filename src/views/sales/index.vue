@@ -12,23 +12,18 @@
           <div class="vux-1px-r">
             <span class="card-top-text">您的推荐人</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recommendUser}}</span> 
+            <span class="card-bottom-text">{{userInfo.recommendUser || '无'}}</span> 
           </div>
           <div class="vux-1px-r">
             <span class="card-top-text">您最近的代理</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recentProxy}}</span> 
+            <span class="card-bottom-text">{{userInfo.recentProxy || '无'}}</span> 
           </div>
           <div class="vux-1px-r">
             <span class="card-top-text">您最近的CEO</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recentCEO}}</span> 
+            <span class="card-bottom-text">{{userInfo.recentCEO || '无'}}</span> 
           </div>
-          <!-- <div>
-            <span class="card-top-text">代理地区</span>
-            <br/>
-            <span class="card-bottom-text">{{userInfo.proxyArea}}</span> 
-          </div> -->
         </div>
       </card>
       <div class="proxyArea">
@@ -61,7 +56,6 @@ export default {
   },
   created() {
     this.queryUser();
-    // this.login();
   },
   data() {
     return {
@@ -140,9 +134,6 @@ export default {
   flex: 1;
   text-align: center;
   font-size: 1px;
-}
-.card-demo-flex span {
-  /* color: #f74c31; */
 }
 .proxyArea {
   text-align: center;

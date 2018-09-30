@@ -29,12 +29,14 @@ export default {
   },
   methods: {
     queryUser() {
+      this.$vux.loading.show();
       this.$api
         .queryUser({})
         .then(data => {
           if (data.code === 200) {
             this.userInfo = data.data.user;
           }       
+          this.$vux.loading.hide();
         });
     }
   }

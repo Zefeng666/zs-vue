@@ -13,13 +13,14 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Card } from "vux";
+import { ViewBox, XHeader, Card, Loading } from "vux";
 export default {
   name: "myAddress",
   components: {
     ViewBox,
     XHeader,
-    Card
+    Card,
+    Loading
   },
   data() {
     return {
@@ -45,12 +46,14 @@ export default {
       })
     },
     queryUserAddress() {
+      this.$vux.loading.show();
       this.$api
         .queryUserAddress({})
         .then(data => {
           if (data.code === 200) {
             this.addressList = data.data.address;
           }       
+          this.$vux.loading.hide();
         });
     },
     toGetGoods(item) {

@@ -73,6 +73,8 @@ export default {
         this.addressInfo.city,
         this.addressInfo.area
       ];
+      console.log(this.addressInfo.AddressArr);
+      
     }
   },
   methods: {

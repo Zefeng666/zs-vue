@@ -27,12 +27,14 @@ export default {
   },
   methods: {
     queryUserBankCard() {
+      this.$vux.loading.show();
       this.$api
         .queryUserBankCard({})
         .then(data => {
           if (data.code === 200) {
             this.bankCardList = data.data.bankCards
           }       
+          this.$vux.loading.hide();
         });
     },
     toEditBankCard(item) {

@@ -8,15 +8,16 @@
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
+        <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell>
         <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
           <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
-            <checker-item v-if="userInfo.isFirstBuy === 0" value="1">件</checker-item>
+            <checker-item v-if="userInfo.historyBuyCount === 0" value="1">件</checker-item>
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
           </checker>
         </x-input>
-        
-        <x-address ref="address1" v-show="isShowProxy && getGoodsObj.quantity < 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="false"></x-address>
-        <x-address ref="address2" v-show="isShowProxy && getGoodsObj.quantity >= 1000" class="addresstitle" :title="addressTitle" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
+        <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell> 
+        <x-address ref="address1" v-show="isShowProxy3" class="addresstitle" title="代理县" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
+        <x-address ref="address2" v-show="isShowProxy2" class="addresstitle" title="代理市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
     </div>
@@ -89,12 +90,54 @@ export default {
     this.queryUser();
   },
   computed: {
-    isShowProxy: function() {
-      if (this.getGoodsObj.quantity >= 300) {
-        return true;
-      }
-      return false;
-    }
+    isShowProxy3: function() {
+      if (this.userInfo.historyBuyCount === 0) {
+        if (this.checkerWhich == 2) { // 第一次以箱拿货
+          if (this.getGoodsObj.quantity * 3 >= 900 && this.getGoodsObj.quantity * 3 < 3000) {
+            return true;
+          }
+          return false;
+        } else { // 第一次以件拿货
+          if (this.getGoodsObj.quantity >= 900 && this.getGoodsObj.quantity < 3000) {
+            return true;
+          }
+          return false;
+        }       
+      } else { // 不是第一次 全部以箱拿货
+        if (this.userInfo.historyBuyCount >= 900) {
+          return false
+        } else {
+          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 900 && this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 < 3000) {
+            return true;
+          }
+          return false;
+        }
+      }    
+    },
+    isShowProxy2: function() {
+      if (this.userInfo.historyBuyCount === 0) {
+        if (this.checkerWhich == 2) {
+          if (this.getGoodsObj.quantity * 3 >= 3000) {
+            return true;
+          }
+          return false;
+        } else {
+          if (this.getGoodsObj.quantity >= 3000) {
+            return true;
+          }
+          return false;
+        }       
+      } else {
+        if (this.userInfo.historyBuyCount >= 3000) {
+          return false
+        } else {
+          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 3000) {
+            return true;
+          }
+          return false;
+        }
+      }    
+    },
   },
   data() {
     return {
@@ -107,11 +150,11 @@ export default {
         proxyProvice: "",
         proxyCity: "",
         proxyArea: "",
-        addressName: ""
+        addressName: "",
+        addressValue: []
       },
       orderList: [],
       addressData: ChinaAddressV4Data,
-      addressTitle: "代理地区"
     };
   },
   methods: {
@@ -120,7 +163,7 @@ export default {
         .queryUser({})
         .then(data => {
           if (data.code === 200) {
-            this.userInfo = data.data.user
+            this.userInfo = data.data.user;         
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
@@ -163,27 +206,30 @@ export default {
         });
     },
     insertOrder() {
+      let insertObj = {};
+      insertObj.addressId = this.getGoodsObj.addressId;
       if (this.checkerWhich == 2) {
-        this.getGoodsObj.quantity = this.getGoodsObj.quantity * 3;
+        insertObj.quantity = this.getGoodsObj.quantity * 3;
+      } else {
+        insertObj.quantity = this.getGoodsObj.quantity;
       }
       if (this.getGoodsObj.quantity >= 300 && this.getGoodsObj.quantity < 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        this.getGoodsObj.proxyProvice = addressArr[0];
-        this.getGoodsObj.proxyCity = addressArr[1];
-        this.getGoodsObj.proxyArea = addressArr[2];
+        insertObj.proxyProvice = addressArr[0];
+        insertObj.proxyCity = addressArr[1];
+        insertObj.proxyArea = addressArr[2];
       } else if (this.getGoodsObj.quantity >= 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        this.getGoodsObj.proxyProvice = addressArr[0];
-        this.getGoodsObj.proxyCity = addressArr[1];
+        insertObj.proxyProvice = addressArr[0];
+        insertObj.proxyCity = addressArr[1];
       } else {
-        this.getGoodsObj.proxyProvice = "";
-        this.getGoodsObj.proxyCity = "";
-        this.getGoodsObj.proxyArea = "";
+        insertObj.proxyProvice = "";
+        insertObj.proxyCity = "";
+        insertObj.proxyArea = "";
       }
-      this.$api.insertOrder(this.getGoodsObj).then(data => {
+      this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
           this.$vux.toast.text("添加订单成功", "top");
-          // this.$router.go(-1);
           this.queryOrder();
           this.index = 1;
         } else {

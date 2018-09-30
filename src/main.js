@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import {
   AlertPlugin,
-  ToastPlugin
+  ToastPlugin,
+  LoadingPlugin
 } from 'vux'
 
 import 'amfe-flexible/index.js'
@@ -23,6 +24,7 @@ Vue.prototype.$api = API;
 
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
+Vue.use(LoadingPlugin)
 
 Vue.config.productionTip = false
 

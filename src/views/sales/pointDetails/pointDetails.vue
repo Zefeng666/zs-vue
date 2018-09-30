@@ -1,25 +1,30 @@
 <template>
   <div class="pointDetails">
-    <x-header class="vux-1px-b" :left-options="{backText: ''}">积分明细</x-header>
-        <div class="tab-swiper">
-          <div class="order-box vux-1px-b" v-for="(item, index) in IntegralsList" :key="index">
-            <p>
-              <span>积分：{{item.integralNum}}</span>
-              <span class="text-right">{{item.changeType}}</span>
-            </p>
-            <p>
-              <span>描述：{{item.changeDetail}}</span>
-            </p>
-            <p>
-              <span>时间：{{item.createTime.substr(0, 10)}}</span>
-            </p>
-          </div>
-        </div>
+    <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">积分明细</x-header>
+        
+        
+          <ul ref="list" class="tab-swiper list-content">
+            <li class="order-box vux-1px-b list-item" v-for="(item, index) in IntegralsList" :key="index">
+              <p>
+                <span>积分：{{item.integralNum}}</span>
+                <span class="text-right">{{item.changeType}}</span>
+              </p>
+              <p>
+                <span>描述：{{item.changeDetail}}</span>
+              </p>
+              <p>
+                <span>时间：{{item.createTime.substr(0, 10)}}</span>
+              </p>
+            </li>
+          </ul>
+        
+        
   </div>
 </template>
 
 <script>
 import { ViewBox, XHeader, Cell, Group, XInput, XButton } from "vux";
+
 export default {
   name: "pointDetails",
   components: {
@@ -35,15 +40,16 @@ export default {
   },
   data() {
     return {
-      IntegralsList: []
+      IntegralsList: [],
+      page: 1,
     };
   },
   methods: {
     queryIntegrals() {
       this.$api
         .queryIntegrals({
-          pageNo: 1,
-          pageSize: 10
+          pageNo: this.page,
+          pageSize: 100
         })
         .then(data => {
           if (data.code === 200) {
@@ -51,13 +57,22 @@ export default {
           }       
         });
     },
-
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.pointDetails {
+  padding-top: 44px;
+}
+.my-header {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
 .submit-btn {
   width: 90%;
   margin-right: 5%;
