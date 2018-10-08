@@ -79,7 +79,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.$vux.toast.text("删除成功", "top");
-            this.$router.go(-1);
+            this.queryUserAddress();
           } else {
             this.$vux.toast.text(data.message, "top");
           }

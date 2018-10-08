@@ -122,7 +122,7 @@ export default {
   padding: .4rem 0;
 }
 .card-top-text {
-  font-size: 12px;
+  font-size: 14px;
 }
 .card-bottom-text {
   font-size: 14px;
