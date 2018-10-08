@@ -31,7 +31,7 @@
           <span>收货地址：{{item.userAddress.province + item.userAddress.city + item.userAddress.area + item.userAddress.detail}}</span>
         </p>
         <p>
-          <span>创建时间：{{item.order.createTime.substr(0, 10)}}</span>
+          <span>创建时间：{{item.order.createTime | formatDate}}</span>
           <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.isAudit == 0" class="btn-right" mini plain>取消</x-button>
         </p>
       </div>

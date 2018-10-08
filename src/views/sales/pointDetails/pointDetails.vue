@@ -13,7 +13,7 @@
                 <span>描述：{{item.changeDetail}}</span>
               </p>
               <p>
-                <span>时间：{{item.createTime.substr(0, 10)}}</span>
+                <span>时间：{{item.createTime | formatDate}}</span>
               </p>
             </li>
           </ul>

@@ -27,3 +27,7 @@ Vue.filter("withdrawStatus", function (status) {
     return "审核未通过";
   }
 });
+Vue.filter("formatDate", function (time) {
+  let d = new Date(time);
+  return d.toLocaleString();
+});

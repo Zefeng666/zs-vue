@@ -23,7 +23,7 @@
           <span>银行卡号：{{item.userBankCard[0].cardId}}</span>
         </p>
         <p>
-          <span>创建时间：{{item.withdraws.createTime.substr(0, 10)}}</span>
+          <span>创建时间：{{item.withdraws.createTime | formatDate}}</span>
         </p>
       </div>
     </div>

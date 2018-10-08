@@ -7,26 +7,41 @@
           <img v-show="isSelect && item.id == selectAddressId" class="right-icon" src="../../../assets/icon/right_red.png">
         </p>
         <p class="list-bottom"><span v-show="item.isDefault === 1" style="color: #f74c31;">[默认]</span>{{item.province}}{{item.city}}{{item.area}}{{item.detail}}</p> 
-        <img class="edit-icon" @click="toEditAddress(item)" src="../../../assets/icon/edit.png" v-show="!isSelect">
+        <!-- <img class="edit-icon" @click="toEditAddress(item)" src="../../../assets/icon/edit.png" v-show="!isSelect"> -->
+        <img class="edit-icon" @click="showConfirm(item.id)" src="../../../assets/icon/delete.png" v-show="!isSelect">
+    </div>
+    <div>
+      <confirm v-model="show"
+      title="警告"
+      @on-cancel="onCancel"
+      @on-confirm="onConfirm">
+        <p style="text-align:center;">确定删除此地址吗？</p>
+      </confirm>
     </div>
   </div>
 </template>
 
 <script>
-import { ViewBox, XHeader, Card, Loading } from "vux";
+import { ViewBox, XHeader, Card, Loading, Confirm, TransferDomDirective as TransferDom } from "vux";
 export default {
   name: "myAddress",
+  directives: {
+    TransferDom
+  },
   components: {
     ViewBox,
     XHeader,
     Card,
-    Loading
+    Loading,
+    Confirm
   },
   data() {
     return {
       addressList: [],
       isSelect: false,
-      selectAddressId: ''
+      selectAddressId: '',
+      show: false,
+      addressId: ''
     };
   },
   created () {
@@ -56,6 +71,20 @@ export default {
           this.$vux.loading.hide();
         });
     },
+    deleteUserAddress(id) {
+      this.$api
+        .deleteUserAddress({
+          id: id
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.$vux.toast.text("删除成功", "top");
+            this.$router.go(-1);
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }
+        });
+    },
     toGetGoods(item) {
       if(!this.isSelect) return;
       this.$router.push({
@@ -65,6 +94,16 @@ export default {
           addressName: item.province + item.city + item.area + item.detail
         }
       })
+    },
+    showConfirm(id) {
+      this.show = true;
+      this.addressId = id;
+    },
+    onCancel() {
+
+    },
+    onConfirm() {
+      this.deleteUserAddress(this.addressId)
     }
   }
 };
