@@ -85,6 +85,11 @@ export default new Router({
       path: '/myIdCard',
       name: 'myIdCard',
       component: resolve => require(["@/views/mine/idCard/myIdCard.vue"], resolve)
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: resolve => require(["@/views/mine/register/register.vue"], resolve)
     }
   ]
 })

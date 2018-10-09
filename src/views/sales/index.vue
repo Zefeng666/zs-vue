@@ -22,7 +22,7 @@
           <div class="vux-1px-r">
             <span class="card-top-text">您最近的CEO</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recentCEO || '无'}}</span> 
+            <span class="card-bottom-text">{{userInfo.recentCeo || '无'}}</span> 
           </div>
         </div>
       </card>
