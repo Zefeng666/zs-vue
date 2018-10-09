@@ -8,7 +8,7 @@
       </x-input>
       <x-input title="" type="password" placeholder="输入4-16位密码" v-model="password" :min="4" :max="16"></x-input>
     </group>
-    <x-button class="register-btn" type="primary">注册</x-button>
+    <x-button class="register-btn" type="primary" @click.native="goRegister">注册</x-button>
   </div>
 </template>
 
@@ -25,7 +25,8 @@ export default {
     XButton
   },
   created() {
-    window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_userinfo#wechat_redirect')
+    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_userinfo#wechat_redirect')
+    window.open('https://www.baidu.com')
   },
   data() {
     return {
@@ -44,6 +45,12 @@ export default {
         }
         this.$vux.loading.hide();
       });
+    },
+    goRegister() {
+      // console.log(1);
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2F%23%2Fsales&response_type=code&scope=snsapi_userinfo#wechat_redirect'
+    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2F%23%2Fsales&response_type=code&scope=snsapi_userinfo#wechat_redirect')
+
     }
   }
 };
