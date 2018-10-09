@@ -22,6 +22,21 @@ const API = {
     })
   },
 
+  // 获取验证码
+  sendSms(params) {
+    return request({
+      url: '/sendSms',
+      params: params
+    })
+  },
+  // 注册
+  register(params) {
+    return request({
+      url: '/register',
+      params: params
+    })
+  },
+
   //销售相关
 
   //申请拿货

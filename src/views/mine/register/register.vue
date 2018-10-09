@@ -3,8 +3,9 @@
     <h3 class="myRegister-head">手机号注册</h3>
     <group>
       <x-input title="" placeholder="输入手机号" v-model="phone" is-type="china-mobile"></x-input>
-      <x-input title="" placeholder="输入验证码" v-model="verification">
-        <x-button slot="right" type="primary" mini>获取验证码</x-button>
+      <x-input title="" placeholder="输入验证码" v-model="captcha">
+        <x-button v-if="show" slot="right" type="primary" mini @click.native="getCode">获取验证码</x-button>
+        <x-button v-if="!show" slot="right" type="default" mini disabled>{{count}}</x-button>
       </x-input>
       <x-input title="" type="password" placeholder="输入4-16位密码" v-model="password" :min="4" :max="16"></x-input>
     </group>
@@ -25,15 +26,26 @@ export default {
     XButton
   },
   created() {
-    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_userinfo#wechat_redirect')
-    // window.open('https://www.baidu.com')
+    if (this.$route.query.inviteCode) {
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2Fregister&response_type=code&scope=snsapi_userinfo&state=' + this.$route.query.inviteCode + '#wechat_redirect';
+    }
+  },
+  mounted () {
+    // console.log(this.$route.query);
+    this.wxCode = this.$route.query.code;
+    this.invideCode = this.$route.query.state;
   },
   data() {
     return {
       userInfo: "",
       phone: "",
-      password: '',
-      verification: ''
+      password: "",
+      captcha: "",
+      show: true,
+      count: '',
+      timer: null,
+      invideCode: '',
+      wxCode: ''
     };
   },
   methods: {
@@ -46,11 +58,48 @@ export default {
         this.$vux.loading.hide();
       });
     },
+    getCode() {
+      const TIME_COUNT = 60;
+      if (this.phone == "") {
+        this.$vux.toast.text("手机号不得为空", "top");
+        return;
+      }
+      if (!this.timer) {
+        this.count = TIME_COUNT;
+        this.show = false;
+        this.sendSms();
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--;
+          } else {
+            this.show = true;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    },
+    sendSms() {
+      this.$api.sendSms({
+        mobile: this.phone
+      }).then(data => {
+        if (data.code === 200) {
+        } else {
+          this.$vux.toast.text(data.message, "top");
+        }
+      });
+    },
     goRegister() {
-      // console.log(1);
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2F%23%2Fsales&response_type=code&scope=snsapi_userinfo#wechat_redirect'
-    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2F%23%2Fsales&response_type=code&scope=snsapi_userinfo#wechat_redirect')
-
+      this.$api.register({
+        mobile: this.phone,
+        captcha: this.captcha,
+        password: this.password,
+        code: this.invideCode,
+        wechatCode: this.wxCode
+      }).then(data => {
+        if (data.code === 200) {
+        }
+      });
     }
   }
 };
@@ -67,7 +116,8 @@ export default {
 }
 .myRegister-head {
   font-size: 24px;
-  padding: 1rem 0 .6rem;
+  padding: 1rem 0 0.6rem;
+  font-weight: normal;
 }
 .register-btn {
   margin-top: 1rem;

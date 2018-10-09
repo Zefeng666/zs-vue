@@ -6,7 +6,7 @@
       <p>{{userInfo.username}}</p>
       <p>{{userInfo.vipLevel | formatVipLevel}}</p>
     </div>
-    <qrcode :value="userInfo.code" type="img" :size="200"></qrcode>
+    <qrcode :value="'http://jieruibai.tlong.tv/register?inviteCode=' + userInfo.code" type="img" :size="200"></qrcode>
   </div>
 </template>
 
