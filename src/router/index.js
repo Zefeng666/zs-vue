@@ -9,7 +9,7 @@ export default new Router({
     // 销售
     {
       path: '/',
-      redirect: "/sales"
+      redirect: "/wxLogin"
     },
     {
       path: '/sales',
@@ -40,6 +40,9 @@ export default new Router({
     {
       path: '/mine',
       name: 'mine',
+      meta: {
+        keepAlive: true
+      },
       component: resolve => require(["@/views/mine/mine.vue"], resolve)
     },
     {
@@ -65,6 +68,9 @@ export default new Router({
     {
       path: '/qrcode',
       name: 'qrcode',
+      meta: {
+        keepAlive: true
+      },
       component: resolve => require(["@/views/mine/qrcode/qrcode.vue"], resolve)
     },
     {

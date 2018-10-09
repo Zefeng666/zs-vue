@@ -172,12 +172,16 @@ export default {
     queryUserAddress() {
       this.$api.queryUserAddress({}).then(data => {
         if (data.code === 200) {
-          this.getGoodsObj.addressId = data.data.address[0].id;
-          this.getGoodsObj.addressName =
-            data.data.address[0].province +
-            data.data.address[0].city +
-            data.data.address[0].area +
-            data.data.address[0].detail;
+          if (data.data.address.length < 1) {
+            this.getGoodsObj.addressName = '无'
+          } else {
+            this.getGoodsObj.addressId = data.data.address[0].id;
+            this.getGoodsObj.addressName =
+              data.data.address[0].province +
+              data.data.address[0].city +
+              data.data.address[0].area +
+              data.data.address[0].detail;
+          }        
         }
       });
     },

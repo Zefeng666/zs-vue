@@ -1,7 +1,7 @@
 <template>
   <div class="mine">
     <div class="mine-msg">
-      <img class="avator" src="../../assets/avator.jpg" alt="">
+      <img class="avator" :src="userInfo.wechatAvatar" alt="">
       <p>微信昵称：{{userInfo.username}}</p>
       <p>等级： {{userInfo.vipLevel | formatVipLevel}}</p>
     </div>

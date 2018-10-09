@@ -2,7 +2,7 @@
   <div class="myqrcode">
     <x-header class="vux-1px-b" :left-options="{backText: ''}">我的推荐码</x-header>
     <div class="mine-msg">
-      <img class="avator" src="../../../assets/avator.jpg">
+      <img class="avator" :src="userInfo.wechatAvatar">
       <p>{{userInfo.username}}</p>
       <p>{{userInfo.vipLevel | formatVipLevel}}</p>
     </div>

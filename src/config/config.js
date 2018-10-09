@@ -1,7 +1,7 @@
 let Promise = require('bluebird');
 let axios = require('axios');
 let qs = require('qs');
-// import router from '../router/index'
+import router from '../router/index'
 // import store from '../store/store'
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = "http://119.23.14.187:8080/client"; //10.0.8.177:8080
@@ -11,7 +11,10 @@ axios.defaults.baseURL = "http://119.23.14.187:8080/client"; //10.0.8.177:8080
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   if (response.data.code !== 200) {
-    // store.commit('showErrorMsg', response.data);
+    if (response.data.code === 900) {
+      localStorage.clear()
+      router.push('/wxLogin')
+    }
   }
   return response;
 }, function (error) {
@@ -32,12 +35,7 @@ const config = {
     opt.method = opt.method.toLowerCase();
     // opt.params['handleUserId'] = 33;
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-    // axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzk1Nzc5NzAsInVzZXJuYW1lIjoib2FrIn0.q5IOuy6XH0F3Yl1_mfCOgk9WvDRLWNEuP3kGtgNdZgM';
-    // opt.params['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzgyMjg5NzksInVzZXJuYW1lIjoib2FrIn0.lx6EcFhF2tTC6oUuGBXKNIIyD8vk1a2cYZdy0-7VBlE';
-    // opt.params['handleUserId'] = 1;
-    // opt.params['handleToken'] = '22383E3C779467B39E827E5A5651DCFE';
-    // opt.params['handleUserId'] = localStorage.getItem('user_userId');
-    // opt.params['handleToken'] = localStorage.getItem('user_token');
+    // axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzk3MDQ2NjcsInVzZXJuYW1lIjoi5pyI6ZOt5rO9In0.1HoKQxNxmnAARJtcmsDQjt766z9TGNNQNegwXl52GZc';
     if (!opt.params.pageSize) {
       // opt.params['pageSize'] = 50;
     }

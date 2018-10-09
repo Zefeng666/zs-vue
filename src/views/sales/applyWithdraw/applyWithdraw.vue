@@ -9,7 +9,7 @@
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
         <cell title="我的积分" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
         <x-input title="提现积分" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
-        <cell title="银行卡" value-align="left" is-link @click.native="showCardPopup = true">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
+        <cell title="银行卡" value-align="left" is-link @click.native="toShowCardPopup">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>
     </div>
@@ -59,6 +59,9 @@ export default {
   },
   computed: {
     handleCardNo: function () {
+      if (this.withDrawObj.cardNo == '') {
+        return '';
+      }
       return '****' + this.withDrawObj.cardNo.substr(this.withDrawObj.cardNo.substr.length - 6);
     }
   },
@@ -83,10 +86,15 @@ export default {
         .queryUserBankCard({})
         .then(data => {
           if (data.code === 200) {
-            this.bankCardList = data.data.bankCards;
-            this.withDrawObj.cardNo = this.bankCardList[0].cardId;
-            this.withDrawObj.cardName = this.bankCardList[0].cardKind;
-            this.withDrawObj.cardId = this.bankCardList[0].id;
+            if (data.data.bankCards.length < 1) {
+              this.withDrawObj.cardName= '无';
+              this.withDrawObj.cardNo = '';
+            } else {
+              this.bankCardList = data.data.bankCards;
+              this.withDrawObj.cardNo = this.bankCardList[0].cardId;
+              this.withDrawObj.cardName = this.bankCardList[0].cardKind;
+              this.withDrawObj.cardId = this.bankCardList[0].id;
+            }
           } else {
             this.$vux.toast.text(data.message, "top");
           }         
@@ -139,6 +147,12 @@ export default {
             this.$vux.toast.text(data.message, "top");
           }       
         });
+    },
+    toShowCardPopup() {
+      if (this.withDrawObj.cardNo == '') {
+        this.$router.push('/myBankCard')
+      }
+      this.showCardPopup = true
     }
   }
 };
