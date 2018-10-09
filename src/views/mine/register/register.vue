@@ -26,7 +26,7 @@ export default {
   },
   created() {
     // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_userinfo#wechat_redirect')
-    window.open('https://www.baidu.com')
+    // window.open('https://www.baidu.com')
   },
   data() {
     return {
