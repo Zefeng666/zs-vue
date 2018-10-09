@@ -98,6 +98,10 @@ export default {
         wechatCode: this.wxCode
       }).then(data => {
         if (data.code === 200) {
+          this.$vux.toast.text('注册成功', "top");
+          this.$router.push('/');
+        } else {
+          this.$vux.toast.text(data.message, "top");
         }
       });
     }
