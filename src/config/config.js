@@ -31,8 +31,8 @@ const config = {
     }
     opt.method = opt.method.toLowerCase();
     // opt.params['handleUserId'] = 33;
-    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzk1Nzc5NzAsInVzZXJuYW1lIjoib2FrIn0.q5IOuy6XH0F3Yl1_mfCOgk9WvDRLWNEuP3kGtgNdZgM';
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    // axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzk1Nzc5NzAsInVzZXJuYW1lIjoib2FrIn0.q5IOuy6XH0F3Yl1_mfCOgk9WvDRLWNEuP3kGtgNdZgM';
     // opt.params['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzgyMjg5NzksInVzZXJuYW1lIjoib2FrIn0.lx6EcFhF2tTC6oUuGBXKNIIyD8vk1a2cYZdy0-7VBlE';
     // opt.params['handleUserId'] = 1;
     // opt.params['handleToken'] = '22383E3C779467B39E827E5A5651DCFE';

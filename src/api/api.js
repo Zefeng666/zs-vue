@@ -5,16 +5,7 @@ const API = {
 
   //wx相关
 
-  //微信登录
-  wechatLogin(params) {
-    return request({
-      url: '/wechat/login',
-      params: params,
-      method: 'get'
-    })
-  },
-
-  // 临时登录
+  // wx登录
   login(params) {
     return request({
       url: '/login',
