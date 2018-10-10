@@ -1,6 +1,6 @@
 <template>
   <div class="myRegister">
-    <h3 class="myRegister-head">手机号注册</h3>
+    <h3 class="myRegister-head">会员注册</h3>
     <group>
       <x-input title="" placeholder="输入手机号" v-model="phone" is-type="china-mobile"></x-input>
       <x-input title="" placeholder="输入验证码" v-model="captcha">
@@ -100,7 +100,7 @@ export default {
         if (data.code === 200) {
           this.$vux.toast.text('注册成功', "top");
           localStorage.setItem('token', data.data.jwt);
-          this.$router.push('/');
+          this.$router.push('/sales');
         } else {
           this.$vux.toast.text(data.message, "top");
         }

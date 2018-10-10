@@ -40,9 +40,6 @@ export default new Router({
     {
       path: '/mine',
       name: 'mine',
-      meta: {
-        keepAlive: true
-      },
       component: resolve => require(["@/views/mine/mine.vue"], resolve)
     },
     {

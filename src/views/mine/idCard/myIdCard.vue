@@ -345,9 +345,8 @@ export default {
   padding: .2rem 0.2rem;
 }
 .saveBtn {
-  position: fixed;
-  left: 5%;
-  bottom: 20px;
+  margin-top: .6rem;
+  margin-bottom: .6rem;
   width: 90%;
 }
 </style>
