@@ -1,12 +1,16 @@
 <template>
     <div class="wxLogin">
+      <p class="login-text">正在微信登陆<spinner type="dots" :size="'40px'"></spinner></p>
     </div>
 </template>
 
 <script>
+import { Spinner } from "vux";
 export default {
   name: "wxLogin",
-  components: {},
+  components: {
+    Spinner
+  },
   created() {
     if (this.$route.query.state && this.$route.query.state == "login") {
       this.wxLogin(this.$route.query.code);
@@ -52,5 +56,10 @@ export default {
   height: 100%;
   top: 0px;
   background-color: #ffffff;
+}
+.login-text {
+  font-size: 16px;
+  color: #666;
+  margin-top: .6rem;
 }
 </style>
