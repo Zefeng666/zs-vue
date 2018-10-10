@@ -19,7 +19,7 @@
             <br/>
             <span class="card-bottom-text">{{userInfo.recentProxy || '无'}}</span> 
           </div>
-          <div class="vux-1px-r">
+          <div>
             <span class="card-top-text">您最近的CEO</span>
             <br/>
             <span class="card-bottom-text">{{userInfo.recentCeo || '无'}}</span> 
