@@ -87,8 +87,10 @@ export default {
         .queryUserIdCard({})
         .then(data => {
           if (data.code === 200) {
-            this.headerImage = data.data.idCard.frontPhoto;
-            this.headerImage2 = data.data.idCard.reversePhoto;
+            if (data.data.idCard) {
+              this.headerImage = data.data.idCard.frontPhoto;
+              this.headerImage2 = data.data.idCard.reversePhoto;
+            }
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
