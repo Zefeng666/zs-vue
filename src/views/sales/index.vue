@@ -26,9 +26,13 @@
           </div>
         </div>
       </card>
-      <div class="proxyArea">
+      <div class="proxyArea vux-1px-b">
         <span class="">代理地区:</span>
         <span class="">{{userInfo.proxyArea || '无'}}</span> 
+      </div>
+      <div v-if="userInfo.vipLevel === 1 || userInfo.vipLevel === 2" class="proxyArea vux-1px-b">
+        <span class="">剩余库存:</span>
+        <span class="">{{userInfo.lastQuantity}}</span> 
       </div>
     </div>
     <group>

@@ -15,10 +15,11 @@
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
           </checker>
         </x-input>
-        <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell> 
-        <x-address ref="address1" v-show="isShowProxy3" class="addresstitle" title="代理县" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
-        <x-address ref="address2" v-show="isShowProxy2" class="addresstitle" title="代理市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
+        <!-- <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell>  -->
+        <x-address ref="address1" v-show="isShowProxy3" class="addresstitle" title="代理县区" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
+        <x-address ref="address2" v-show="isShowProxy2" class="addresstitle" title="代理城市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
+      <p v-show="isShowProxy3 || isShowProxy2" class="getGoods-msg">提示：您拿货数量已累计足够成为区域代理人资格，请选择一个代理的地区</p>
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
     </div>
     <div class="tab-swiper" v-show="index === 1">
@@ -287,6 +288,12 @@ export default {
   width: 90%;
   margin-right: 5%;
   margin-top: 1rem;
+}
+.getGoods-msg {
+  font-size: 14px;
+  color: #f74c31;
+  padding: 0.2rem 0.5rem 0;
+  text-align: left;
 }
 .order-box {
   text-align: left;

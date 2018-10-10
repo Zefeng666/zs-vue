@@ -7,8 +7,9 @@
     </tab>
     <div v-show="index === 0" class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
-        <cell title="我的积分" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
-        <x-input title="提现积分" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
+        <cell title="我的余额" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
+        <cell title="冻结余额" value-align="left"><span style="color: #f74c31;">{{freezeIntegral}}</span></cell>
+        <x-input title="提现金额" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
         <cell title="银行卡" value-align="left" is-link @click.native="toShowCardPopup">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="applyWithdraw">提交</x-button>
@@ -16,7 +17,7 @@
     <div v-show="index === 1" class="tab-swiper">
       <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
         <p>
-          <span>申请积分：{{item.withdraws.quantity}}分</span>
+          <span>申请金额：{{item.withdraws.quantity}}分</span>
           <span class="text-right">{{item.withdraws.isAudit | withdrawStatus}}</span>
         </p>
         <p>
@@ -77,7 +78,9 @@ export default {
       showCardPopup: false,
       bankCardList: [],
       withdrawList: [],
-      myIntegral: ''
+      myIntegral: '',
+      isAuditIdCard: '',
+      freezeIntegral: ''
     };
   },
   methods: {
@@ -107,6 +110,14 @@ export default {
       this.showCardPopup = false;
     },
     applyWithdraw() {
+      if (this.isAuditIdCard != 1) {
+        this.$vux.toast.text("身份证审核通过才能进行提现操作~", "top");
+        return;
+      }
+      if (this.myIntegral < this.withDrawObj.quantity) {
+        this.$vux.toast.text("提现金额不足，请重新输入~", "top");
+        return;
+      }
       let queryObj = {
         cardId: this.withDrawObj.cardId,
         quantity: this.withDrawObj.quantity
@@ -143,6 +154,8 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.myIntegral = data.data.user.withdrawAmount;
+            this.freezeIntegral = data.data.user.freezeAmount;
+            this.isAuditIdCard = data.data.user.isAuditIdCard;
           } else {
             this.$vux.toast.text(data.message, "top");
           }       

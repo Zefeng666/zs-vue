@@ -9,7 +9,7 @@
       <cell class="my-cell" title="我的地址" value-align="left" link="/myAddress"></cell>
       <cell class="my-cell" title="我的银行卡" value-align="left" link="/myBankCard"></cell>
       <cell class="my-cell" title="我的推荐码" value-align="left" link="/qrcode"></cell>
-      <cell class="my-cell" title="我的身份证" value-align="left" link="/myIdCard"></cell>
+      <cell class="my-cell" title="我的身份证" value-align="left" link="/myIdCard">{{idCardStatus}}</cell>
     </group>
     <tabbar :activeIndex="1"></tabbar>
   </div>
@@ -35,6 +35,19 @@ export default {
       userInfo: {}
     };
   },
+  computed: {
+    idCardStatus: function () {
+      if (this.userInfo.isAuditIdCard === -1) {
+        return '(未提交)';
+      } else if (this.userInfo.isAuditIdCard === 0) {
+        return '(审核中)';
+      } else if (this.userInfo.isAuditIdCard === 1) {
+        return '(审核通过)';
+      } else if (this.userInfo.isAuditIdCard === 2) {
+        return '(审核未通过)';
+      }
+    }
+  },
   methods: {
     queryUser() {
       this.$api
@@ -42,8 +55,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             console.log(data);
-            this.userInfo = data.data.user
-            // this.bankCardList = data.data.bankCard
+            this.userInfo = data.data.user;
           }       
         });
     }

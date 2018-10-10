@@ -21,7 +21,7 @@
         <label for="upload2"></label>
       </div>
     </div>
-    <x-button class="saveBtn" type="primary" action-type="button" @click.native="savePic()">保存</x-button>
+    <x-button v-if="userInfo.isAuditIdCard != 1" class="saveBtn" type="primary" action-type="button" @click.native="savePic()">保存</x-button>
   </div>
 </template>
 
@@ -45,6 +45,7 @@ export default {
   data() {
     return {
       idCardObj: {},
+      userInfo: {},
       value: "",
       headerImage: "",
       headerImage2: "",
@@ -93,6 +94,15 @@ export default {
             }
           } else {
             this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.userInfo = data.data.user;
           }       
         });
     },
