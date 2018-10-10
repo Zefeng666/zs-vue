@@ -189,7 +189,7 @@ export default {
       this.$api
         .queryOrder({
           pageNo: 1,
-          pageSize: 10
+          pageSize: 100
         })
         .then(data => {
           if (data.code === 200) {
