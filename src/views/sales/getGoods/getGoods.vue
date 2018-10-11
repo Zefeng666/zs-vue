@@ -220,17 +220,17 @@ export default {
       }
       if (this.getGoodsObj.quantity >= 300 && this.getGoodsObj.quantity < 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        insertObj.proxyProvice = addressArr[0];
-        insertObj.proxyCity = addressArr[1];
-        insertObj.proxyArea = addressArr[2];
+        insertObj.provice = addressArr[0];
+        insertObj.city = addressArr[1];
+        insertObj.area = addressArr[2];
       } else if (this.getGoodsObj.quantity >= 500) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        insertObj.proxyProvice = addressArr[0];
-        insertObj.proxyCity = addressArr[1];
+        insertObj.provice = addressArr[0];
+        insertObj.city = addressArr[1];
       } else {
-        insertObj.proxyProvice = "";
-        insertObj.proxyCity = "";
-        insertObj.proxyArea = "";
+        insertObj.provice = "";
+        insertObj.city = "";
+        insertObj.area = "";
       }
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
