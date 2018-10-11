@@ -17,7 +17,7 @@
     <div v-show="index === 1" class="tab-swiper">
       <div class="order-box vux-1px-b" v-for="(item, index) in withdrawList" :key="index">
         <p>
-          <span>申请金额：{{item.withdraws.quantity}}分</span>
+          <span>申请金额：{{item.withdraws.quantity}}</span>
           <span class="text-right">{{item.withdraws.isAudit | withdrawStatus}}</span>
         </p>
         <p>
@@ -127,6 +127,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.$vux.toast.text("申请提现已提交", "top");
+            this.queryWithdraw();
             this.queryUser();
             this.index = 1;
           } else {
