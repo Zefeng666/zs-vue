@@ -7,6 +7,8 @@ Vue.filter("formatVipLevel", function (status) {
     return "总代理";
   } else if (status == 2) {
     return "CEO";
+  } else if (status == -1) {
+    return "普通用户";
   }
 });
 Vue.filter("orderStatus", function (status) {

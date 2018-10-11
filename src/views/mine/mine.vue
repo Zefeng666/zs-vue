@@ -8,7 +8,7 @@
     <group>
       <cell class="my-cell" title="我的地址" value-align="left" link="/myAddress"></cell>
       <cell class="my-cell" title="我的银行卡" value-align="left" link="/myBankCard"></cell>
-      <cell class="my-cell" title="我的推荐码" value-align="left" link="/qrcode"></cell>
+      <cell class="my-cell" title="我的推荐码" value-align="left" @click.native="goQrcode" is-link></cell>
       <cell class="my-cell" title="我的身份证" value-align="left" link="/myIdCard"><span :class="[userInfo.isAuditIdCard === 1 ? 'text-green' : 'text-red']">{{idCardStatus}}</span></cell>
     </group>
     <tabbar :activeIndex="1"></tabbar>
@@ -58,6 +58,12 @@ export default {
             this.userInfo = data.data.user;
           }       
         });
+    },
+    goQrcode() {
+      if (this.userInfo.vipLevel === -1) {
+        return this.$vux.toast.text("不能进入我的推荐码页面，请先申请拿一件货以上，才能进行推荐", "top");
+      }
+      this.$router.push('/qrcode');
     }
   }
 };
