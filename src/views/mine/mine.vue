@@ -9,7 +9,7 @@
       <cell class="my-cell" title="我的地址" value-align="left" link="/myAddress"></cell>
       <cell class="my-cell" title="我的银行卡" value-align="left" link="/myBankCard"></cell>
       <cell class="my-cell" title="我的推荐码" value-align="left" link="/qrcode"></cell>
-      <cell class="my-cell" title="我的身份证" value-align="left" link="/myIdCard">{{idCardStatus}}</cell>
+      <cell class="my-cell" title="我的身份证" value-align="left" link="/myIdCard"><span :class="[userInfo.isAuditIdCard === 1 ? 'text-green' : 'text-red']">{{idCardStatus}}</span></cell>
     </group>
     <tabbar :activeIndex="1"></tabbar>
   </div>
@@ -88,5 +88,11 @@ export default {
 .my-cell {
   padding-top: .4rem;
   padding-bottom: .4rem;
+}
+.text-red {
+  color: #f74c31;
+}
+.text-green {
+  color: #0BB20C;
 }
 </style>

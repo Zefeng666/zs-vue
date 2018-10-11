@@ -39,6 +39,7 @@ export default {
     XButton
   },
   mounted () {
+    this.queryUser();
     this.getQnToken();
     this.queryUserIdCard();
   },
