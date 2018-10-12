@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import {
+  dateFormat
+} from 'vux'
 
 Vue.filter("formatVipLevel", function (status) {
   if (status == 0) {
@@ -29,7 +32,9 @@ Vue.filter("withdrawStatus", function (status) {
     return "审核未通过";
   }
 });
-Vue.filter("formatDate", function (time) {
-  let d = new Date(time);
-  return d.toLocaleString();
+Vue.filter('formatDate', function (value, formatString) {
+  let dateVal = new Date(value);
+  formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+  // return moment(value).format(formatString); // value可以是普通日期 20170723
+  return dateFormat(dateVal, formatString); // 这是时间戳转时间
 });

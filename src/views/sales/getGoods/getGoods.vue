@@ -212,6 +212,9 @@ export default {
     },
     insertOrder() {
       let insertObj = {};
+      if (!this.getGoodsObj.addressId) {
+        return this.$vux.toast.text("请添加地址后再拿货~", "top");
+      }
       insertObj.addressId = this.getGoodsObj.addressId;
       if (this.checkerWhich == 2) {
         insertObj.quantity = this.getGoodsObj.quantity * 3;

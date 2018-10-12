@@ -114,6 +114,9 @@ export default {
         this.$vux.toast.text("身份证审核通过才能进行提现操作~", "top");
         return;
       }
+      if (!this.withDrawObj.cardId) {
+        this.$vux.toast.text("添加银行卡后才能进行提现操作~", "top");        
+      }
       if (this.myIntegral < this.withDrawObj.quantity) {
         this.$vux.toast.text("提现金额不足，请重新输入~", "top");
         return;
