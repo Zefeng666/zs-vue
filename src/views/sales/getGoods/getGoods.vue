@@ -221,12 +221,15 @@ export default {
       } else {
         insertObj.quantity = this.getGoodsObj.quantity;
       }
-      if (this.getGoodsObj.quantity >= 300 && this.getGoodsObj.quantity < 500) {
+      let totalCount = parseInt(this.userInfo.historyBuyCount) + parseInt(insertObj.quantity);
+      console.log(totalCount);
+      
+      if (totalCount >= 900 && totalCount < 3000) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
         insertObj.provice = addressArr[0];
         insertObj.city = addressArr[1];
         insertObj.area = addressArr[2];
-      } else if (this.getGoodsObj.quantity >= 500) {
+      } else if (totalCount >= 3000) {
         let addressArr = this.$refs.address1.nameValue.split(" ");
         insertObj.provice = addressArr[0];
         insertObj.city = addressArr[1];
