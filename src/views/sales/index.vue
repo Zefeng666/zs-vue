@@ -15,14 +15,14 @@
             <span class="card-bottom-text">{{userInfo.recommendUser || '无'}}</span> 
           </div>
           <div class="vux-1px-r">
-            <span class="card-top-text">您最近的代理</span>
+            <span class="card-top-text">您最近的经销商</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recentProxy || '无'}}</span> 
+            <span class="card-bottom-text">{{userInfo.recentDealer || '无'}}</span> 
           </div>
           <div>
-            <span class="card-top-text">您最近的CEO</span>
+            <span class="card-top-text">您最近的总代理</span>
             <br/>
-            <span class="card-bottom-text">{{userInfo.recentCeo || '无'}}</span> 
+            <span class="card-bottom-text">{{userInfo.recentProxy || '无'}}</span> 
           </div>
         </div>
       </card>

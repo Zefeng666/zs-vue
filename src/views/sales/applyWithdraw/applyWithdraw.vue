@@ -8,7 +8,7 @@
     <div v-show="index === 0" class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="left">
         <cell title="我的余额" value-align="left"><span style="color: #f74c31;">{{myIntegral}}</span></cell>
-        <cell title="冻结余额" value-align="left"><span style="color: #f74c31;">{{freezeIntegral}}</span></cell>
+        <cell title="审核金额" value-align="left"><span style="color: #f74c31;">{{freezeIntegral}}</span></cell>
         <x-input title="提现金额" name="username" v-model="withDrawObj.quantity" placeholder="请输入"></x-input>
         <cell title="银行卡" value-align="left" is-link @click.native="toShowCardPopup">{{withDrawObj.cardName}}{{handleCardNo}}</cell>
       </group>
