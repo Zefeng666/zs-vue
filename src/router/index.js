@@ -9,7 +9,8 @@ export default new Router({
     // 销售
     {
       path: '/',
-      redirect: "/wxLogin"
+      // redirect: "/wxLogin"
+      redirect: "/sales"
     },
     {
       path: '/sales',
