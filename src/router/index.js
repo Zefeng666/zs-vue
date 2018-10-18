@@ -9,8 +9,8 @@ export default new Router({
     // 销售
     {
       path: '/',
-      // redirect: "/wxLogin"
-      redirect: "/sales"
+      redirect: "/wxLogin"
+      // redirect: "/sales"
     },
     {
       path: '/sales',
@@ -28,6 +28,11 @@ export default new Router({
       component: resolve => require(["@/views/sales/getGoods/getGoods.vue"], resolve)
     },
     {
+      path: '/goodsInfo',
+      name: 'goodsInfo',
+      component: resolve => require(["@/views/sales/getGoods/goodsInfo.vue"], resolve)
+    },
+    {
       path: '/myTeam',
       name: 'myTeam',
       component: resolve => require(["@/views/sales/myTeam/myTeam.vue"], resolve)
@@ -36,6 +41,11 @@ export default new Router({
       path: '/pointDetails',
       name: 'pointDetails',
       component: resolve => require(["@/views/sales/pointDetails/pointDetails.vue"], resolve)
+    },
+    {
+      path: '/shippingApplication',
+      name: 'shippingApplication',
+      component: resolve => require(["@/views/sales/shippingApplication/shippingApplication.vue"], resolve)
     },
     // 我的
     {

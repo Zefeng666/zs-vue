@@ -13,6 +13,14 @@ const API = {
     })
   },
 
+  // wx支付参数
+  wechatCallPay(params) {
+    return request({
+      url: '/wechatCallPay',
+      params: params
+    })
+  },
+
   // 获取验证码
   sendSms(params) {
     return request({
@@ -34,6 +42,14 @@ const API = {
   insertOrder(params) {
     return request({
       url: '/insertOrder',
+      params: params
+    })
+  },
+
+  //查询商品
+  queryProduct(params) {
+    return request({
+      url: '/queryProduct',
       params: params
     })
   },
@@ -78,6 +94,20 @@ const API = {
     })
   },
 
+  //查询历史发货订单
+  queryHistoryShipOrder(params) {
+    return request({
+      url: '/queryHistoryShipOrder',
+      params: params
+    })
+  },
+  //查询待发货订单
+  queryShipOrder(params) {
+    return request({
+      url: '/queryShipOrder',
+      params: params
+    })
+  },
 
   //我的地址相关
 

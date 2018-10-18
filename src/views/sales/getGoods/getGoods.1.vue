@@ -8,16 +8,20 @@
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
-        <!-- <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell> -->
+        <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell>
         <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
           <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
             <checker-item v-if="userInfo.historyBuyCount === 0" value="1">件</checker-item>
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
           </checker>
         </x-input>
-        <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
+        <cell title="支付金额" align-items="flex-start" :value="1111" value-align="left"></cell>
+        <!-- <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell>  -->
+        <x-address ref="address1" v-show="isShowProxy3" class="addresstitle" title="代理县区" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
+        <x-address ref="address2" v-show="isShowProxy2" class="addresstitle" title="代理城市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
-      <x-button class="submit-btn" type="primary" @click.native="wechatCallPay">提交</x-button>
+      <p v-show="isShowProxy3 || isShowProxy2" class="getGoods-msg">提示：您拿货数量已累计足够成为区域代理人资格，请选择一个代理的地区</p>
+      <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
@@ -88,23 +92,54 @@ export default {
     this.queryUser();
   },
   computed: {
-    payAmount: function () {
-      let price = 0;
-      if (this.checkerWhich === 2) {
-        if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
-          return this.getGoodsObj.quantity * 3 * 100
-        } else if (this.getGoodsObj.quantity >= 100) {
-          return this.getGoodsObj.quantity * 3 * 80
+    isShowProxy3: function() {
+      if (this.userInfo.historyBuyCount === 0) {
+        if (this.checkerWhich == 2) { // 第一次以箱拿货
+          if (this.getGoodsObj.quantity * 3 >= 900 && this.getGoodsObj.quantity * 3 < 3000) {
+            return true;
+          }
+          return false;
+        } else { // 第一次以件拿货
+          if (this.getGoodsObj.quantity >= 900 && this.getGoodsObj.quantity < 3000) {
+            return true;
+          }
+          return false;
+        }       
+      } else { // 不是第一次 全部以箱拿货
+        if (this.userInfo.historyBuyCount >= 900) {
+          return false
         } else {
-          return this.getGoodsObj.quantity * 3 * 120
+          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 900 && this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 < 3000) {
+            return true;
+          }
+          return false;
         }
+      }    
+    },
+    isShowProxy2: function() {
+      if (this.userInfo.historyBuyCount === 0) {
+        if (this.checkerWhich == 2) {
+          if (this.getGoodsObj.quantity * 3 >= 3000) {
+            return true;
+          }
+          return false;
+        } else {
+          if (this.getGoodsObj.quantity >= 3000) {
+            return true;
+          }
+          return false;
+        }       
       } else {
-        if (this.getGoodsObj.quantity >= 60) {
-          this.$vux.toast.text("超过60件建议按箱拿货", "top");
+        if (this.userInfo.historyBuyCount >= 3000) {
+          return false
+        } else {
+          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 3000) {
+            return true;
+          }
+          return false;
         }
-        return this.getGoodsObj.quantity  * 120
-      }
-    }
+      }    
+    },
   },
   data() {
     return {
@@ -164,17 +199,6 @@ export default {
           }
         });
     },
-    wechatCallPay() {
-      this.$api
-        .wechatCallPay({
-          totalFee: this.payAmount * 100
-        })
-        .then(data => {
-          if (data.code === 200) {
-            this.onBridgeReady(data.data.appid, data.data.nonce_str, data.data.prepay_id, data.data.sign)
-          }
-        });
-    },
     cancelOrder(id) {
       this.$api
         .cancelOrder({
@@ -193,14 +217,28 @@ export default {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
       }
       insertObj.addressId = this.getGoodsObj.addressId;
-      insertObj.paidFee = this.payAmount;
       if (this.checkerWhich == 2) {
         insertObj.quantity = this.getGoodsObj.quantity * 3;
       } else {
         insertObj.quantity = this.getGoodsObj.quantity;
       }
-      console.log(insertObj);
-      return
+      let totalCount = parseInt(this.userInfo.historyBuyCount) + parseInt(insertObj.quantity);
+      console.log(totalCount);
+      
+      if (totalCount >= 900 && totalCount < 3000) {
+        let addressArr = this.$refs.address1.nameValue.split(" ");
+        insertObj.provice = addressArr[0];
+        insertObj.city = addressArr[1];
+        insertObj.area = addressArr[2];
+      } else if (totalCount >= 3000) {
+        let addressArr = this.$refs.address1.nameValue.split(" ");
+        insertObj.provice = addressArr[0];
+        insertObj.city = addressArr[1];
+      } else {
+        insertObj.provice = "";
+        insertObj.city = "";
+        insertObj.area = "";
+      }
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
           this.$vux.toast.text("添加订单成功", "top");
@@ -226,25 +264,9 @@ export default {
       });
     },
     selectChecker(val) {
-    },
-    onBridgeReady(appId, nonceStr, prepay_id, paySign){
-      var timeStamp = Date.parse(new Date()) / 1000;
-      WeixinJSBridge.invoke(
-        'getBrandWCPayRequest', {
-          "appId": appId,     //公众号名称，由商户传入     
-          "timeStamp": "1395712654",         //时间戳，自1970年以来的秒数     
-          "nonceStr": nonceStr, //随机串     
-          "package": "prepay_id=" + prepay_id,     
-          "signType": "MD5",         //微信签名方式：     
-          "paySign": paySign //微信签名 
-        },
-        function(res){
-          if(res.err_msg == "get_brand_wcpay_request:ok" ){
-          // 使用以上方式判断前端返回,微信团队郑重提示：
-                //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-          } 
-        }
-      ); 
+      console.log(val);
+      
+      // this.checkerWhich = val;
     }
   }
 };
