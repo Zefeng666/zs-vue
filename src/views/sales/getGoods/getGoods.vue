@@ -18,6 +18,7 @@
         <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="wechatCallPay">提交</x-button>
+      <p>{{res}}</p>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
@@ -122,6 +123,7 @@ export default {
       },
       orderList: [],
       addressData: ChinaAddressV4Data,
+      res: {}
     };
   },
   methods: {
@@ -250,7 +252,7 @@ export default {
           "paySign": paySign //微信签名 
         },
         function(res){
-          alert(res);
+          this.res = res;
           
           if(res.err_msg == "get_brand_wcpay_request:ok" ){
           // 使用以上方式判断前端返回,微信团队郑重提示：
