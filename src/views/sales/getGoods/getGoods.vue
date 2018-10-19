@@ -119,7 +119,7 @@ export default {
     return {
       index: 0,
       checkerWhich: 2,
-      price: 0,
+      price: 1,
       userInfo: {},
       productInfo: {},
       getGoodsObj: {
@@ -143,7 +143,16 @@ export default {
           if (data.code === 200) {
             this.userInfo = data.data.user; 
             this.queryProduct();
-            switch(this.userInfo.vipLevel)
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
+    queryProduct() {
+      this.$api.queryProduct().then(data => {
+        if (data.code === 200) {
+          this.productInfo = data.data.product;
+          switch(this.userInfo.vipLevel)
             {
                 case 1: // 经销商
                     this.price = this.productInfo.dealerPrice
@@ -154,15 +163,6 @@ export default {
                 default: // 会员 普通用户
                     this.price = this.productInfo.vipPrice
             }     
-          } else {
-            this.$vux.toast.text(data.message, "top");
-          }       
-        });
-    },
-    queryProduct() {
-      this.$api.queryProduct().then(data => {
-        if (data.code === 200) {
-          this.productInfo = data.data.product;
         } else {
           this.$vux.toast.text(data.message, "top");
         }
