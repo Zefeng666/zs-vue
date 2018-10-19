@@ -245,7 +245,7 @@ export default {
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
-          "timeStamp": "1395712654",         //时间戳，自1970年以来的秒数     
+          "timeStamp": timeStamp,         //时间戳，自1970年以来的秒数     
           "nonceStr": nonceStr, //随机串     
           "package": "prepay_id=" + prepay_id,     
           "signType": "MD5",         //微信签名方式：     
