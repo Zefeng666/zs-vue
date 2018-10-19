@@ -241,9 +241,6 @@ export default {
     },
     onBridgeReady(appId, nonceStr, prepay_id, paySign){
       let timeStamp = Date.parse(new Date()) / 1000;
-      console.log(timeStamp);
-      console.log(appId, nonceStr, prepay_id, paySign, timeStamp);
-      return
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
