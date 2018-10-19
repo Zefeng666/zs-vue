@@ -215,6 +215,7 @@ export default {
       }
       insertObj.addressId = this.getGoodsObj.addressId;
       insertObj.paidFee = this.payAmount;
+      insertObj.productId = this.productInfo.id;
       if (this.checkerWhich == 2) {
         insertObj.quantity = this.getGoodsObj.quantity * 3;
       } else {
