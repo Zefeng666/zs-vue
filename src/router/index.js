@@ -30,6 +30,9 @@ export default new Router({
     {
       path: '/goodsInfo',
       name: 'goodsInfo',
+      meta: {
+        keepAlive: true
+      },
       component: resolve => require(["@/views/sales/getGoods/goodsInfo.vue"], resolve)
     },
     {

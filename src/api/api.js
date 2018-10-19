@@ -108,6 +108,13 @@ const API = {
       params: params
     })
   },
+  //订单发货
+  shipOrder(params) {
+    return request({
+      url: '/shipOrder',
+      params: params
+    })
+  },
 
   //我的地址相关
 
