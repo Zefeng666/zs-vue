@@ -92,17 +92,17 @@ export default {
       let price = 0;
       if (this.checkerWhich === 2) {
         if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
-          return this.getGoodsObj.quantity * 3 * 100
+          return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice
         } else if (this.getGoodsObj.quantity >= 100) {
-          return this.getGoodsObj.quantity * 3 * 80
+          return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice
         } else {
-          return this.getGoodsObj.quantity * 3 * 120
+          return this.getGoodsObj.quantity * 3 * this.productInfo.vipPrice
         }
       } else {
         if (this.getGoodsObj.quantity >= 60) {
           this.$vux.toast.text("超过60件建议按箱拿货", "top");
         }
-        return this.getGoodsObj.quantity  * 120
+        return this.getGoodsObj.quantity  * this.productInfo.vipPrice
       }
     }
   },
@@ -111,6 +111,7 @@ export default {
       index: 0,
       checkerWhich: 2,
       userInfo: {},
+      productInfo: {},
       getGoodsObj: {
         quantity: "",
         addressId: "",
@@ -130,11 +131,21 @@ export default {
         .queryUser({})
         .then(data => {
           if (data.code === 200) {
-            this.userInfo = data.data.user;         
+            this.userInfo = data.data.user; 
+            this.queryProduct()        
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
         });
+    },
+    queryProduct() {
+      this.$api.queryProduct().then(data => {
+        if (data.code === 200) {
+          this.productInfo = data.data.product;
+        } else {
+          this.$vux.toast.text(data.message, "top");
+        }
+      });
     },
     queryUserAddress() {
       this.$api.queryUserAddress({}).then(data => {
@@ -209,13 +220,12 @@ export default {
       } else {
         insertObj.quantity = this.getGoodsObj.quantity;
       }
-      console.log(insertObj);
-      return
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
-          this.$vux.toast.text("添加订单成功", "top");
-          this.queryOrder();
-          this.index = 1;
+          // this.$vux.toast.text("添加订单成功", "top");
+          // this.queryOrder();
+          // this.index = 1;
+          this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign)
         } else {
           this.$vux.toast.text(data.message, "top");
         }
@@ -249,12 +259,15 @@ export default {
           "paySign": paySign //微信签名 
         },
         function(res){
-          let tres = JSON.stringify(res);
-          alert(tres)
           if(res.err_msg == "get_brand_wcpay_request:ok" ){
           // 使用以上方式判断前端返回,微信团队郑重提示：
-                //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-          } 
+          // res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+            this.$vux.toast.text("支付成功", "top");  
+            this.queryOrder();
+            this.index = 1;
+          } else {
+            this.$vux.toast.text("支付失败", "top"); 
+          }
         }
       ); 
     }
