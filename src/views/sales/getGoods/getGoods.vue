@@ -18,7 +18,6 @@
         <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="wechatCallPay">提交</x-button>
-      <p>{{res}}</p>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
@@ -122,8 +121,7 @@ export default {
         addressValue: []
       },
       orderList: [],
-      addressData: ChinaAddressV4Data,
-      res: {}
+      addressData: ChinaAddressV4Data
     };
   },
   methods: {
@@ -173,7 +171,7 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-              this.onBridgeReady(data.data.appid, data.data.nonce_str, data.data.prepay_id, data.data.sign)
+              this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign)
 
             // if (typeof WeixinJSBridge == "undefined"){
             //   if( document.addEventListener ){
@@ -239,20 +237,20 @@ export default {
     },
     selectChecker(val) {
     },
-    onBridgeReady(appId, nonceStr, prepay_id, paySign){
+    onBridgeReady(appId, nonceStr, wxPackage, paySign){
       let timeStamp = Date.parse(new Date()) / 1000;
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
-          "timestamp": timeStamp,         //时间戳，自1970年以来的秒数     
+          "timeStamp": timeStamp,         //时间戳，自1970年以来的秒数     
           "nonceStr": nonceStr, //随机串     
-          "package": "prepay_id=" + prepay_id,     
+          "package": wxPackage,
           "signType": "MD5",         //微信签名方式：     
           "paySign": paySign //微信签名 
         },
         function(res){
-          this.res = JSON.stringify(res);
-          alert(this.res)
+          let tres = JSON.stringify(res);
+          alert(tres)
           if(res.err_msg == "get_brand_wcpay_request:ok" ){
           // 使用以上方式判断前端返回,微信团队郑重提示：
                 //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
