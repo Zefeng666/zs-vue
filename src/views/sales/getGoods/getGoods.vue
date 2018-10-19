@@ -173,16 +173,17 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-            if (typeof WeixinJSBridge == "undefined"){
-              if( document.addEventListener ){
-                  document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-              }else if (document.attachEvent){
-                  document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-                  document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-              }
-            }else{
               this.onBridgeReady(data.data.appid, data.data.nonce_str, data.data.prepay_id, data.data.sign)
-            }
+
+            // if (typeof WeixinJSBridge == "undefined"){
+            //   if( document.addEventListener ){
+            //       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            //   }else if (document.attachEvent){
+            //       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+            //       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            //   }
+            // }else{
+            // }
           }
         });
     },
@@ -241,11 +242,12 @@ export default {
     onBridgeReady(appId, nonceStr, prepay_id, paySign){
       let timeStamp = Date.parse(new Date()) / 1000;
       console.log(timeStamp);
-      
+      console.log(appId, nonceStr, prepay_id, paySign, timeStamp);
+      return
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
-          "timeStamp": timeStamp,         //时间戳，自1970年以来的秒数     
+          "timestamp": timeStamp,         //时间戳，自1970年以来的秒数     
           "nonceStr": nonceStr, //随机串     
           "package": "prepay_id=" + prepay_id,     
           "signType": "MD5",         //微信签名方式：     
