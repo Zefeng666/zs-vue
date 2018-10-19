@@ -17,7 +17,7 @@
         </x-input>
         <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
-      <x-button class="submit-btn" type="primary" @click.native="wechatCallPay">提交</x-button>
+      <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
