@@ -226,7 +226,7 @@ export default {
           // this.$vux.toast.text("添加订单成功", "top");
           // this.queryOrder();
           // this.index = 1;
-          this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign)
+          this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)
         } else {
           this.$vux.toast.text(data.message, "top");
         }
@@ -248,8 +248,7 @@ export default {
     },
     selectChecker(val) {
     },
-    onBridgeReady(appId, nonceStr, wxPackage, paySign){
-      let timeStamp = Date.parse(new Date()) / 1000;
+    onBridgeReady(appId, nonceStr, wxPackage, paySign, timeStamp){
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
