@@ -89,20 +89,29 @@ export default {
   },
   computed: {
     payAmount: function () {
-      let price = 0;
-      if (this.checkerWhich === 2) {
-        if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
-          return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice
-        } else if (this.getGoodsObj.quantity >= 100) {
-          return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice
+      if (this.userInfo.vipLevel === 1) {
+        if (this.getGoodsObj.quantity >= 100) {
+          return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
         } else {
-          return this.getGoodsObj.quantity * 3 * this.productInfo.vipPrice
+          return this.getGoodsObj.quantity * 3 * this.price;
         }
+      } else if (this.userInfo.vipLevel === 2) {
+        return this.getGoodsObj.quantity * 3 * this.price;
       } else {
-        if (this.getGoodsObj.quantity >= 60) {
-          this.$vux.toast.text("超过60件建议按箱拿货", "top");
+        if (this.checkerWhich === 2) {
+          if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
+            return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice;
+          } else if (this.getGoodsObj.quantity >= 100) {
+            return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
+          } else {
+            return this.getGoodsObj.quantity * 3 * this.price;
+          }
+        } else {
+          if (this.getGoodsObj.quantity >= 60) {
+            this.$vux.toast.text("超过60件建议按箱拿货", "top");
+          }
+          return this.getGoodsObj.quantity  * this.price;
         }
-        return this.getGoodsObj.quantity  * this.productInfo.vipPrice
       }
     }
   },
@@ -110,6 +119,7 @@ export default {
     return {
       index: 0,
       checkerWhich: 2,
+      price: 0,
       userInfo: {},
       productInfo: {},
       getGoodsObj: {
@@ -132,7 +142,18 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.userInfo = data.data.user; 
-            this.queryProduct()        
+            this.queryProduct();
+            switch(this.userInfo.vipLevel)
+            {
+                case 1: // 经销商
+                    this.price = this.productInfo.dealerPrice
+                    break;
+                case 2: // 总代理
+                    this.price = this.productInfo.proxyPrice
+                    break;
+                default: // 会员 普通用户
+                    this.price = this.productInfo.vipPrice
+            }     
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
