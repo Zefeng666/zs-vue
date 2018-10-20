@@ -3,7 +3,7 @@
     <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>申请拿货</x-header>
     <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab">
       <tab-item class="vux-center vux-1px-t" selected>申请拿货</tab-item>
-      <tab-item class="vux-center vux-1px-t">历史订单</tab-item>
+      <tab-item class="vux-center vux-1px-t" @on-item-click="selectChecker">历史订单</tab-item>
     </tab>
     <div class="swiper-box" v-show="index === 0">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
@@ -17,7 +17,7 @@
         </x-input>
         <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
-      <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
+      <x-button class="submit-btn" type="primary" @click.native="insertOrder">立即支付</x-button>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
@@ -185,15 +185,19 @@ export default {
       });
     },
     queryOrder() {
+      this.$vux.loading.show({
+        text: ''
+      });
       this.$api
         .queryOrder({
           pageNo: 1,
-          pageSize: 100
+          pageSize: 500
         })
         .then(data => {
           if (data.code === 200) {
             this.orderList = data.data.items;
           }
+          this.$vux.loading.hide();
         });
     },
     wechatCallPay() {
@@ -245,9 +249,6 @@ export default {
       }
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
-          // this.$vux.toast.text("添加订单成功", "top");
-          // this.queryOrder();
-          // this.index = 1;
           this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)
         } else {
           this.$vux.toast.text(data.message, "top");
@@ -269,6 +270,9 @@ export default {
       });
     },
     selectChecker(val) {
+      if (val === 1) {
+        this.queryOrder();
+      }
     },
     onBridgeReady(appId, nonceStr, wxPackage, paySign, timeStamp){
       WeixinJSBridge.invoke(
