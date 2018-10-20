@@ -271,6 +271,7 @@ export default {
     selectChecker(val) {
     },
     onBridgeReady(appId, nonceStr, wxPackage, paySign, timeStamp){
+      alert('timeStamp:' + timeStamp)
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
           "appId": appId,     //公众号名称，由商户传入     
