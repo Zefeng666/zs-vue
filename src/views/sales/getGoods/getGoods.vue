@@ -235,8 +235,8 @@ export default {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
       }
       insertObj.addressId = this.getGoodsObj.addressId;
-      // insertObj.paidFee = this.payAmount;
-      insertObj.paidFee = 0.01;
+      insertObj.paidFee = this.payAmount;
+      // insertObj.paidFee = 0.01;
       insertObj.productId = this.productInfo.productId;
       if (this.checkerWhich == 2) {
         insertObj.quantity = this.getGoodsObj.quantity * 3;
