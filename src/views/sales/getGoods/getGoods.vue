@@ -30,7 +30,7 @@
         </p>
         <p>
           <span>创建时间：{{item.order.createTime | formatDate}}</span>
-          <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.isAudit == 0" class="btn-right" mini plain>取消</x-button>
+          <!-- <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.isAudit == 0" class="btn-right" mini plain>取消</x-button> -->
         </p>
       </div>
     </div>
@@ -235,7 +235,8 @@ export default {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
       }
       insertObj.addressId = this.getGoodsObj.addressId;
-      insertObj.paidFee = this.payAmount;
+      // insertObj.paidFee = this.payAmount;
+      insertObj.paidFee = 0.01;
       insertObj.productId = this.productInfo.productId;
       if (this.checkerWhich == 2) {
         insertObj.quantity = this.getGoodsObj.quantity * 3;
