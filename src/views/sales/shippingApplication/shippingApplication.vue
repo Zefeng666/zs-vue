@@ -162,10 +162,15 @@ export default {
       } else if (order.orderStatus === 1) {
         return '待发货';
       } else {
-        if (order.trueDeliveryUid === order.uid) {
-          return '已发货';
+        if (order.isCompanyDelivery === 1) {
+          return '公司发货';
         } else {
-          return '上级发货';
+          let uid = localStorage.getItem('uid');
+          if (order.trueDeliveryUid === uid) {
+            return '已发货';
+          } else {
+            return '上级发货';
+          }
         }
       }
     }

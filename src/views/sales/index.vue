@@ -73,7 +73,8 @@ export default {
         .queryUser({})
         .then(data => {
           if (data.code === 200) {
-            this.userInfo = data.data.user
+            this.userInfo = data.data.user;
+            localStorage.setItem("uid", data.data.user.uid);
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
