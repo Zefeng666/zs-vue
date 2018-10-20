@@ -113,6 +113,13 @@ export default new Router({
       path: '/wxLogin',
       name: 'wxLogin',
       component: resolve => require(["@/views/mine/register/wxLogin.vue"], resolve)
+    },
+
+    // 商城
+    {
+      path: '/mall',
+      name: 'mall',
+      component: resolve => require(["@/views/mall/index.vue"], resolve)
     }
   ]
 })

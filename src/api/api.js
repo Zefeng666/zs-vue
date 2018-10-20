@@ -209,6 +209,14 @@ const API = {
       params: params
     })
   },
+
+  // 商城查询
+  queryAllProducts(params) {
+    return request({
+      url: '/queryAllProducts',
+      params: params
+    })
+  },
 };
 
 export default API;
