@@ -2,7 +2,7 @@ import Vue from 'vue'
 import {
   dateFormat
 } from 'vux'
-
+let moment = require('moment')
 Vue.filter("formatVipLevel", function (status) {
   if (status == 0) {
     return "VIP";
@@ -33,8 +33,10 @@ Vue.filter("withdrawStatus", function (status) {
   }
 });
 Vue.filter('formatDate', function (value, formatString) {
-  let dateVal = new Date(value.replace(/-/g, "/"));
-  formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+  // let dateVal = new Date(Date.parse(value));
+  let stampTime = Date.parse(value);
+  let formatStringx = formatString || 'YYYY-MM-DD HH:mm:ss';
   // return moment(value).format(formatString); // value可以是普通日期 20170723
-  return dateFormat(dateVal, formatString); // 这是时间戳转时间
+  return dateFormat(stampTime, formatStringx); // 这是时间戳转时间
+  // return moment(dateVal, "MM-DD-YYYY");
 });

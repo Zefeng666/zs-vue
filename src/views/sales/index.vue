@@ -66,6 +66,7 @@ export default {
   },
   created() {
     this.queryUser();
+    this.queryShipOrder();
   },
   data() {
     return {
@@ -171,5 +172,9 @@ export default {
 .my-cell {
   padding-top: .4rem;
   padding-bottom: .4rem;
+}
+.badge-value {
+  display: inline-block!important;
+  float: right;
 }
 </style>
