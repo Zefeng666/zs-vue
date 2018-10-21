@@ -35,7 +35,7 @@ Vue.filter("withdrawStatus", function (status) {
 Vue.filter('formatDate', function (value, formatString) {
   // let dateVal = new Date(Date.parse(value));
   let stampTime = Date.parse(value);
-  let formatStringx = formatString || 'YYYY-MM-DD HH:mm:ss';
+  let formatStringx = formatString || 'YYYY/MM/DD HH:mm:ss';
   return moment(stampTime).format(formatStringx); // value可以是普通日期 20170723
   // return dateFormat(stampTime, formatStringx); // 这是时间戳转时间
   // return moment(stampTime);
