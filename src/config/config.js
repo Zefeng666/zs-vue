@@ -34,8 +34,8 @@ const config = {
     }
     opt.method = opt.method.toLowerCase();
     // opt.params['handleUserId'] = 33;
-    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA3MTAyNDIsInVzZXJuYW1lIjoi5pyI6ZOt5rO98J-UhSJ9.DimCaWRYwbpAc6rQmZpOtIn3uCQcWtDBvjmb8cbue8s';
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    // axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA3MTAyNDIsInVzZXJuYW1lIjoi5pyI6ZOt5rO98J-UhSJ9.DimCaWRYwbpAc6rQmZpOtIn3uCQcWtDBvjmb8cbue8s';
     if (!opt.params.pageSize) {
       // opt.params['pageSize'] = 50;
     }

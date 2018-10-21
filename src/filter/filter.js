@@ -37,6 +37,6 @@ Vue.filter('formatDate', function (value, formatString) {
   let stampTime = Date.parse(value);
   let formatStringx = formatString || 'YYYY-MM-DD HH:mm:ss';
   // return moment(value).format(formatString); // value可以是普通日期 20170723
-  return dateFormat(stampTime, formatStringx); // 这是时间戳转时间
-  // return moment(dateVal, "MM-DD-YYYY");
+  // return dateFormat(stampTime, formatStringx); // 这是时间戳转时间
+  return moment(stampTime, "YYYY-MM-DD HH:mm:ss");
 });
