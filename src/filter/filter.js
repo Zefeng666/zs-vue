@@ -33,7 +33,7 @@ Vue.filter("withdrawStatus", function (status) {
   }
 });
 Vue.filter('formatDate', function (value, formatString) {
-  let dateVal = new Date(value);
+  let dateVal = new Date(value.replace(/-/g, "/"));
   formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
   // return moment(value).format(formatString); // value可以是普通日期 20170723
   return dateFormat(dateVal, formatString); // 这是时间戳转时间
