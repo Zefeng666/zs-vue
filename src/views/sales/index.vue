@@ -40,14 +40,18 @@
       <!-- <cell class="my-cell" title="我的团队" value-align="left" link="/myTeam"></cell> -->
       <cell class="my-cell" title="申请提现" value-align="left" link="/applyWithdraw"></cell>
       <cell class="my-cell" title="积分明细" value-align="left" link="/pointDetails"></cell>
-      <cell class="my-cell" title="发货申请" value-align="left" link="/shippingApplication"></cell>
+      <cell class="my-cell" title="发货申请" value-align="left" link="/shippingApplication">
+        <div v-if="badgeNum" class="badge-value">
+          <badge :text="badgeNum"></badge>
+        </div>
+      </cell>
     </group>
     <tabbar :activeIndex="0"></tabbar>
   </div>
 </template>
 
 <script>
-import { ViewBox, Cell, Group, Card, Countup } from "vux";
+import { ViewBox, Cell, Group, Card, Countup, Badge } from "vux";
 import Tabbar from "@/components/Tabbar";
 export default {
   name: "sales",
@@ -57,14 +61,16 @@ export default {
     Cell,
     Group,
     Card,
-    Countup
+    Countup,
+    Badge
   },
   created() {
     this.queryUser();
   },
   data() {
     return {
-      userInfo: ''
+      userInfo: '',
+      badgeNum: 0
     };
   },
   methods: {
@@ -78,6 +84,22 @@ export default {
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
+        });
+    },
+    queryShipOrder() {
+      this.$vux.loading.show({
+        text: ''
+      })
+      this.$api
+        .queryShipOrder({
+          pageNo: 1,
+          pageSize: 1000
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.badgeNum = data.data.items.length;
+          }
+          this.$vux.loading.hide()
         });
     },
     login() {
