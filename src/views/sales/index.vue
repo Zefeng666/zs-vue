@@ -88,9 +88,9 @@ export default {
         });
     },
     queryShipOrder() {
-      this.$vux.loading.show({
-        text: ''
-      })
+      // this.$vux.loading.show({
+      //   text: ''
+      // })
       this.$api
         .queryShipOrder({
           pageNo: 1,
@@ -100,7 +100,7 @@ export default {
           if (data.code === 200) {
             this.badgeNum = data.data.items.length;
           }
-          this.$vux.loading.hide()
+          // this.$vux.loading.hide()
         });
     },
     login() {

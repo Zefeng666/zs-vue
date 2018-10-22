@@ -1,6 +1,6 @@
 <template>
     <div class="mall">
-        <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">商城</x-header>
+        <x-header class="vux-1px-b my-header" :left-options="{showBack: false}">商城</x-header>
         <template v-for="(item, index) in productList">
           <div class="mall-goods-item vux-1px-b" :key="index">
             <div class="goods-img-box">
