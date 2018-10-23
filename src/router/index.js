@@ -111,6 +111,11 @@ export default new Router({
       name: 'wxLogin',
       component: resolve => require(["@/views/mine/register/wxLogin.vue"], resolve)
     },
+    {
+      path: '/attention',
+      name: 'attention',
+      component: resolve => require(["@/views/mine/register/attention.vue"], resolve)
+    },
 
     // 商城
     {
