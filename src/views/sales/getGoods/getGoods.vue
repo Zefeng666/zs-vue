@@ -9,7 +9,7 @@
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
         <!-- <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell> -->
-        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
+        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false" :disabled="isInpNum">
           <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
             <checker-item v-if="userInfo.vipLevel === -1" value="1">件</checker-item>
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
@@ -134,7 +134,8 @@ export default {
         addressValue: []
       },
       orderList: [],
-      addressData: ChinaAddressV4Data
+      addressData: ChinaAddressV4Data,
+      isInpNum: false
     };
   },
   methods: {
@@ -144,6 +145,10 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.userInfo = data.data.user; 
+            if (this.userInfo.vipLevel === -1) {
+              this.getGoodsObj.quantity = 1;
+              this.isInpNum = true;
+            }
             this.queryProduct();
           } else {
             this.$vux.toast.text(data.message, "top");
