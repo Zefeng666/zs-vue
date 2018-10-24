@@ -32,7 +32,7 @@
       </div>
       <div v-if="userInfo.vipLevel === 1 || userInfo.vipLevel === 2" class="proxyArea vux-1px-b">
         <span class="">剩余库存:</span>
-        <span class="">{{userInfo.lastQuantity}}</span> 
+        <span class="">{{userInfo.lastQuantity / 3}}箱</span> 
       </div>
     </div>
     <group>
