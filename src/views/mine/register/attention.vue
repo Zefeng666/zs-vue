@@ -18,7 +18,7 @@ export default {
     Qrcode
   },
   created () {
-    this.queryUser()
+    // this.queryUser()
   },
   data() {
     return {

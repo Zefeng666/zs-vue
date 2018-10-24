@@ -98,7 +98,9 @@ export default {
       } else if (this.userInfo.vipLevel === 2) {
         return this.getGoodsObj.quantity * 3 * this.price;
       } else {
-        if (this.checkerWhich === 2) {
+        console.log(this.checkerWhich);
+        
+        if (this.checkerWhich == 2) {
           if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
             return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice;
           } else if (this.getGoodsObj.quantity >= 100) {
