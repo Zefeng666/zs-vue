@@ -1,7 +1,7 @@
 <template>
   <div class="myqrcode">
     <!-- <x-header class="vux-1px-b" :left-options="{backText: ''}">我的推荐码</x-header> -->
-    <p class="mine-head">您已注册成功，请关注公众号进入个人中心操作~</p>
+    <p class="mine-head">您已注册成功，请长按识别下方二维码关注公众号进入个人中心操作~</p>
     <div class="mine-msg">
       <img class="avator" src="../../../assets/qrcode.jpg">
     </div>
