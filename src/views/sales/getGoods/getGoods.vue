@@ -11,7 +11,7 @@
         <!-- <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell> -->
         <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
           <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
-            <checker-item v-if="userInfo.historyBuyCount === 0" value="1">件</checker-item>
+            <checker-item v-if="userInfo.vipLevel === -1" value="1">件</checker-item>
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
           </checker>
         </x-input>
