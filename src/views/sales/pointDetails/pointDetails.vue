@@ -1,6 +1,6 @@
 <template>
   <div class="pointDetails">
-    <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">积分明细</x-header>
+    <x-header class="vux-1px-b my-header" :left-options="{backText: ''}">收益明细</x-header>
         
         
           <ul ref="list" class="tab-swiper list-content">
