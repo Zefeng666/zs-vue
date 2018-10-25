@@ -6,7 +6,7 @@
           <ul ref="list" class="tab-swiper list-content">
             <li class="order-box vux-1px-b list-item" v-for="(item, index) in IntegralsList" :key="index">
               <p>
-                <span>积分：{{item.integralNum}}</span>
+                <span>收益：{{item.integralNum}}元</span>
                 <span class="text-right">{{item.changeType}}</span>
               </p>
               <p>
