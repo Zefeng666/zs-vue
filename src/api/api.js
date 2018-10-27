@@ -217,6 +217,14 @@ const API = {
       params: params
     })
   },
+
+  // 团队成员
+  queryMyTeam(params) {
+    return request({
+      url: '/queryMyTeam',
+      params: params
+    })
+  },
 };
 
 export default API;
