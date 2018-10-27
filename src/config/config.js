@@ -37,7 +37,7 @@ const config = {
     // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     // console.log(window.location.hostname === 'localhost');
     if (window.location.hostname === 'localhost') {
-      axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDExMzc3NjEsInVzZXJuYW1lIjoi5pyI6ZOt5rO9In0.dTPDn9EcOd7anuM3oci7p_jw2LggSv-MLbIJUSwW9xk';    
+      axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDEyNDQwNDgsInVzZXJuYW1lIjoi5pyI6ZOt5rO98J-UhSJ9.njbBT31FEy1b5nJ7r83VNVDM3AcVerFMxvZUjCc4N9E';
     } else {
       axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     }
