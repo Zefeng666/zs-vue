@@ -1,4 +1,4 @@
-# vv-vue
+# zs-vue
 
 > A Vue.js project
 
