@@ -139,6 +139,8 @@ export default {
           let result = this.result;
           let img = new Image();
           img.src = result;
+          console.log(img);
+          
           //判断图片是否大于100K,是就直接上传，反之压缩图片
           if (this.result.length <= 100 * 1024) {
             if (index === 1) {
@@ -241,6 +243,8 @@ export default {
       let initSize = img.src.length;
       let width = img.width;
       let height = img.height;
+      console.log(width);
+      
       //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
       let ratio;
       if ((ratio = width * height / 4000000) > 1) {
@@ -308,6 +312,8 @@ export default {
         "压缩率：" + ~~(100 * (initSize - ndata.length) / initSize) + "%"
       );
       tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+      console.log(ndata);
+      
       return ndata;
     }
   }

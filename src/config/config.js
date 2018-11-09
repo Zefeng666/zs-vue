@@ -4,10 +4,7 @@ let qs = require('qs');
 import router from '../router/index'
 // import store from '../store/store'
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = "http://119.23.14.187:8080/client"; //10.0.8.177:8080
-// axios.defaults.baseURL = "http://172.18.66.159:8080/client"; //10.0.8.177:8080
-// axios.defaults.baseURL = "http://10.0.8.177:8080/client"; //10.0.8.177:8080
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = "http://47.107.98.188:8080/client"; //10.0.8.177:8080
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   if (response.data.code !== 200) {
@@ -37,10 +34,11 @@ const config = {
     // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     // console.log(window.location.hostname === 'localhost');
     if (window.location.hostname === 'localhost') {
-      axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDEyNDQwNDgsInVzZXJuYW1lIjoi5pyI6ZOt5rO98J-UhSJ9.njbBT31FEy1b5nJ7r83VNVDM3AcVerFMxvZUjCc4N9E';
+      axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDIwMjM1ODYsInVzZXJuYW1lIjoi5aOu5Lmh6IO96YeP55Sf54mp56eR5oqAIn0.pxdVRqE_ALg89rUbCH9A8oCoQNeQ0EjA-wBwP2pspis';
     } else {
       axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     }
+
     if (!opt.params.pageSize) {
       // opt.params['pageSize'] = 50;
     }

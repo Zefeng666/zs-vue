@@ -5,11 +5,15 @@ import {
 let moment = require('moment')
 Vue.filter("formatVipLevel", function (status) {
   if (status == 0) {
-    return "VIP";
+    return "分享大使";
   } else if (status == 1) {
     return "经销商";
   } else if (status == 2) {
-    return "总代理";
+    return "区县合伙人";
+  } else if (status == 3) {
+    return "城市合伙人";
+  } else if (status == 4) {
+    return "分公司";
   } else if (status == -1) {
     return "普通用户";
   }

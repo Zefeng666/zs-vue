@@ -166,7 +166,7 @@ export default {
           return '公司发货';
         } else {
           let uid = localStorage.getItem('uid');
-          if (order.trueDeliveryUid == uid) {
+          if (order.trueShipUid == uid) {
             return '已发货';
           } else {
             return '上级发货';

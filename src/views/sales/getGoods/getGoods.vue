@@ -15,7 +15,7 @@
             <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
           </checker>
         </x-input>
-        <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
+        <!-- <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell> -->
       </group>
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">立即支付</x-button>
     </div>
@@ -242,7 +242,7 @@ export default {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
       }
       insertObj.addressId = this.getGoodsObj.addressId;
-      insertObj.paidFee = this.payAmount;
+      // insertObj.paidFee = this.payAmount;
       // insertObj.paidFee = 0.01;
       insertObj.productId = this.productInfo.productId;
       if (this.checkerWhich == 2) {

@@ -16,11 +16,10 @@ export default {
       this.wxLogin(this.$route.query.code);
     } else {
       window.location.href =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcc9ce3d803af2259&redirect_uri=http%3A%2F%2Fjieruibai.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=login#wechat_redirect";
+        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx20c6f976c2fe325d&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=login#wechat_redirect";
     }
   },
   mounted() {
-    // console.log(this.$route.query);
     this.wxCode = this.$route.query.code;
   },
   data() {

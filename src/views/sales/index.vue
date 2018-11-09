@@ -5,34 +5,21 @@
         <span>您的可提金额：</span>
         <span class="float-right">等级：{{userInfo.vipLevel | formatVipLevel}}</span>
       </div>
-      <countup class="countup-box" :start-val="0" :end-val="userInfo.withdrawAmount || 0" :duration="1"></countup>
-      <span>元</span>
-      <card>
-        <div slot="content" class="card-demo-flex card-demo-content01">
-          <div class="vux-1px-r">
-            <span class="card-top-text">您的推荐人</span>
-            <br/>
-            <span class="card-bottom-text">{{userInfo.recommendUser || '无'}}</span> 
-          </div>
-          <div class="vux-1px-r">
-            <span class="card-top-text">您最近的经销商</span>
-            <br/>
-            <span class="card-bottom-text">{{userInfo.recentDealer || '无'}}</span> 
-          </div>
-          <div>
-            <span class="card-top-text">您最近的总代理</span>
-            <br/>
-            <span class="card-bottom-text">{{userInfo.recentProxy || '无'}}</span> 
-          </div>
-        </div>
-      </card>
-      <div class="proxyArea vux-1px-b">
-        <span class="">代理地区:</span>
-        <span class="">{{userInfo.proxyArea || '无'}}</span> 
+      <div style="margin-bottom: 18px;">
+        <countup class="countup-box" :start-val="0" :end-val="userInfo.withdrawAmount || 0" :duration="1"></countup>
+        <span>元</span>
       </div>
-      <div v-if="userInfo.vipLevel === 1 || userInfo.vipLevel === 2" class="proxyArea vux-1px-b">
-        <span class="">剩余库存:</span>
-        <span class="">{{parseInt(userInfo.lastQuantity / 3)}}箱 <span v-show="userInfo.lastQuantity % 3 !== 0">零{{userInfo.lastQuantity % 3}}件</span></span> 
+      <div class="proxyArea vux-1px-b vux-1px-t">
+        <span class="text-left">推荐人</span>
+        <span class="text-right">{{userInfo.recommendUser || '无'}}</span> 
+      </div>
+      <div class="proxyArea vux-1px-b">
+        <span class="text-left">代理地区</span>
+        <span class="text-right">{{userInfo.proxyArea || '无'}}</span> 
+      </div>
+      <div v-if="userInfo.vipLevel !== 1 || userInfo.vipLevel !== -1" class="proxyArea vux-1px-b">
+        <span class="text-left">剩余库存</span>
+        <span class="text-right">{{parseInt(userInfo.lastQuantity / 3)}}箱 <span v-show="userInfo.lastQuantity % 3 !== 0">零{{userInfo.lastQuantity % 3}}件</span></span> 
       </div>
     </div>
     <group>
@@ -143,7 +130,7 @@ export default {
 }
 .countup-box {
   display: inline-block;
-  color: #f74c31;
+  color: #2a93f5;
   font-size: 36px;
   margin-top: .3rem;
 }
@@ -168,9 +155,12 @@ export default {
   font-size: 1px;
 }
 .proxyArea {
-  text-align: center;
+  text-align: left;
   font-size: 14px;
   padding: .2rem .4rem;
+  .text-right {
+    float: right;
+  }
 }
 .my-cell {
   padding-top: .4rem;
