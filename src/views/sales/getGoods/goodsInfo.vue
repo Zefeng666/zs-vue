@@ -11,8 +11,7 @@
         </card>
         <div class="bottom-nav">
             <span>价格：</span>
-            <span>{{price}}元/件</span>
-            <span>{{price * 3}}元/箱</span>
+            <span>{{productInfo.price}}元/瓶</span>
             <x-button class="goods-btn" type="primary" mini @click.native="goGetGoods">立即拿货</x-button>
         </div>
     </div>
@@ -48,17 +47,6 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.userInfo = data.data.user
-            switch(this.userInfo.vipLevel)
-            {
-                case 1: // 经销商
-                    this.price = this.productInfo.dealerPrice
-                    break;
-                case 2: // 总代理
-                    this.price = this.productInfo.proxyPrice
-                    break;
-                default: // 会员 普通用户
-                    this.price = this.productInfo.vipPrice
-            }
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
@@ -68,7 +56,7 @@ export default {
       this.$api.queryProduct().then(data => {
         if (data.code === 200) {
           this.productInfo = data.data.product;
-            this.queryUser();
+            // this.queryUser();
         } else {
           this.$vux.toast.text(data.message, "top");
         }
