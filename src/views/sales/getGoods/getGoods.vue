@@ -14,7 +14,7 @@
             <checker-item class="checker-item-selected" value="1">瓶</checker-item>
           </checker>
         </x-input>
-        <!-- <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell> -->
+        <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">立即支付</x-button>
     </div>
@@ -87,34 +87,9 @@ export default {
     this.queryUser();
   },
   computed: {
-    // payAmount: function () {
-    //   if (this.userInfo.vipLevel === 1) {
-    //     if (this.getGoodsObj.quantity >= 100) {
-    //       return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
-    //     } else {
-    //       return this.getGoodsObj.quantity * 3 * this.price;
-    //     }
-    //   } else if (this.userInfo.vipLevel === 2) {
-    //     return this.getGoodsObj.quantity * 3 * this.price;
-    //   } else {
-    //     console.log(this.checkerWhich);
-        
-    //     if (this.checkerWhich == 2) {
-    //       if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
-    //         return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice;
-    //       } else if (this.getGoodsObj.quantity >= 100) {
-    //         return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
-    //       } else {
-    //         return this.getGoodsObj.quantity * 3 * this.price;
-    //       }
-    //     } else {
-    //       if (this.getGoodsObj.quantity >= 60) {
-    //         this.$vux.toast.text("超过60件建议按箱拿货", "top");
-    //       }
-    //       return this.getGoodsObj.quantity  * this.price;
-    //     }
-    //   }
-    // }
+    payAmount: function () {
+      return this.getGoodsObj.quantity * this.price;
+    }
   },
   data() {
     return {
@@ -155,16 +130,25 @@ export default {
         if (data.code === 200) {
           this.productInfo = data.data.product;
           switch(this.userInfo.vipLevel)
-            {
-                case 1: // 经销商
-                    this.price = this.productInfo.dealerPrice
-                    break;
-                case 2: // 总代理
-                    this.price = this.productInfo.proxyPrice
-                    break;
-                default: // 会员 普通用户
-                    this.price = this.productInfo.vipPrice
-            }     
+          {
+              case 0: // 分享大使
+                  this.price = this.productInfo.price * 0.7
+                  break;
+              case 1: // 经销商
+                  this.price = this.productInfo.price * 0.65
+                  break;
+              case 2: // 区县合伙人
+                  this.price = this.productInfo.price * 0.6
+                  break;
+              case 3: // 城市合伙人
+                  this.price = this.productInfo.price * 0.55 
+                  break;
+              case 4: // 省级合伙人
+                  this.price = this.productInfo.price * 0.5
+                  break;
+              default: // 普通用户
+                  this.price = this.productInfo.price
+          }  
         } else {
           this.$vux.toast.text(data.message, "top");
         }
