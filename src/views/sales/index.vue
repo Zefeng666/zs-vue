@@ -19,7 +19,7 @@
       </div>
       <div v-if="userInfo.vipLevel !== 1 || userInfo.vipLevel !== -1" class="proxyArea vux-1px-b">
         <span class="text-left">剩余库存</span>
-        <span class="text-right">{{parseInt(userInfo.lastQuantity / 3)}}箱 <span v-show="userInfo.lastQuantity % 3 !== 0">零{{userInfo.lastQuantity % 3}}件</span></span> 
+        <span class="text-right">{{userInfo.lastQuantity}}瓶</span>
       </div>
     </div>
     <group>

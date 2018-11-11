@@ -11,8 +11,7 @@
         <!-- <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell> -->
         <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false" :disabled="isInpNum">
           <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectCheckerBtn" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
-            <checker-item v-if="userInfo.vipLevel === -1" value="1">件</checker-item>
-            <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
+            <checker-item class="checker-item-selected" value="1">瓶</checker-item>
           </checker>
         </x-input>
         <!-- <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell> -->
@@ -88,39 +87,39 @@ export default {
     this.queryUser();
   },
   computed: {
-    payAmount: function () {
-      if (this.userInfo.vipLevel === 1) {
-        if (this.getGoodsObj.quantity >= 100) {
-          return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
-        } else {
-          return this.getGoodsObj.quantity * 3 * this.price;
-        }
-      } else if (this.userInfo.vipLevel === 2) {
-        return this.getGoodsObj.quantity * 3 * this.price;
-      } else {
-        console.log(this.checkerWhich);
+    // payAmount: function () {
+    //   if (this.userInfo.vipLevel === 1) {
+    //     if (this.getGoodsObj.quantity >= 100) {
+    //       return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
+    //     } else {
+    //       return this.getGoodsObj.quantity * 3 * this.price;
+    //     }
+    //   } else if (this.userInfo.vipLevel === 2) {
+    //     return this.getGoodsObj.quantity * 3 * this.price;
+    //   } else {
+    //     console.log(this.checkerWhich);
         
-        if (this.checkerWhich == 2) {
-          if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
-            return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice;
-          } else if (this.getGoodsObj.quantity >= 100) {
-            return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
-          } else {
-            return this.getGoodsObj.quantity * 3 * this.price;
-          }
-        } else {
-          if (this.getGoodsObj.quantity >= 60) {
-            this.$vux.toast.text("超过60件建议按箱拿货", "top");
-          }
-          return this.getGoodsObj.quantity  * this.price;
-        }
-      }
-    }
+    //     if (this.checkerWhich == 2) {
+    //       if (this.getGoodsObj.quantity >= 20 && this.getGoodsObj.quantity < 100) {
+    //         return this.getGoodsObj.quantity * 3 * this.productInfo.dealerPrice;
+    //       } else if (this.getGoodsObj.quantity >= 100) {
+    //         return this.getGoodsObj.quantity * 3 * this.productInfo.proxyPrice;
+    //       } else {
+    //         return this.getGoodsObj.quantity * 3 * this.price;
+    //       }
+    //     } else {
+    //       if (this.getGoodsObj.quantity >= 60) {
+    //         this.$vux.toast.text("超过60件建议按箱拿货", "top");
+    //       }
+    //       return this.getGoodsObj.quantity  * this.price;
+    //     }
+    //   }
+    // }
   },
   data() {
     return {
       index: 0,
-      checkerWhich: 2,
+      checkerWhich: 1,
       price: 1,
       userInfo: {},
       productInfo: {},
@@ -203,27 +202,6 @@ export default {
           this.$vux.loading.hide();
         });
     },
-    wechatCallPay() {
-      this.$api
-        .wechatCallPay({
-          totalFee: this.payAmount * 100
-        })
-        .then(data => {
-          if (data.code === 200) {
-              this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign)
-
-            // if (typeof WeixinJSBridge == "undefined"){
-            //   if( document.addEventListener ){
-            //       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-            //   }else if (document.attachEvent){
-            //       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-            //       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-            //   }
-            // }else{
-            // }
-          }
-        });
-    },
     cancelOrder(id) {
       this.$api
         .cancelOrder({
@@ -245,14 +223,13 @@ export default {
       // insertObj.paidFee = this.payAmount;
       // insertObj.paidFee = 0.01;
       insertObj.productId = this.productInfo.productId;
-      if (this.checkerWhich == 2) {
-        insertObj.quantity = this.getGoodsObj.quantity * 3;
-      } else {
-        insertObj.quantity = this.getGoodsObj.quantity;
-      }
+      insertObj.quantity = this.getGoodsObj.quantity;
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
-          this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)
+          // this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)
+          this.$vux.toast.text("拿货成功", "top");  
+          this.queryOrder();
+          this.index = 1;
         } else {
           this.$vux.toast.text(data.message, "top");
         }
@@ -368,7 +345,7 @@ export default {
   padding: 2px 8px;
 }
 .checker-item-selected {
-  border: 1px solid #f74c31;
-  color: #f74c31;
+  border: 1px solid #2a93f5;
+  color: #2a93f5;
 }
 </style>
