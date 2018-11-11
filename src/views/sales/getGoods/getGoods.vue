@@ -21,7 +21,7 @@
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
         <p>
-          <span>申请数量：{{item.order.quantity === 1 ? '1件' : item.order.quantity/3 + '箱'}}</span>
+          <span>申请数量：{{item.order.quantity + '瓶'}}</span>
           <span class="text-right">{{item.order.orderStatus | orderStatus}}</span>
         </p>
         <p>

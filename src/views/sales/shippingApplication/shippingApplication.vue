@@ -10,7 +10,7 @@
         <div v-if="item.product" class="order-box vux-1px-b" v-for="(item, index) in shipOrderList" :key="index">
             <p>
                 <span>商品：{{item.product.name}}</span>
-                <span class="text-right">申请数量：{{item.order.quantity === 1 ? '1件' : item.order.quantity/3 + '箱'}}</span>
+                <span class="text-right">申请数量：{{item.order.quantity + '瓶'}}</span>
             </p>
             <p>
                 <span>用户：{{item.user.username}}</span>
@@ -33,7 +33,7 @@
       <div v-if="item.product" class="order-box vux-1px-b" v-for="(item, index) in orderList" :key="index">
           <p>
               <span>商品：{{item.product.name}}</span>
-              <span class="text-right">申请数量：{{item.order.quantity === 1 ? '1件' : item.order.quantity/3 + '箱'}}</span>
+              <span class="text-right">申请数量：{{item.order.quantity + '瓶'}}</span>
           </p>
           <p>
               <span>用户：{{item.user.username}}</span>
