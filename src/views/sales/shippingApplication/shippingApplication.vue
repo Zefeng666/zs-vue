@@ -104,7 +104,7 @@ export default {
       this.$api
         .queryHistoryShipOrder({
           pageNo: 1,
-          pageSize: 1000
+          pageSize: 100
         })
         .then(data => {
           if (data.code === 200) {
