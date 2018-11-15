@@ -16,7 +16,7 @@ export default {
       this.wxLogin(this.$route.query.code);
     } else {
       window.location.href =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx20c6f976c2fe325d&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=login#wechat_redirect";
+        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=login#wechat_redirect";
     }
   },
   mounted() {
