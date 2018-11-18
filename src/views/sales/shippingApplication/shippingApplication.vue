@@ -23,7 +23,8 @@
                 <span>创建时间：{{item.order.createTime | formatDate}}</span>
             </p>
             <p v-if="item.order.isUpgrade === -1" style="text-align: right;">
-                <x-button mini disabled>待公司确认</x-button>
+                <!-- <x-button mini disabled>待公司确认</x-button> -->
+                <span style="color:rgb(247, 76, 49);">该单为升级单，须公司确认</span>
             </p>
             <p v-else style="text-align: right;">
                 <x-button mini @click.native="shipOrder(item.order.id, 1)">转上级发货</x-button>
