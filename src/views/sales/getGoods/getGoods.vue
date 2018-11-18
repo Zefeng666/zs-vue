@@ -16,7 +16,7 @@
         </x-input>
         <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
       </group>
-      <x-button class="submit-btn" type="primary" @click.native="insertOrder">立即支付</x-button>
+      <x-button class="submit-btn" type="primary" @click.native="showToast=true">立即支付</x-button>
     </div>
     <div class="tab-swiper" v-show="index === 1">
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
@@ -33,7 +33,15 @@
         </p>
       </div>
     </div>
-
+    <x-dialog v-model="showToast" class="dialog-demo" hide-on-blur>
+      <div style="padding:15px;">
+        <x-button type="primary" @click.native="insertOrder(0)">微信支付</x-button>
+        <x-button type="default" @click.native="insertOrder(1)">线下支付</x-button>
+      </div>
+      <div @click="showToast=false">
+        <span style="font-size: 16px;">关闭</span>
+      </div>
+    </x-dialog>
   </div>
 </template>
 
@@ -54,7 +62,8 @@ import {
   XAddress,
   ChinaAddressV4Data,
   Checker, 
-  CheckerItem
+  CheckerItem,
+  XDialog
 } from "vux";
 export default {
   name: "getGoods",
@@ -74,7 +83,8 @@ export default {
     XAddress,
     ChinaAddressV4Data,
     Checker, 
-    CheckerItem
+    CheckerItem,
+    XDialog
   },
   created() {
     this.queryOrder();
@@ -109,7 +119,8 @@ export default {
       },
       orderList: [],
       addressData: ChinaAddressV4Data,
-      isInpNum: false
+      isInpNum: false,
+      showToast: false
     };
   },
   methods: {
@@ -198,22 +209,23 @@ export default {
           }
         });
     },
-    insertOrder() {
+    insertOrder(isOffline) {
       let insertObj = {};
       if (!this.getGoodsObj.addressId) {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
       }
       insertObj.addressId = this.getGoodsObj.addressId;
-      // insertObj.paidFee = this.payAmount;
-      // insertObj.paidFee = 0.01;
       insertObj.productId = this.productInfo.productId;
       insertObj.quantity = this.getGoodsObj.quantity;
+      insertObj.isOffline = isOffline;
       this.$api.insertOrder(insertObj).then(data => {
         if (data.code === 200) {
-          // this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)
-          this.$vux.toast.text("拿货成功", "top");  
-          this.queryOrder();
-          this.index = 1;
+          if (isOffline === 0) {
+            this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)   
+          } else {
+            this.$vux.toast.text("添加线下支付订单成功~", "top");
+            this.showToast = false;
+          }
         } else {
           this.$vux.toast.text(data.message, "top");
         }
