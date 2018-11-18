@@ -14,7 +14,7 @@
             <checker-item class="checker-item-selected" value="1">瓶</checker-item>
           </checker>
         </x-input>
-        <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount}}元</cell>
+        <cell title="支付金额" align-items="flex-start" value-align="left">{{payAmount.toFixed(2)}}元</cell>
       </group>
       <x-button class="submit-btn" type="primary" @click.native="showToast=true">立即支付</x-button>
     </div>

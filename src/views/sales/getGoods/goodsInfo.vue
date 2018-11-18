@@ -11,7 +11,7 @@
         </card>
         <div class="bottom-nav">
             <span>价格：</span>
-            <span>{{price}}元/瓶</span>
+            <span>{{price.toFixed(2)}}元/瓶</span>
             <x-button class="goods-btn" type="primary" mini @click.native="goGetGoods">立即拿货</x-button>
         </div>
     </div>
