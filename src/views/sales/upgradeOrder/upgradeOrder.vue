@@ -1,42 +1,18 @@
 <template>
-  <div class="getGoods">
-    <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>申请拿货</x-header>
-    <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab">
-      <tab-item class="vux-center vux-1px-t" selected>申请拿货</tab-item>
-      <tab-item class="vux-center vux-1px-t">历史订单</tab-item>
-    </tab>
-    <div class="swiper-box" v-show="index === 0">
+  <div class="upgradeOrder">
+    <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>申请报单</x-header>
+    <div class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
-        <cell title="历史拿货" v-if="userInfo.historyBuyCount" align-items="flex-start" :value="userInfo.historyBuyCount + '件'" value-align="left"></cell>
-        <x-input title="申请数量" name="username" v-model="getGoodsObj.quantity" placeholder="请输入" :show-clear="false">
-          <checker slot="right" class="checker-box" v-model="checkerWhich" @on-change="selectChecker" :radio-required="true" default-item-class="checker-item" selected-item-class="checker-item-selected">
-            <checker-item v-if="userInfo.historyBuyCount === 0" value="1">件</checker-item>
-            <checker-item :class="[checkerWhich == 2 ? 'checker-item-selected' : '']" value="2">箱</checker-item>
-          </checker>
-        </x-input>
-        <cell title="支付金额" align-items="flex-start" :value="1111" value-align="left"></cell>
+        <popup-picker title="申请等级" :data="levelData" v-model="getGoodsObj.level" placeholder="请选择" value-text-align="left"></popup-picker>     
+        <cell title="支付金额" align-items="flex-start" :value="payMoney" value-align="left"></cell>
         <!-- <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell>  -->
-        <x-address ref="address1" v-show="isShowProxy3" class="addresstitle" title="代理县区" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
-        <x-address ref="address2" v-show="isShowProxy2" class="addresstitle" title="代理城市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
+        <popup-picker v-show="getGoodsObj.level[0] === '分公司'" title="代理省份" :data="provinceData" v-model="getGoodsObj.proxyProvince" placeholder="请选择地址" value-text-align="left"></popup-picker>
+        <x-address v-show="getGoodsObj.level[0] === '区县合伙人'" ref="address1" class="addresstitle" title="代理县区" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
+        <x-address v-show="getGoodsObj.level[0] === '城市合伙人'" ref="address2" class="addresstitle" title="代理城市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
-      <p v-show="isShowProxy3 || isShowProxy2" class="getGoods-msg">提示：您拿货数量已累计足够成为区域代理人资格，请选择一个代理的地区</p>
+      <!-- <p v-show="isShowProxy3 || isShowProxy2" class="getGoods-msg">提示：您拿货数量已累计足够成为区域代理人资格，请选择一个代理的地区</p> -->
       <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
-    </div>
-    <div class="tab-swiper" v-show="index === 1">
-      <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
-        <p>
-          <span>申请数量：{{item.order.quantity}}件</span>
-          <span class="text-right">{{item.order.isAudit | orderStatus}}</span>
-        </p>
-        <p>
-          <span>收货地址：{{item.userAddress.province + item.userAddress.city + item.userAddress.area + item.userAddress.detail}}</span>
-        </p>
-        <p>
-          <span>创建时间：{{item.order.createTime | formatDate}}</span>
-          <x-button @click.native="cancelOrder(item.order.id)" v-show="item.order.isAudit == 0" class="btn-right" mini plain>取消</x-button>
-        </p>
-      </div>
     </div>
 
   </div>
@@ -62,7 +38,7 @@ import {
   CheckerItem
 } from "vux";
 export default {
-  name: "getGoods",
+  name: "upgradeOrder",
   components: {
     ViewBox,
     XHeader,
@@ -91,55 +67,28 @@ export default {
     }
     this.queryUser();
   },
+  mounted () {
+    let provinceArr = []
+    for (let i = 0; i < 30; i++) {
+      provinceArr.push(this.addressData[i].name);
+      
+    }
+    this.provinceData.push(provinceArr)
+  },
   computed: {
-    isShowProxy3: function() {
-      if (this.userInfo.historyBuyCount === 0) {
-        if (this.checkerWhich == 2) { // 第一次以箱拿货
-          if (this.getGoodsObj.quantity * 3 >= 900 && this.getGoodsObj.quantity * 3 < 3000) {
-            return true;
-          }
-          return false;
-        } else { // 第一次以件拿货
-          if (this.getGoodsObj.quantity >= 900 && this.getGoodsObj.quantity < 3000) {
-            return true;
-          }
-          return false;
-        }       
-      } else { // 不是第一次 全部以箱拿货
-        if (this.userInfo.historyBuyCount >= 900) {
-          return false
-        } else {
-          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 900 && this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 < 3000) {
-            return true;
-          }
-          return false;
-        }
-      }    
-    },
-    isShowProxy2: function() {
-      if (this.userInfo.historyBuyCount === 0) {
-        if (this.checkerWhich == 2) {
-          if (this.getGoodsObj.quantity * 3 >= 3000) {
-            return true;
-          }
-          return false;
-        } else {
-          if (this.getGoodsObj.quantity >= 3000) {
-            return true;
-          }
-          return false;
-        }       
+    payMoney: function() {
+      if (this.getGoodsObj.level[0] === '经销商') {
+        return 2980;
+      } else if (this.getGoodsObj.level[0] === '区县合伙人') {
+        return 29800;
+      } else if (this.getGoodsObj.level[0] === '城市合伙人') {
+        return 298000;
+      } else if (this.getGoodsObj.level[0] === '分公司') {
+        return 600000;
       } else {
-        if (this.userInfo.historyBuyCount >= 3000) {
-          return false
-        } else {
-          if (this.userInfo.historyBuyCount + this.getGoodsObj.quantity * 3 >= 3000) {
-            return true;
-          }
-          return false;
-        }
-      }    
-    },
+        return 0;
+      }
+    }
   },
   data() {
     return {
@@ -149,14 +98,17 @@ export default {
       getGoodsObj: {
         quantity: "",
         addressId: "",
-        proxyProvice: "",
+        proxyProvince: [],
         proxyCity: "",
         proxyArea: "",
         addressName: "",
-        addressValue: []
+        addressValue: [],
+        level: []
       },
       orderList: [],
       addressData: ChinaAddressV4Data,
+      provinceData: [],
+      levelData: []
     };
   },
   methods: {
@@ -165,7 +117,20 @@ export default {
         .queryUser({})
         .then(data => {
           if (data.code === 200) {
-            this.userInfo = data.data.user;         
+            this.userInfo = data.data.user;
+            let levelArr = [];
+            if (this.userInfo.vipLevel === 1) {
+              levelArr = ['区县合伙人', '城市合伙人', '分公司']
+            } else if (this.userInfo.vipLevel === 2) {
+              levelArr = ['城市合伙人', '分公司']
+            } else if (this.userInfo.vipLevel === 3) {
+              levelArr = ['分公司']
+            } else if (this.userInfo.vipLevel === 4) {
+              levelArr = ['已经是最高级别']
+            } else {
+              levelArr = ['经销商', '区县合伙人', '城市合伙人', '分公司']
+            }
+            this.levelData.push(levelArr)
           } else {
             this.$vux.toast.text(data.message, "top");
           }       
@@ -211,7 +176,7 @@ export default {
           }
         });
     },
-    insertOrder() {
+    insertUpgradeOrder() {
       let insertObj = {};
       if (!this.getGoodsObj.addressId) {
         return this.$vux.toast.text("请添加地址后再拿货~", "top");
@@ -288,8 +253,8 @@ export default {
   top: 44px;
   z-index: 100;
 }
-.getGoods {
-  padding-top: 88px;
+.upgradeOrder {
+  padding-top: 44px;
 }
 .submit-btn {
   width: 90%;

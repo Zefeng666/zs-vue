@@ -23,6 +23,11 @@ export default new Router({
       component: resolve => require(["@/views/sales/applyWithdraw/applyWithdraw.vue"], resolve)
     },
     {
+      path: '/upgradeOrder',
+      name: 'upgradeOrder',
+      component: resolve => require(["@/views/sales/upgradeOrder/upgradeOrder.vue"], resolve)
+    },
+    {
       path: '/getGoods',
       name: 'getGoods',
       component: resolve => require(["@/views/sales/getGoods/getGoods.vue"], resolve)
@@ -122,6 +127,14 @@ export default new Router({
       path: '/mall',
       name: 'mall',
       component: resolve => require(["@/views/mall/index.vue"], resolve)
+    },
+
+    // 500
+    {
+      path: '/500',
+      name: '500',
+      component: resolve => require(["@/views/singlePage/500.vue"], resolve)
     }
+
   ]
 })

@@ -70,6 +70,14 @@ const API = {
     })
   },
 
+  //申请报单
+  insertUpgradeOrder(params) {
+    return request({
+      url: '/insertUpgradeOrder',
+      params: params
+    })
+  },
+
   //申请提现
   applyWithdraw(params) {
     return request({
