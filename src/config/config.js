@@ -11,6 +11,9 @@ axios.interceptors.response.use(function (response) {
     if (response.data.code === 900) {
       localStorage.clear()
       router.push('/wxLogin')
+    } else if (response.data.code === 950) {
+      localStorage.clear()
+      router.push('/otherRegister')
     }
   }
   return response;

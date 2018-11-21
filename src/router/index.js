@@ -112,6 +112,11 @@ export default new Router({
       component: resolve => require(["@/views/mine/register/register.vue"], resolve)
     },
     {
+      path: '/otherRegister',
+      name: 'otherRegister',
+      component: resolve => require(["@/views/mine/register/otherRegister.vue"], resolve)
+    },
+    {
       path: '/wxLogin',
       name: 'wxLogin',
       component: resolve => require(["@/views/mine/register/wxLogin.vue"], resolve)

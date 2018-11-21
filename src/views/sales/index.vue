@@ -23,7 +23,7 @@
       </div>
     </div>
     <group>
-      <cell class="my-cell" title="我要报单" value-align="left" link="/upgradeOrder"></cell>
+      <cell class="my-cell" title="我要升级" value-align="left" link="/upgradeOrder"></cell>
       <cell class="my-cell" title="我要拿货" value-align="left" link="/goodsInfo"></cell>
       <cell class="my-cell" title="我的团队" value-align="left" link="/myTeam"></cell>
       <cell class="my-cell" title="申请提现" value-align="left" link="/applyWithdraw"></cell>

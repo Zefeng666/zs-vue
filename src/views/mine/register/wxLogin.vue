@@ -12,11 +12,12 @@ export default {
     Spinner
   },
   created() {
-    if (this.$route.query.state && this.$route.query.state == "login") {
+    if (this.$route.query.code) {
+      this.wxState = this.$route.query.state;
       this.wxLogin(this.$route.query.code);
     } else {
       window.location.href =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=login#wechat_redirect";
+        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=sales#wechat_redirect";
     }
   },
   mounted() {
@@ -24,7 +25,8 @@ export default {
   },
   data() {
     return {
-      wxCode: ""
+      wxCode: "",
+      wxState: ""
     };
   },
   methods: {
@@ -36,8 +38,11 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.$vux.toast.text("登录成功", "top");
+            localStorage.clear();
             localStorage.setItem("token", data.data.jwt);
-            this.$router.push("/sales");
+            this.$router.push({
+              name: this.wxState
+            });
           } else {
             this.$vux.toast.text(data.message, "top");
           }
