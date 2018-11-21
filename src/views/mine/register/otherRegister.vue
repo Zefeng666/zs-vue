@@ -26,9 +26,9 @@ export default {
     XButton
   },
   created() {
-    if (!this.$route.query.inviteCode) {
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2Fregister&response_type=code&scope=snsapi_userinfo#wechat_redirect';
-    }
+    // if (!this.$route.query.inviteCode) {
+    //   window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2Fregister&response_type=code&scope=snsapi_userinfo#wechat_redirect';
+    // }
   },
   mounted () {
     // console.log(this.$route.query);
