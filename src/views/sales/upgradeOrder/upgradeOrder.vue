@@ -12,9 +12,17 @@
         <x-address v-show="getGoodsObj.level[0] === '城市合伙人'" ref="address2" class="addresstitle" title="代理城市" value-text-align="left" :list="addressData" placeholder="请选择地址" inline-desc="" :hide-district="true"></x-address>
       </group>
       <!-- <p v-show="isShowProxy3 || isShowProxy2" class="getGoods-msg">提示：您拿货数量已累计足够成为区域代理人资格，请选择一个代理的地区</p> -->
-      <x-button class="submit-btn" type="primary" @click.native="insertOrder">提交</x-button>
+      <x-button class="submit-btn" type="primary" @click.native="showToast=true">立即支付</x-button>
     </div>
-
+    <x-dialog v-model="showToast" class="dialog-demo" hide-on-blur>
+      <div style="padding:15px;">
+        <x-button type="primary" @click.native="insertUpgradeOrder(0)">微信支付</x-button>
+        <x-button type="default" @click.native="insertUpgradeOrder(1)">线下支付</x-button>
+      </div>
+      <div @click="showToast=false">
+        <span style="font-size: 16px;">关闭</span>
+      </div>
+    </x-dialog>
   </div>
 </template>
 
@@ -35,7 +43,8 @@ import {
   XAddress,
   ChinaAddressV4Data,
   Checker, 
-  CheckerItem
+  CheckerItem,
+  XDialog
 } from "vux";
 export default {
   name: "upgradeOrder",
@@ -55,10 +64,10 @@ export default {
     XAddress,
     ChinaAddressV4Data,
     Checker, 
-    CheckerItem
+    CheckerItem,
+    XDialog
   },
   created() {
-    this.queryOrder();
     if (JSON.stringify(this.$route.params) === "{}") {
       this.queryUserAddress();
     } else {
@@ -95,6 +104,7 @@ export default {
       index: 0,
       checkerWhich: 2,
       userInfo: {},
+      productInfo: {},
       getGoodsObj: {
         quantity: "",
         addressId: "",
@@ -108,7 +118,8 @@ export default {
       orderList: [],
       addressData: ChinaAddressV4Data,
       provinceData: [],
-      levelData: []
+      levelData: [],
+      showToast: false
     };
   },
   methods: {
@@ -118,6 +129,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.userInfo = data.data.user;
+            this.queryProduct();
             let levelArr = [];
             if (this.userInfo.vipLevel === 1) {
               levelArr = ['区县合伙人', '城市合伙人', '分公司']
@@ -152,74 +164,100 @@ export default {
         }
       });
     },
-    queryOrder() {
-      this.$api
-        .queryOrder({
-          pageNo: 1,
-          pageSize: 100
-        })
-        .then(data => {
-          if (data.code === 200) {
-            this.orderList = data.data.items;
-          }
-        });
-    },
-    cancelOrder(id) {
-      this.$api
-        .cancelOrder({
-          id: id
-        })
-        .then(data => {
-          if (data.code === 200) {
-            this.$vux.toast.text("取消订单成功", "top");
-            this.queryOrder();
-          }
-        });
-    },
-    insertUpgradeOrder() {
-      let insertObj = {};
-      if (!this.getGoodsObj.addressId) {
-        return this.$vux.toast.text("请添加地址后再拿货~", "top");
-      }
-      insertObj.addressId = this.getGoodsObj.addressId;
-      if (this.checkerWhich == 2) {
-        insertObj.quantity = this.getGoodsObj.quantity * 3;
-      } else {
-        insertObj.quantity = this.getGoodsObj.quantity;
-      }
-      let totalCount = parseInt(this.userInfo.historyBuyCount) + parseInt(insertObj.quantity);
-      console.log(totalCount);
-      
-      if (totalCount >= 900 && totalCount < 3000) {
-        let addressArr = this.$refs.address1.nameValue.split(" ");
-        insertObj.provice = addressArr[0];
-        insertObj.city = addressArr[1];
-        insertObj.area = addressArr[2];
-      } else if (totalCount >= 3000) {
-        let addressArr = this.$refs.address1.nameValue.split(" ");
-        insertObj.provice = addressArr[0];
-        insertObj.city = addressArr[1];
-      } else {
-        insertObj.provice = "";
-        insertObj.city = "";
-        insertObj.area = "";
-      }
-      this.$api.insertOrder(insertObj).then(data => {
+    queryProduct() {
+      this.$api.queryProduct().then(data => {
         if (data.code === 200) {
-          this.$vux.toast.text("添加订单成功", "top");
-          this.queryOrder();
-          this.index = 1;
+          this.productInfo = data.data.product;
+          switch(this.userInfo.vipLevel)
+          {
+              case 0: // 分享大使
+                  this.price = this.productInfo.price * 0.7
+                  break;
+              case 1: // 经销商
+                  this.price = this.productInfo.price * 0.65
+                  break;
+              case 2: // 区县合伙人
+                  this.price = this.productInfo.price * 0.6
+                  break;
+              case 3: // 城市合伙人
+                  this.price = this.productInfo.price * 0.55 
+                  break;
+              case 4: // 省级合伙人
+                  this.price = this.productInfo.price * 0.5
+                  break;
+              default: // 普通用户
+                  this.price = this.productInfo.price
+          }  
         } else {
           this.$vux.toast.text(data.message, "top");
         }
       });
+    },
+    insertUpgradeOrder(isOffline) {
+      let insertObj = {};
+      if (!this.getGoodsObj.addressId) {
+        return this.$vux.toast.text("请添加地址后再报单~", "top");
+      }
+      if (this.getGoodsObj.level[0] === '经销商') {
+        insertObj.vipLevel = 1;
+      } else if (this.getGoodsObj.level[0] === '区县合伙人') {
+        let addressArr = this.$refs.address1.nameValue.split(" ");
+        insertObj.address = addressArr[0] + '-' + addressArr[1] + '-' + addressArr[2];
+        insertObj.vipLevel = 2;
+      } else if (this.getGoodsObj.level[0] === '城市合伙人') {
+        let addressArr = this.$refs.address2.nameValue.split(" ");
+        insertObj.address = addressArr[0] + '-' + addressArr[1];
+        insertObj.vipLevel = 3;
+      } else if (this.getGoodsObj.level[0] === '分公司') {
+        insertObj.address = this.getGoodsObj.proxyProvince[0];
+        insertObj.vipLevel = 4;
+      }
+      insertObj.addressId = this.getGoodsObj.addressId;
+      insertObj.productId = this.productInfo.productId;
+      insertObj.isOffline = isOffline;
+      
+      this.$api.insertUpgradeOrder(insertObj).then(data => {
+        if (data.code === 200) {
+          if (isOffline === 0) {
+            this.onBridgeReady(data.data.appId, data.data.nonceStr, data.data.package, data.data.paySign, data.data.timeStamp)   
+          } else {
+            this.$vux.toast.text("添加线下支付订单成功~", "top");
+          }
+          this.showToast = false;
+        } else {
+          this.$vux.toast.text(data.message, "top");
+        }
+      });
+    },
+    onBridgeReady(appId, nonceStr, wxPackage, paySign, timeStamp){
+      WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+          "appId": appId,     //公众号名称，由商户传入     
+          "timeStamp": timeStamp.toString(),         //时间戳，自1970年以来的秒数     
+          "nonceStr": nonceStr, //随机串     
+          "package": wxPackage,
+          "signType": "MD5",         //微信签名方式：     
+          "paySign": paySign //微信签名 
+        },
+        function(res){
+          alert(JSON.stringify(res));
+          if(res.err_msg == "get_brand_wcpay_request:ok" ){
+          // 使用以上方式判断前端返回,微信团队郑重提示：
+          // res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+            this.$vux.toast.text("支付成功", "top");  
+          } else {
+            this.$vux.toast.text("支付失败", "top"); 
+          }
+        }
+      ); 
     },
     toSelectAddress() {
       this.$router.push({
         name: "selectAddress",
         params: {
           addressId: this.getGoodsObj.addressId,
-          addressName: this.getGoodsObj.addressName
+          addressName: this.getGoodsObj.addressName,
+          from: 'upgradeOrder'
         }
       });
     },

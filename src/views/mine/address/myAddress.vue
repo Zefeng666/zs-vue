@@ -87,13 +87,23 @@ export default {
     },
     toGetGoods(item) {
       if(!this.isSelect) return;
-      this.$router.push({
-        name: 'getGoods',
-        params: {
-          addressId: item.id,
-          addressName: item.province + item.city + item.area + item.detail
-        }
-      })
+      if (this.$route.params.from === 'upgradeOrder') {
+        this.$router.push({
+          name: 'upgradeOrder',
+          params: {
+            addressId: item.id,
+            addressName: item.province + item.city + item.area + item.detail
+          }
+        })
+      } else {
+        this.$router.push({
+          name: 'getGoods',
+          params: {
+            addressId: item.id,
+            addressName: item.province + item.city + item.area + item.detail
+          }
+        })
+      }
     },
     showConfirm(id) {
       this.show = true;
