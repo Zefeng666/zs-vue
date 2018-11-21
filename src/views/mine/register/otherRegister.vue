@@ -99,7 +99,7 @@ export default {
         if (data.code === 200) {
           this.$vux.toast.text('注册成功', "top");
           localStorage.setItem('token', data.data.jwt);
-          this.$router.push('/mine');
+          this.$router.push('/sales');
         } else {
           this.$vux.toast.text(data.message, "top");
         }
