@@ -216,14 +216,14 @@ export default {
         insertObj.vipLevel = 1;
       } else if (this.getGoodsObj.level[0] === '区县合伙人') {
         let addressArr = this.$refs.address1.nameValue.split(" ");
-        if (addressArr.length === 0) {
+        if (addressArr[0] === "") {
           return this.$vux.toast.text("请选择代理地区", "top");
         }
         insertObj.address = addressArr[0] + '-' + addressArr[1] + '-' + addressArr[2];
         insertObj.vipLevel = 2;
       } else if (this.getGoodsObj.level[0] === '城市合伙人') {
         let addressArr = this.$refs.address2.nameValue.split(" ");
-        if (addressArr.length === 0) {
+        if (addressArr[0] === "") {
           return this.$vux.toast.text("请选择代理地区", "top");
         }
         insertObj.address = addressArr[0] + '-' + addressArr[1];
@@ -238,7 +238,7 @@ export default {
       insertObj.addressId = this.getGoodsObj.addressId;
       insertObj.productId = this.productInfo.productId;
       insertObj.isOffline = isOffline;
-      
+      return
       this.$api.insertUpgradeOrder(insertObj).then(data => {
         if (data.code === 200) {
           if (isOffline === 0) {
