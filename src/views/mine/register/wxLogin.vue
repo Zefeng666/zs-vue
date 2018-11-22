@@ -43,6 +43,8 @@ export default {
             this.$router.push({
               name: this.wxState
             });
+          } else if (data.code === 950) {
+            
           } else {
             this.$vux.toast.text(data.message, "top");
           }
