@@ -238,7 +238,6 @@ export default {
       insertObj.addressId = this.getGoodsObj.addressId;
       insertObj.productId = this.productInfo.productId;
       insertObj.isOffline = isOffline;
-      return
       this.$api.insertUpgradeOrder(insertObj).then(data => {
         if (data.code === 200) {
           if (isOffline === 0) {
