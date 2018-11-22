@@ -1,11 +1,12 @@
 <template>
   <div class="upgradeOrder">
-    <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>申请报单</x-header>
+    <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>我要升级</x-header>
     <div class="swiper-box">
       <group label-width="4.5em" label-margin-right="2em" label-align="right">
         <cell title="拿货地址" align-items="flex-start" :value="getGoodsObj.addressName" value-align="left" is-link @click.native="toSelectAddress()"></cell>
         <popup-picker title="申请等级" :data="levelData" v-model="getGoodsObj.level" placeholder="请选择" value-text-align="left"></popup-picker>     
         <cell title="支付金额" align-items="flex-start" :value="payMoney" value-align="left"></cell>
+        <cell title="附赠商品" align-items="flex-start" :value="goodNum+'瓶'" value-align="left"></cell>
         <!-- <cell title="代理地区" align-items="flex-start" :value="userInfo.proxyArea || '无'" value-align="left"></cell>  -->
         <popup-picker v-show="getGoodsObj.level[0] === '分公司'" title="代理省份" :data="provinceData" v-model="getGoodsObj.proxyProvince" placeholder="请选择地址" value-text-align="left"></popup-picker>
         <x-address v-show="getGoodsObj.level[0] === '区县合伙人'" ref="address1" class="addresstitle" title="代理县区" value-text-align="left" :list="addressData" placeholder="请选择地址" :hide-district="false"></x-address>
@@ -97,7 +98,20 @@ export default {
       } else {
         return 0;
       }
-    }
+    },
+    goodNum: function() {
+      if (this.getGoodsObj.level[0] === '经销商') {
+        return 10;
+      } else if (this.getGoodsObj.level[0] === '区县合伙人') {
+        return 100;
+      } else if (this.getGoodsObj.level[0] === '城市合伙人') {
+        return 1000;
+      } else if (this.getGoodsObj.level[0] === '分公司') {
+        return 2000;
+      } else {
+        return 0;
+      }
+    },
   },
   data() {
     return {
@@ -202,13 +216,22 @@ export default {
         insertObj.vipLevel = 1;
       } else if (this.getGoodsObj.level[0] === '区县合伙人') {
         let addressArr = this.$refs.address1.nameValue.split(" ");
+        if (addressArr.length === 0) {
+          return this.$vux.toast.text("请选择代理地区", "top");
+        }
         insertObj.address = addressArr[0] + '-' + addressArr[1] + '-' + addressArr[2];
         insertObj.vipLevel = 2;
       } else if (this.getGoodsObj.level[0] === '城市合伙人') {
         let addressArr = this.$refs.address2.nameValue.split(" ");
+        if (addressArr.length === 0) {
+          return this.$vux.toast.text("请选择代理地区", "top");
+        }
         insertObj.address = addressArr[0] + '-' + addressArr[1];
         insertObj.vipLevel = 3;
       } else if (this.getGoodsObj.level[0] === '分公司') {
+        if (this.getGoodsObj.proxyProvince.length === 0) {
+          return this.$vux.toast.text("请选择代理地区", "top");
+        }
         insertObj.address = this.getGoodsObj.proxyProvince[0];
         insertObj.vipLevel = 4;
       }

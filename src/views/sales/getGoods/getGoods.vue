@@ -22,7 +22,7 @@
       <div class="order-box vux-1px-b" v-for="(item, idx) in orderList" :key="idx">
         <p>
           <span>申请数量：{{item.order.quantity + '瓶'}}</span>
-          <span class="text-right">{{item.order.orderStatus | orderStatus}}</span>
+          <span class="text-right">{{whichStatus(item.order)}}</span>
         </p>
         <p>
           <span>收货地址：{{item.userAddress.province + item.userAddress.city + item.userAddress.area + item.userAddress.detail}}</span>
@@ -285,6 +285,19 @@ export default {
           }
         }
       ); 
+    },
+    whichStatus(order) {
+      if (order.orderStatus == 0) {
+        if (order.isOffline == 1) {
+          return "待公司确认"
+        } else {
+          return "未支付";
+        }
+      } else if (order.orderStatus == 1) {
+        return "待发货";
+      } else if (order.orderStatus == 2) {
+        return "已发货";
+      }
     }
   }
 };
