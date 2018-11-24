@@ -1,7 +1,7 @@
 <template>
   <div class="getGoods">
     <x-header class="vux-1px-b my-header" :left-options="{backText: '', preventGoBack: true}" @on-click-back="toSale()" fixed>申请拿货</x-header>
-    <tab :line-width=2 active-color='#f74c31' v-model="index" class="my-tab">
+    <tab :line-width=2 active-color='#2a93f5' v-model="index" class="my-tab">
       <tab-item class="vux-center vux-1px-t" selected>申请拿货</tab-item>
       <tab-item class="vux-center vux-1px-t" @on-item-click="selectChecker">历史订单</tab-item>
     </tab>
@@ -51,8 +51,6 @@ import {
   XHeader,
   Tab,
   TabItem,
-  Swiper,
-  SwiperItem,
   Cell,
   Group,
   XInput,
@@ -72,8 +70,6 @@ export default {
     XHeader,
     Tab,
     TabItem,
-    Swiper,
-    SwiperItem,
     Cell,
     Group,
     XInput,

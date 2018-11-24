@@ -233,6 +233,13 @@ const API = {
       params: params
     })
   },
+  // 二级用户
+  queryUnderlingUser(params) {
+    return request({
+      url: '/queryUnderlingUser',
+      params: params
+    })
+  },
 };
 
 export default API;
