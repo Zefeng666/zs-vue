@@ -87,7 +87,7 @@ export default {
     },
     toGetGoods(item) {
       if(!this.isSelect) return;
-      if (this.$route.params.from === 'upgradeOrder') {
+      if (this.$route.query && this.$route.query.from === 'upgradeOrder') {
         this.$router.push({
           name: 'upgradeOrder',
           params: {

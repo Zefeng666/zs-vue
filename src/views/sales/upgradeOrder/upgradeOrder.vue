@@ -277,10 +277,12 @@ export default {
     toSelectAddress() {
       this.$router.push({
         name: "selectAddress",
+        query: {
+          from: 'upgradeOrder'
+        },
         params: {
           addressId: this.getGoodsObj.addressId,
           addressName: this.getGoodsObj.addressName,
-          from: 'upgradeOrder'
         }
       });
     },
