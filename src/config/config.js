@@ -4,7 +4,8 @@ let qs = require('qs');
 import router from '../router/index'
 // import store from '../store/store'
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = "http://47.107.98.188:8080/client"; //10.0.8.177:8080
+// axios.defaults.baseURL = "http://47.107.98.188:8080/client"; //10.0.8.177:8080
+axios.defaults.baseURL = "https://haoyi.houseselected.com/client"; //10.0.8.177:8080
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   if (response.data.code !== 200) {
