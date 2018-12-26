@@ -28,7 +28,7 @@
             </p>
             <p v-else style="text-align: right;">
                 <x-button mini @click.native="shipOrder(item.order.id, 1)">转上级发货</x-button>
-                <x-button type="primary" mini @click.native="shipOrder(item.order.id, 0)">发货</x-button>
+                <x-button v-show="userInfo.vipLevel > 1" type="primary" mini @click.native="shipOrder(item.order.id, 0)">发货</x-button>
             </p>
         </div>
       </div>
@@ -86,6 +86,7 @@ export default {
     XButton
   },
   created() {
+    this.queryUser();
     this.queryHistoryShipOrder();
     this.queryShipOrder();
   },
@@ -101,6 +102,17 @@ export default {
     };
   },
   methods: {
+    queryUser() {
+      this.$api
+        .queryUser({})
+        .then(data => {
+          if (data.code === 200) {
+            this.userInfo = data.data.user;
+          } else {
+            this.$vux.toast.text(data.message, "top");
+          }       
+        });
+    },
     queryHistoryShipOrder() {
       this.$vux.loading.show({
         text: ''
