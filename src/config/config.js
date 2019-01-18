@@ -4,7 +4,7 @@ let qs = require('qs');
 import router from '../router/index'
 // import store from '../store/store'
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = "http://47.107.98.188:8080/client"; //10.0.8.177:8080
+axios.defaults.baseURL = "https://haoyia.houseselected.com/client"; //10.0.8.177:8080
 // axios.defaults.baseURL = "https://haoyi.houseselected.com/client"; //10.0.8.177:8080
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
@@ -14,7 +14,7 @@ axios.interceptors.response.use(function (response) {
       router.push('/wxLogin')
     } else if (response.data.code === 950) {
       localStorage.clear()
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=http%3A%2F%2Fhaoyi.tlong.tv%2FotherRegister&response_type=code&scope=snsapi_userinfo#wechat_redirect';
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=https%3A%2F%2Fhaoyi.houseselected.com%2FotherRegister&response_type=code&scope=snsapi_userinfo#wechat_redirect';
     }
   }
   return response;
