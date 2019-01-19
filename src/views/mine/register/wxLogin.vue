@@ -13,6 +13,7 @@ export default {
   },
   created() {
     if (this.$route.query.code) {
+      alert(this.$route.query.code)
       this.wxState = this.$route.query.state;
       this.wxLogin(this.$route.query.code);
     } else {
