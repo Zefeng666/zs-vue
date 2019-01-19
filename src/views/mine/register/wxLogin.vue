@@ -15,11 +15,9 @@ export default {
     if (this.$route.query.code) {
       this.wxState = this.$route.query.state;
       this.wxLogin(this.$route.query.code);
-      alert('有code')
     } else {
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=https%3A%2F%2Fhaoyi.houseselected.com%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=sales#wechat_redirect";
-        alert('无code')
     }
   },
   mounted() {
@@ -38,6 +36,8 @@ export default {
           wechatCode: code
         })
         .then(data => {
+          alert(data.code)
+          alert(this.wxState)
           if (data.code === 200) {
             this.$vux.toast.text("登录成功", "top");
             localStorage.clear();
