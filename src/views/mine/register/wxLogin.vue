@@ -12,6 +12,8 @@ export default {
     Spinner
   },
   created() {
+  },
+  mounted() {
     if (this.$route.query.code) {
       this.wxState = this.$route.query.state;
       this.wxCode = this.$route.query.code;
@@ -23,8 +25,6 @@ export default {
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=https%3A%2F%2Fhaoyi.houseselected.com%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=sales#wechat_redirect";
     }
   },
-  mounted() {
-  },
   data() {
     return {
       wxCode: "",
@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     wxLogin() {
+      alert(111)
       this.$api
         .login({
           wechatCode: this.wxCode
