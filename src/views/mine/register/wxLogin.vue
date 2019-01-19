@@ -13,17 +13,17 @@ export default {
   },
   created() {
     if (this.$route.query.code) {
-      alert(this.$route.query.code)
-      alert(this.wxLogin)
       this.wxState = this.$route.query.state;
-      this.wxLogin(this.$route.query.code);
+      this.wxCode = this.$route.query.code;
+      alert(this.wxState)
+      alert(this.wxCode)
+      this.wxLogin();
     } else {
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa5b0807540a1517e&redirect_uri=https%3A%2F%2Fhaoyi.houseselected.com%2FwxLogin&response_type=code&scope=snsapi_userinfo&state=sales#wechat_redirect";
     }
   },
   mounted() {
-    this.wxCode = this.$route.query.code;
   },
   data() {
     return {
@@ -32,10 +32,10 @@ export default {
     };
   },
   methods: {
-    wxLogin(code) {
+    wxLogin() {
       this.$api
         .login({
-          wechatCode: code
+          wechatCode: this.wxCode
         })
         .then(data => {
           alert(data.code)
