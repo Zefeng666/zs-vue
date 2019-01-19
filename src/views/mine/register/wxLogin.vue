@@ -17,8 +17,6 @@ export default {
     if (this.$route.query.code) {
       this.wxState = this.$route.query.state;
       this.wxCode = this.$route.query.code;
-      alert(this.wxState)
-      alert(this.wxCode)
       this.wxLogin();
     } else {
       window.location.href =
@@ -33,14 +31,11 @@ export default {
   },
   methods: {
     wxLogin() {
-      alert(111)
       this.$api
         .login({
           wechatCode: this.wxCode
         })
         .then(data => {
-          alert(data.code)
-          alert(this.wxState)
           if (data.code === 200) {
             this.$vux.toast.text("登录成功", "top");
             localStorage.clear();
