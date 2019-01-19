@@ -3,6 +3,7 @@ let axios = require('axios');
 let qs = require('qs');
 import router from '../router/index'
 // import store from '../store/store'
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = "https://haoyia.houseselected.com/client"; //10.0.8.177:8080
 // axios.defaults.baseURL = "https://haoyi.houseselected.com/client"; //10.0.8.177:8080
